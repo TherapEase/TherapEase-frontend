@@ -1,23 +1,16 @@
 <template>
-  <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>Registration Form</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <h1 class="titolo">Log In</h1>
-    <p>Bentornato! Inserisci le tue credenziali</p>
-    <form method="post" action='https://register-demo.freecodecamp.org'>
-      <fieldset>
-        <label for="username">Username: <input id="username" name="username" type="text" required /></label>
-        <label for="password">Password: <input id="password" name="password" type="password" pattern="[a-z0-5]{8,}" required /></label>
-      </fieldset>
-      <input type="submit" value="Log In" />
-    </form>
-  </body>
-</html>
+  <h1 class="titolo">Log In</h1>
+  <p>Bentornato! Inserisci le tue credenziali</p>
+  <form method="post" action='https://register-demo.freecodecamp.org'>
+    <fieldset>
+      <label for="username">Username: <input id="username" name="username" type="text" required /></label>
+      <label for="password">Password: <input id="password" name="password" type="password"
+          pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" required /></label>
+    </fieldset>
+    <input type="submit" value="Log In" />
+  </form>
+  <h3>Non sei ancora registrato? <a href="http://localhost:8080/">Registrati!</a>
+  </h3>
 </template>
 
 <script lang="ts">
@@ -26,17 +19,15 @@ import { defineComponent } from "vue";
 //<label for="age">Input your age (years): <input id="age" type="number" name="age" min="13" max="120" /></label>
 
 export default defineComponent({
-  name: "HelloWorld",
-  props: {
-    msg: String,
-  },
+  name: "LoginPage",
+  
 });
 </script>
 
 <style scoped>
 body {
   width: 100%;
-  height: 115vh;
+  height: 55vh;
   margin: 0;
   background-color: #889c81;
   color: #f5f6f7;
@@ -44,7 +35,8 @@ body {
   font-size: 16px;
 }
 
-h1, p {
+h1,
+p {
   margin: 1em auto;
   text-align: center;
 }
@@ -80,11 +72,12 @@ select {
   width: 100%;
   min-height: 2em;
   border-radius: 0.5em;
-  
+
 
 }
 
-input, textarea {
+input,
+textarea {
   background-color: #dce1da;
   border: 1px solid #5b6c53;
   color: #2b3a24;
@@ -93,6 +86,7 @@ input, textarea {
 .titolo {
   padding-top: 1em;
 }
+
 .inline {
   width: unset;
   margin: 0 0.5em 0 0;
@@ -109,11 +103,9 @@ input[type="submit"] {
   border-color: white;
   min-width: 300px;
   color: #dce1da;
-  
+
 }
 
 input[type="file"] {
   padding: 1px 2px;
-}
-
-</style>
+}</style>
