@@ -3,6 +3,6 @@
 
 <template>
   <main>
-    Homepage
+    <router-link to="/login">Vai al Login</router-link>
   </main>
 </template>
