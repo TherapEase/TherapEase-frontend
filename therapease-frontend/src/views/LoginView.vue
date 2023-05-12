@@ -1,4 +1,5 @@
 <template>
+  <body>
   <div class="white-header inline">
     <img class="logo" src="@/assets/logo.jpeg" />
   </div>
@@ -24,7 +25,7 @@
   <h3>
     Non sei ancora registrato?
     <router-link to="/registrazione">Registrati!</router-link>
-  </h3>
+  </h3></body>
 </template>
   
   <script lang="ts">
@@ -39,6 +40,7 @@ export default defineComponent({
   
 
   <style scoped>
+
 .white-header {
   width: auto;
   height: 35vh;
@@ -49,7 +51,7 @@ body {
   width: 100%;
   height: 112vh;
   margin: 0em;
-  background-color: #889c81;
+  background-color: #5b6c53;
   color: #f5f6f7;
   font-family: Tahoma;
   font-size: 16px;
