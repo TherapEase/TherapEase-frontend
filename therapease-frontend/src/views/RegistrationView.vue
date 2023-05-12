@@ -3,7 +3,6 @@
   <html lang="en">
     <head>
       <meta charset="UTF-8" />
-
       <title>Registration Form</title>
       <link rel="stylesheet" href="styles.css" />
     </head>
@@ -109,7 +108,7 @@
 </template>
   
   
-  <script lang="ts">
+<script lang="ts">
 import { defineComponent } from "vue";
 
 //<label for="age">Input your age (years): <input id="age" type="number" name="age" min="13" max="120" /></label>
