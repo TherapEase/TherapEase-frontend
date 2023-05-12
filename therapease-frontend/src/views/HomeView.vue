@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="chisiamo">
-      <h1>Chi siamo</h1>
+      <h1>Perchè Therapease?</h1>
       <h3>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus in
         amet consequuntur voluptatum perferendis fugiat, odio totam aut corporis
@@ -32,7 +32,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import NavBar from "./NavBar.vue";
+import NavBar from "@/components/NavBar.vue";
 //<label for="age">Input your age (years): <input id="age" type="number" name="age" min="13" max="120" /></label>
 
 export default defineComponent({

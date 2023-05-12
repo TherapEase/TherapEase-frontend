@@ -8,17 +8,8 @@
       <link rel="stylesheet" href="styles.css" />
     </head>
 
-    <div class="white-header">
-      <img class="logo" src="@/assets/Copertina.png" />
-    </div>
-
     <body>
-      <div class="topnav">
-        <a href="url_home">Chi siamo</a>
-        <a href="url_news">I nostri Terapeuti</a>
-        <a href="url_contatti">Supporto Tecnico</a>
-        <a href="url_info">Info e Eventi</a>
-      </div>
+      <nav-bar></nav-bar>
 
       <h1 class="titolo">Registrazione</h1>
       <p>Entra a far parte della community: inserisci le tue informazioni.</p>
@@ -111,11 +102,12 @@
   
   <script lang="ts">
 import { defineComponent } from "vue";
-
+import NavBar from "@/components/NavBar.vue";
 //<label for="age">Input your age (years): <input id="age" type="number" name="age" min="13" max="120" /></label>
 
 export default defineComponent({
-  name: "HelloWorld",
+  name: "RegistrationView",
+  components: { NavBar },
   props: {
     msg: String,
   },

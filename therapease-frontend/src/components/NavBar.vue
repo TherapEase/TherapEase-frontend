@@ -6,12 +6,17 @@
   </div>
 
   <div class="topnav">
-    <a href="url_home">Chi siamo</a>
-    <a href="url_news">I nostri Terapeuti</a>
-    <a href="url_home">La nostra offerta</a>
-    <a href="url_contatti">Supporto Tecnico</a>
-    <a href="url_info">Info e Eventi</a>
+    <a href="/" >Home</a>
+    <a href="/chisiamo">Chi siamo</a>
+    <a href="/catalogo">I nostri Terapeuti</a>
+    <a href="/offerta">La nostra offerta</a>
+    <a href="info">Info e Eventi</a>
+    <a href="/offerta">La Nostra Offerta</a>
+    <a href="/supportotecnico">Supporto Tecnico</a>
+  <div class="profilo"> <img src="src/assets/profilePic.webp" width=45 >
+    <a href="/profilo">Il Mio Profilo</a>
   </div>
+</div>
 </template>
 
 <script lang="ts">
@@ -30,12 +35,26 @@ export default defineComponent({
   overflow: hidden;
   z-index: 1000;
 }
+img{
+  padding-right: 10px;
+  padding-top: 10px;
+  padding-left: 5px;
 
+
+}
 .topnav a {
   float: left;
   color: #f2f2f2;
   text-align: center;
   padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.profilo{
+  float: right;
+  color: #f2f2f2;
+  text-align: center;
   text-decoration: none;
   font-size: 17px;
 }
