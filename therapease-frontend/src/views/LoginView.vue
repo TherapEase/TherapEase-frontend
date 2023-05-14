@@ -119,48 +119,14 @@ input[type="submit"] {
   margin: 1em auto;
   height: 2em;
   font-size: 1.1rem;
-  background-color: #5b6c53;
-  border-color: white;
+  background-color: #99bb8a;
+  border-color:#1d2719;
   min-width: 300px;
-  color: #dce1da;
+  color: #1d2719;
 }
 
 input[type="file"] {
   padding: 1px 2px;
-}
-
-.topnav {
-  background-color: #2b3a24;
-  overflow: hidden;
-  z-index: 1000;
-}
-
-/* Style the links inside the navigation bar */
-.topnav a {
-  float: left;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-}
-
-/* Change the color of links on hover */
-.topnav a:hover {
-  background-color: #ddd;
-  color: #2b3a24;
-}
-
-/* Add a color to the active/current link */
-.topnav a.active {
-  background-color: #5b6c53;
-  color: white;
-}
-
-.navigation-bar {
-  width: 100%; /* i'm assuming full width */
-  height: 80px; /* change it to desired width */
-  background-color: white; /* change to desired color */
 }
 .logo {
   /*display: inline-block;
@@ -173,11 +139,5 @@ input[type="file"] {
   margin-right: auto;
 
 }
-.navigation-bar > a {
-  display: inline-block;
-  vertical-align: top;
-  margin-right: 20px;
-  height: 80px; /* if you want it to take the full height of the bar */
-  line-height: 80px; /* if you want it vertically middle of the navbar */
-}
+
 </style>
