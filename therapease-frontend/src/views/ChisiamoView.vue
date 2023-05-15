@@ -21,7 +21,7 @@
       <div class="domandefrequenti">
           <h1>Domande Frequenti</h1>
           <div id="accordion" class="accordion-container">
-        <div
+        <div 
           v-for="(item, index) in items"
           :key="index"
           :class="[
@@ -122,6 +122,7 @@ export default defineComponent({
     text-decoration:rgb(35, 58, 35);
     font-size: 20px;
     font-family: Tahoma;
+    text-decoration: underline;
   }
 
   .accordion-body {
@@ -134,10 +135,12 @@ export default defineComponent({
   .domandefrequenti{
     font-family: Tahoma;
     text-align: center;
+    padding-bottom: 25px;
   }
 
   .contatti{
     padding: 14px 16px;
+
     font-family: Tahoma;
     background-color: rgb(50, 70, 50);
     color: antiquewhite;
