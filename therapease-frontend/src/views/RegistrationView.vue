@@ -27,6 +27,8 @@
       <p>Entra a far parte della community: inserisci le tue informazioni.</p>
       <form  method="POST" action="http://localhost:3000/api/v1/registrazione">
         <fieldset>
+          
+          
           <label for="username"
             >Username:
             <input
@@ -36,6 +38,25 @@
               type="text"
               required
           /></label>
+         
+         
+          <label for="password"
+            >Password:
+            <input id="password" name="password" type="password" pattern="[^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$]" required
+          /></label>
+
+
+          <label for="ruolo"
+            >Ruolo:
+            <input
+              v-model="cliente.ruolo"
+              id="ruolo"
+              name="ruolo"
+              type="number"
+              required
+          /></label>
+
+
           <label for="nome"
             >Nome:
             <input
@@ -45,6 +66,8 @@
               type="text"
               required
           /></label>
+
+
           <label for="cognome"
             >Cognome:
             <input
@@ -54,6 +77,7 @@
               type="text"
               required
           /></label>
+          
           <label for="email"
             >Email:
             <input
@@ -63,76 +87,31 @@
               type="email"
               required
           /></label>
-          <label for="cf"
+
+          <label for="codice_fiscale"
             >Codice Fiscale
             <input
               v-model="cliente.codice_fiscale"
-              id="cf"
-              name="cf"
+              id="codice_fiscale"
+              name="codice_fiscale"
               type="text"
               required
           /></label>
-          <label for="datanascita"
+
+          
+          <label for="data_nascita"
             >Data di nascita:
             <input
               v-model="cliente.data_nascita"
-              id="datanascita"
-              name="datanascita"
+              id="data_nascita"
+              name="data_nascita"
               type="date"
-              pattern="[a-z0-5]{8,}"
               required
           /></label>
-          <label for="password"
-            >Password:
-            <input id="password" name="password" type="password" required
-          /></label>
-          <label for="conferma-password"
-            >Conferma Password:
-            <input
-              id="conferma-password"
-              name="conferma-password"
-              type="password"
-              required
-          /></label>
+          
         </fieldset>
-        <fieldset>
-          <label for="cliente"
-            ><input
-              id="cliente"
-              type="radio"
-              name="account-type"
-              class="inline"
-              enabled
-            />
-            Cliente</label
-          >
-          <label for="terapeuta"
-            ><input
-              id="radioterapeuta"
-              type="radio"
-              name="account-type"
-              class="inline"
-            />
-            Terapeuta</label
-          >
+      
 
-          <label for="terms-and-conditions"
-            ><input
-              id="terms-and-conditions"
-              type="checkbox"
-              required
-              name="terms-and-conditions"
-              class="inline"
-            />
-            I accept the terms and conditions
-          </label>
-        </fieldset>
-        <fieldset>
-          <label for="profile-picture"
-            >Inserisci una foto profilo:
-            <input id="profile-picture" type="file" name="file"
-          /></label>
-        </fieldset>
         <input type="submit" value="Submit" />
       </form>
     </body>
