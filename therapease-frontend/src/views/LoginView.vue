@@ -95,6 +95,9 @@ select {
   min-height: 2em;
   border-radius: 0.5em;
 }
+h3{
+  font-size: 1em;
+}
 
 input,
 textarea {

@@ -12,35 +12,70 @@
       <div class="white-header">
         <img class="logo" src="@/assets/Copertina.png" />
       </div>
-    
+
       <div class="topnav">
-        <a href="/" >Home</a>
+        <a href="/">Home</a>
         <a href="/chisiamo">Chi siamo</a>
         <a href="/catalogo">I nostri Terapeuti</a>
         <a href="/offerta">La nostra offerta</a>
         <a href="info">Info e Eventi</a>
         <a href="/offerta">La Nostra Offerta</a>
-        <a href="/supportotecnico">Supporto Tecnico</a></div>
+        <a href="/supportotecnico">Supporto Tecnico</a>
+      </div>
 
       <h1 class="titolo">Registrazione</h1>
       <p>Entra a far parte della community: inserisci le tue informazioni.</p>
-      <form method="post" action="https://register-demo.freecodecamp.org">
+      <form  method="POST" action="http://localhost:3000/api/v1/registrazione">
         <fieldset>
+          <label for="username"
+            >Username:
+            <input
+              v-model="cliente.username"
+              id="username"
+              name="username"
+              type="text"
+              required
+          /></label>
           <label for="nome"
-            >Nome: <input id="nome" name="nome" type="text" required
+            >Nome:
+            <input
+              v-model="cliente.nome"
+              id="nome"
+              name="nome"
+              type="text"
+              required
           /></label>
           <label for="cognome"
-            >Cognome: <input id="cognome" name="cognome" type="text" required
+            >Cognome:
+            <input
+              v-model="cliente.cognome"
+              id="cognome"
+              name="cognome"
+              type="text"
+              required
           /></label>
           <label for="email"
-            >Email: <input id="email" name="email" type="email" required
+            >Email:
+            <input
+              v-model="cliente.email"
+              id="email"
+              name="email"
+              type="email"
+              required
           /></label>
           <label for="cf"
-            >Codice Fiscale <input id="cf" name="cf" type="text" required
+            >Codice Fiscale
+            <input
+              v-model="cliente.codice_fiscale"
+              id="cf"
+              name="cf"
+              type="text"
+              required
           /></label>
           <label for="datanascita"
             >Data di nascita:
             <input
+              v-model="cliente.data_nascita"
               id="datanascita"
               name="datanascita"
               type="date"
@@ -49,20 +84,14 @@
           /></label>
           <label for="password"
             >Password:
-            <input
-              id="password"
-              name="password"
-              type="password"
-              pattern="[a-z0-5]{8,}"
-              required
+            <input id="password" name="password" type="password" required
           /></label>
           <label for="conferma-password"
             >Conferma Password:
             <input
               id="conferma-password"
               name="conferma-password"
-              type="conferma-password"
-              pattern="[a-z0-5]{8,}"
+              type="password"
               required
           /></label>
         </fieldset>
@@ -115,13 +144,27 @@
 import { defineComponent } from "vue";
 import NavBar from "@/components/NavBar.vue";
 //<label for="age">Input your age (years): <input id="age" type="number" name="age" min="13" max="120" /></label>
-
+//method="post" action="http://localhost:3000/api/v1/registrazione"
 export default defineComponent({
   name: "RegistrationView",
   components: { NavBar },
   props: {
     msg: String,
   },
+  data() {
+    return {
+      cliente: {
+        username: "",
+        ruolo: 1,
+        nome: "",
+        cognome: "",
+        email: "",
+        codice_fiscale: "",
+        data_nascita: "",
+      }, 
+    };
+  }, 
+  
 });
 </script> 
   

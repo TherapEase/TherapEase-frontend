@@ -3,19 +3,20 @@
   <h1>Catalogo dei nostri terapeuti</h1>
 
   <div>
+    <form action="http://localhost:3000/catalogo_terapeuti">
     <div class="job-list">
       <transition-group name="list" tag="ul">
         <li v-for="terapeuta in terapeuti" :key="terapeuta.id">
-          <div class="riga"><img src="src/assets/profilePic.webp" alt="foto profilo" width="70">
+          <div class="riga"><img src="src/assets/profilePic.webp" alt="foto profilo" width="100">
           <div class="colonna"><h2>{{ terapeuta.nome }} {{ terapeuta.cognome }}</h2>
-         <button>Visita profilo</button></div>
+         <router-link to="terapeutaperutente"><button>Visita profilo</button></router-link></div>
 
          </div>
         
        
         </li>
       </transition-group>
-    </div>
+    </div></form>
   </div>
 </template>
 
@@ -26,6 +27,15 @@ import NavBar from "@/components/NavBar.vue";
 export default defineComponent({
   name: "App",
   components: {NavBar },
+  data(){
+    return{
+      terapeuti: {
+      nome:"",
+      cognome: "",
+      
+    }
+    }
+  },
   setup(){
     
     const terapeuti = [
@@ -63,13 +73,14 @@ img{
   margin-left: 30px;
 
 }
+
 .colonna{
   display: flex;
   flex-direction: column;
 }
 
 button{
-  width: 100px;
+  width: 130px;
 }
 h1{
   font-weight: bold;

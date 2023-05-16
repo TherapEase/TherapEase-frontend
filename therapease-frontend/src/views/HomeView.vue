@@ -53,6 +53,9 @@ export default defineComponent({
 </script>
 
 <style scoped>
+h3{
+  font-size: 1em;
+}
 .white-header {
   background-color: white;
 }

@@ -113,6 +113,9 @@ body{
 .text-primary {
   color: #4650dd !important;
 }
+h3{
+  font-size: small;
+}
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
  
   line-height: 1.2;

@@ -118,6 +118,9 @@ export default defineComponent({
     font-family: Tahoma;
   }
 
+  h3{
+    font-size: 1em;
+  }
   .accordion-header {
     text-decoration:rgb(35, 58, 35);
     font-size: 20px;
