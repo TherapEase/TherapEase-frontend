@@ -25,7 +25,7 @@
 
       <h1 class="titolo">Registrazione</h1>
       <p>Entra a far parte della community: inserisci le tue informazioni.</p>
-      <form @submit.prevent="sendForm">
+      <form @submit.prevent>
         <fieldset>
           <label for="username"
             >Username:
@@ -84,7 +84,12 @@
           /></label>
           <label for="password"
             >Password:
-            <input v-model="cliente.password" id="password" name="password" type="password" required
+            <input
+              v-model="cliente.password"
+              id="password"
+              name="password"
+              type="password"
+              required
           /></label>
           <label for="conferma-password"
             >Conferma Password:
@@ -134,9 +139,9 @@
             <input id="profile-picture" type="file" name="file"
           /></label>
         </fieldset>
-        <input type="submit" @click="(event) => sendForm(event)">
-      </form>
-    </body>
+      <input type="submit" @click.stop="sendForm" />
+    </form>
+  </body>
   </html>
 </template>
   
@@ -146,6 +151,7 @@ import { defineComponent } from "vue";
 import NavBar from "@/components/NavBar.vue";
 //<label for="age">Input your age (years): <input id="age" type="number" name="age" min="13" max="120" /></label>
 //method="post" action="http://localhost:3000/api/v1/registrazione"
+//<input type="submit" @click="(event) => sendForm(event)">
 export default defineComponent({
   name: "RegistrationView",
   components: { NavBar },
@@ -172,45 +178,45 @@ export default defineComponent({
     };
   },
   methods: {
-    async sendForm(e: any)  {
+    async sendForm() {
       console.log(`il mio cliente: ${JSON.stringify(this.cliente)}`);
-      console.log("sei dentro la funzione :))))")
+      console.log("sei dentro la funzione :))))");
       var data;
-      try{
-      if (this.confermaPassword === this.cliente.password) {
-        console.log("ok password uguali")
-        
+      const options = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(this.cliente),
+      };
+      try {
+        if (this.confermaPassword === this.cliente.password) {
+          console.log("ok password uguali");
 
-          const res = await fetch("http://localhost:3000/api/v1/registrazione", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(this.cliente),
-        });
-        data = await res.json();
-        console.log(data);
+          const res = await fetch(
+            "http://localhost:3000/api/v1/registrazione",
+            options
+          );
+          data = await res.json();
+          console.log(data);
 
-        if(data.success){
-          this.$router.push("/")
-        }else{
-          console.log(data.error || data.message);
-          this.error.status = true;
-          this.error.messaggio =
-            data.error || data.message || "Errore inaspettato, riprovare";
-
+          if (data.success) {
+            this.$router.push("/");
+          } else {
+            console.log(data.error || data.message);
+            this.error.status = true;
+            this.error.messaggio =
+              data.error || data.message || "Errore inaspettato, riprovare";
+          }
+        } else {
+          console.log(
+            `Pssw no uguali: ${this.confermaPassword} vs ${this.cliente.password}`
+          );
         }
-
-
-      } else {
-        console.log(`Pssw no uguali: ${this.confermaPassword} vs ${this.cliente.password}`);
-      }
-    }
-    catch (error){
-      console.log(error);
-      this.error.status = true;
+      } catch (error) {
+        console.log(error);
+        this.error.status = true;
         this.error.messaggio =
-        data.error || data.message || "Errore inaspettato, riprovare";
+          data.error || data.message || "Errore inaspettato, riprovare";
       }
-    
     },
   },
 });
