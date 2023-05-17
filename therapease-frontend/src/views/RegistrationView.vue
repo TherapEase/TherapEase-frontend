@@ -30,7 +30,7 @@
           <label for="username"
             >Username:
             <input
-              v-model="cliente.username"
+              v-model="utente.username"
               id="username"
               name="username"
               type="text"
@@ -39,7 +39,7 @@
           <label for="nome"
             >Nome:
             <input
-              v-model="cliente.nome"
+              v-model="utente.nome"
               id="nome"
               name="nome"
               type="text"
@@ -48,7 +48,7 @@
           <label for="cognome"
             >Cognome:
             <input
-              v-model="cliente.cognome"
+              v-model="utente.cognome"
               id="cognome"
               name="cognome"
               type="text"
@@ -57,7 +57,7 @@
           <label for="email"
             >Email:
             <input
-              v-model="cliente.email"
+              v-model="utente.email"
               id="email"
               name="email"
               type="text"
@@ -66,7 +66,7 @@
           <label for="cf"
             >Codice Fiscale
             <input
-              v-model="cliente.codice_fiscale"
+              v-model="utente.codice_fiscale"
               id="cf"
               name="cf"
               type="text"
@@ -75,7 +75,7 @@
           <label for="datanascita"
             >Data di nascita:
             <input
-              v-model="cliente.data_nascita"
+              v-model="utente.data_nascita"
               id="datanascita"
               name="datanascita"
               type="date"
@@ -85,7 +85,7 @@
           <label for="password"
             >Password:
             <input
-              v-model="cliente.password"
+              v-model="utente.password"
               id="password"
               name="password"
               type="password"
@@ -104,6 +104,7 @@
         <fieldset>
           <label for="cliente"
             ><input
+              @click="iAmTerapeuta = false"
               id="cliente"
               type="radio"
               name="account-type"
@@ -114,6 +115,7 @@
           >
           <label for="terapeuta"
             ><input
+              @click="iAmTerapeuta = !iAmTerapeuta"
               id="radioterapeuta"
               type="radio"
               name="account-type"
@@ -121,6 +123,25 @@
             />
             Terapeuta</label
           >
+          <div v-if="iAmTerapeuta">
+            <label for="indirizzo"
+              >Indirizzo sede: <input v-model="utente.indirizzo" id="indirizzo" name="indirizzo" type="text"
+            /></label>
+            <label for="documento"
+              >Allega il tuo certificato abilitazione:
+              <input v-model="utente.documenti" id="documenti" type="text" name="file"
+            /></label>
+            <label for="limite"
+              >Limite clienti:
+              <input
+                v-model="utente.limite_clienti"
+                id="limite"
+                type="number"
+                min="1"
+                max="30"
+                name="limite"
+            /></label>
+          </div>
 
           <label for="terms-and-conditions"
             ><input
@@ -139,12 +160,13 @@
             <input id="profile-picture" type="file" name="file"
           /></label>
         </fieldset>
-      <input type="submit" @click.stop="sendForm" />
-    </form>
-  </body>
+        <input value="Conferma" type="submit" @click.stop="sendForm" />
+      </form>
+    </body>
   </html>
 </template>
-  
+
+
   
 <script lang="ts">
 import { defineComponent } from "vue";
@@ -160,35 +182,46 @@ export default defineComponent({
   },
   data() {
     return {
-      cliente: {
+      utente: {
         username: "",
         password: "",
-        ruolo: 1,
+        ruolo:0,
         nome: "",
         cognome: "",
         email: "",
         codice_fiscale: "",
         data_nascita: "",
+        limite_clienti: "",
+        indirizzo: "",
+        documenti: "",
       },
+
       confermaPassword: "",
       error: {
         status: false,
         messaggio: "Messaggio di errore",
       },
+      iAmTerapeuta: false,
     };
   },
   methods: {
     async sendForm() {
-      console.log(`il mio cliente: ${JSON.stringify(this.cliente)}`);
+      if(this.iAmTerapeuta===false){
+        this.utente.ruolo=1
+      }else{
+        this.utente.ruolo=2
+        
+      }
+      console.log(`il mio utente: ${JSON.stringify(this.utente)}`);
       console.log("sei dentro la funzione :))))");
       var data;
       const options = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(this.cliente),
+        body: JSON.stringify(this.utente),
       };
       try {
-        if (this.confermaPassword === this.cliente.password) {
+        if (this.confermaPassword === this.utente.password) {
           console.log("ok password uguali");
 
           const res = await fetch(
@@ -208,7 +241,7 @@ export default defineComponent({
           }
         } else {
           console.log(
-            `Pssw no uguali: ${this.confermaPassword} vs ${this.cliente.password}`
+            `Pssw no uguali: ${this.confermaPassword} vs ${this.utente.password}`
           );
         }
       } catch (error) {

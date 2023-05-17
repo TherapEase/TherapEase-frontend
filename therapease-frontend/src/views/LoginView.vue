@@ -1,46 +1,109 @@
 <template>
   <body>
-  <div class="white-header inline">
-    <img class="logo" src="@/assets/logo.jpeg" />
-  </div>
-  <h1 class="titolo">Log In</h1>
-  <p>Bentornato! Inserisci le tue credenziali</p>
-  <form method="post" action="https://register-demo.freecodecamp.org">
-    <fieldset>
-      <label for="username"
-        >Username: <input id="username" name="username" type="text" required
-      /></label>
-      <label for="password"
-        >Password:
-        <input
-          id="password"
-          name="password"
-          type="password"
-          pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
-          required
-      /></label>
-    </fieldset>
-    <input type="submit" value="Log In" />
-  </form>
-  <h3>
-    Non sei ancora registrato?
-    <router-link to="/registrazione">Registrati!</router-link>
-  </h3></body>
+    <div class="white-header inline">
+      <img class="logo" src="@/assets/logo.jpeg" />
+    </div>
+    <h1 class="titolo">Log In</h1>
+    <p>Bentornato! Inserisci le tue credenziali</p>
+    <form @submit.prevent>
+      <fieldset>
+        <label for="username"
+          >Username:
+          <input
+            v-model="utente.username"
+            id="username"
+            name="username"
+            type="text"
+            required
+        /></label>
+        <label for="password"
+          >Password:
+          <input
+            v-model="utente.password"
+            id="password"
+            name="password"
+            type="password"
+            required
+        /></label>
+      </fieldset>
+     <input type="submit" @click.stop="login"  value="Log In" /><router-link v-if="restaLoggato" to="/da"></router-link>
+    </form>
+    <h3>
+      Non sei ancora registrato?
+      <router-link to="/registrazione">Registrati!</router-link>
+    </h3>
+  </body>
 </template>
   
   <script lang="ts">
 import { defineComponent } from "vue";
+import store from "@/store"
+import router from "@/router"
+
 
 //<label for="age">Input your age (years): <input id="age" type="number" name="age" min="13" max="120" /></label>
 
 export default defineComponent({
+
   name: "LoginPage",
+  data() {
+    return {
+      utente:{
+      username: "",
+      password: ""},
+      error:{
+        status: false,
+        messaggio: "Messaggio di default.",
+      },
+      restaLoggato:false,
+    }
+  },
+  methods: {
+    async login() {
+      console.log("sei nella funxione")
+
+      const opzioniRichiesta = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(this.utente)
+      }
+      console.log(this.utente)
+
+
+      try {
+        const res = await fetch(`http://localhost:3000/api/v1/login`, opzioniRichiesta)
+        const data = await res.json()
+        console.log(data.token)
+        this.restaLoggato=data.successfull
+        console.log(data.message)
+
+
+        if (data.successfull) {
+        console.log("ci siamooooo")
+
+
+          const token = JSON.parse(atob(data.token.split('.')[1]))
+          console.log(token)
+          //console.log(`TOKEN: ${JSON.parse(atob(data.token))}`)
+
+          this.$store.commit('setLogin', { token: data.token, user: data.utente})
+          await this.$router.replace('/info')
+        }
+        else {
+          this.error.status = true;
+        	this.error.messaggio = data?.error || data?.message || "Errore inaspettato";
+        }
+        
+      } catch (error) {
+        this.error.status = true;
+      }
+    },
+  },
 });
 </script>
   
 
   <style scoped>
-
 .white-header {
   width: auto;
   height: 35vh;
@@ -57,7 +120,8 @@ body {
   font-size: 16px;
 }
 
-h3,h1,
+h3,
+h1,
 p {
   margin: 1em auto;
   text-align: center;
@@ -95,7 +159,7 @@ select {
   min-height: 2em;
   border-radius: 0.5em;
 }
-h3{
+h3 {
   font-size: 1em;
 }
 
@@ -123,7 +187,7 @@ input[type="submit"] {
   height: 2em;
   font-size: 1.1rem;
   background-color: #99bb8a;
-  border-color:#1d2719;
+  border-color: #1d2719;
   min-width: 300px;
   color: #1d2719;
 }
@@ -140,7 +204,5 @@ input[type="file"] {
   display: block;
   margin-left: auto;
   margin-right: auto;
-
 }
-
 </style>
