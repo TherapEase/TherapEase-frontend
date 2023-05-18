@@ -25,7 +25,7 @@
 
       <h1 class="titolo">Registrazione</h1>
       <p>Entra a far parte della community: inserisci le tue informazioni.</p>
-      <form  method="POST" action="http://localhost:3000/api/v1/registrazione">
+      <form @submit.prevent>
         <fieldset>
           <label for="username"
             >Username:
@@ -60,7 +60,7 @@
               v-model="cliente.email"
               id="email"
               name="email"
-              type="email"
+              type="text"
               required
           /></label>
           <label for="cf"
@@ -84,11 +84,17 @@
           /></label>
           <label for="password"
             >Password:
-            <input id="password" name="password" type="password" required
+            <input
+              v-model="cliente.password"
+              id="password"
+              name="password"
+              type="password"
+              required
           /></label>
           <label for="conferma-password"
             >Conferma Password:
             <input
+              v-model="confermaPassword"
               id="conferma-password"
               name="conferma-password"
               type="password"
@@ -133,18 +139,19 @@
             <input id="profile-picture" type="file" name="file"
           /></label>
         </fieldset>
-        <input type="submit" value="Submit" />
-      </form>
-    </body>
+      <input type="submit" @click.stop="sendForm" />
+    </form>
+  </body>
   </html>
 </template>
   
   
-  <script lang="ts">
+<script lang="ts">
 import { defineComponent } from "vue";
 import NavBar from "@/components/NavBar.vue";
 //<label for="age">Input your age (years): <input id="age" type="number" name="age" min="13" max="120" /></label>
 //method="post" action="http://localhost:3000/api/v1/registrazione"
+//<input type="submit" @click="(event) => sendForm(event)">
 export default defineComponent({
   name: "RegistrationView",
   components: { NavBar },
@@ -155,16 +162,63 @@ export default defineComponent({
     return {
       cliente: {
         username: "",
+        password: "",
         ruolo: 1,
         nome: "",
         cognome: "",
         email: "",
         codice_fiscale: "",
         data_nascita: "",
-      }, 
+      },
+      confermaPassword: "",
+      error: {
+        status: false,
+        messaggio: "Messaggio di errore",
+      },
     };
-  }, 
-  
+  },
+  methods: {
+    async sendForm() {
+      console.log(`il mio cliente: ${JSON.stringify(this.cliente)}`);
+      console.log("sei dentro la funzione :))))");
+      var data;
+      const options = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(this.cliente),
+      };
+      try {
+        if (this.confermaPassword === this.cliente.password) {
+          console.log("ok password uguali");
+
+          const res = await fetch(
+            "http://localhost:3000/api/v1/registrazione",
+            options
+          );
+          data = await res.json();
+          console.log(data);
+
+          if (data.success) {
+            this.$router.push("/");
+          } else {
+            console.log(data.error || data.message);
+            this.error.status = true;
+            this.error.messaggio =
+              data.error || data.message || "Errore inaspettato, riprovare";
+          }
+        } else {
+          console.log(
+            `Pssw no uguali: ${this.confermaPassword} vs ${this.cliente.password}`
+          );
+        }
+      } catch (error) {
+        console.log(error);
+        this.error.status = true;
+        this.error.messaggio =
+          data.error || data.message || "Errore inaspettato, riprovare";
+      }
+    },
+  },
 });
 </script> 
   
