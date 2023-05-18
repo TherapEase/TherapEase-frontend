@@ -11,6 +11,7 @@ import OffertaView from "../views/OffertaView.vue"
 import TerapeutaprofiloView from "../views/TerapeutaprofiloView.vue"
 import TerapeutaperutenteView from "../views/TerapeutaperutenteView.vue"
 import ModificaView from "../views/ModificaView.vue"
+import ModificaprofiloterapeutaView from "../views/ModificaprofiloterapeutaView.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -73,6 +74,11 @@ const router = createRouter({
       path: '/modifica',
       name: 'modifica',
       component: ModificaView
+    },
+    {
+      path: '/modificaterapeuta',
+      name: 'modificaterapeuta',
+      component: ModificaprofiloterapeutaView
     }
   ]
 })

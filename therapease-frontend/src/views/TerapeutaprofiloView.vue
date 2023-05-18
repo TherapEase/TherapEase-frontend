@@ -11,7 +11,7 @@
                     <div class="card-header" style="background-image"> </div>
                     <div class="card-body text-center"><img class="card-profile-img" src="../assets/profilePic.webp" alt="Jassa Rich">
                       <h3 class="mb-3"> <strong>Mario Rossi</strong></h3>
-                      <router-link to="/modifica"> <button class="btn btn-outline-dark btn-sm"><span class="fab fa-twitter"></span> Modifica</button></router-link>
+                      <router-link to="/modificaterapeuta"> <button class="btn btn-outline-dark btn-sm"><span class="fab fa-twitter"></span> Modifica</button></router-link>
                     </div>
                   </div>
                   <div class="card mb-4">
