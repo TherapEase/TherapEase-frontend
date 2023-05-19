@@ -77,7 +77,7 @@ export default defineComponent({
         console.log(data.token)
 
         this.$store.commit("setLogin", { token: data.token, user: user });
-        this.$router.push("/info");
+        this.$router.push("/dashboard");
       } else {
         this.error.status = true;
         this.error.messaggio =
