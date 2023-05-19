@@ -1,3 +1,4 @@
+
 import { createStore } from 'vuex'
 
 const store = createStore({
@@ -5,12 +6,14 @@ const store = createStore({
     return {
       token: null,
       user: {}
+
     }
   },
   mutations: {
     setLogin(state, payload) {
       state.token = payload.token
       state.user = payload.user
+
 
       console.log("è dentrooooo siuuuum")
 
@@ -25,3 +28,4 @@ const store = createStore({
 })
 
 export default store
+
