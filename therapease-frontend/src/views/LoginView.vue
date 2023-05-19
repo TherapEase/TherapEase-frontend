@@ -16,7 +16,6 @@
           id="password"
           name="password"
           type="password"
-          pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
           required
       /></label>
     </fieldset>
