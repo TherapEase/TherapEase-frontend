@@ -22,6 +22,7 @@ const store = createStore({
       sessionStorage.setItem('user', JSON.stringify(payload.user))
       localStorage.setItem('token', payload.token)
       localStorage.setItem('user', JSON.stringify(payload.user))
+      console.log(`PAYLOD TOKEN : ${payload.token} `)
 
     },
   }

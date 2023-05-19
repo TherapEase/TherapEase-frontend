@@ -92,7 +92,7 @@ export default defineComponent({
         if (data.successfull) {
         const user = JSON.parse(atob(data.token.split(".")[1]));
         console.log(data.token)
-
+        console.log(user.ruolo)
         this.$store.commit("setLogin", { token: data.token, user: user });
         this.$router.push("/dashboard");
       } else {

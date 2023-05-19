@@ -68,7 +68,73 @@ export default defineComponent({
   props: {
     msg: String,
   },
+
+  data() {
+    return {
+      utente: {
+        username: "",
+        password: "",
+        nome:"",
+        cognome:"",
+        data_nascita:"",
+        email:"",
+        cf:"",
+        foto_profilo:"",
+        n_gettoni:0,
+        associato:""
+
+      },
+      error: {
+        status: false,
+        messaggio: "Messaggio di default.",
+      },
+    };
+  },
+
+  methods: {
+    async login() {
+      console.log("sei dentro")
+
+      const opzioniRichiesta = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(this.utente),
+      };
+
+      const res = await fetch(
+        `http://localhost:3000/api/v1/login`,
+        opzioniRichiesta
+      );
+      const data = await res.json();
+      console.log(data.successfull)
+
+
+     
+
+
+      try {
+        if (data.successfull) {
+        const user = JSON.parse(atob(data.token.split(".")[1]));
+        console.log(data.token)
+        console.log(user.ruolo)
+        this.$store.commit("setLogin", { token: data.token, user: user });
+        this.$router.push("/dashboard");
+      } else {
+        this.error.status = true;
+        this.error.messaggio =
+          data?.error || data?.message || "Errore inaspettato";
+      }
+        
+      } catch (e) {
+        this.error.status = true;
+      }
+
+
+    },
+  },
 });
+
+
 </script>
 
 <style scoped>
