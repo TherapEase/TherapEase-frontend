@@ -8,19 +8,31 @@
     <form @submit.prevent>
       <fieldset>
         <label for="username"
-          >Username: <input v-model="utente.username" id="username" name="username" type="text" required
+
+          >Username:
+          <input
+            v-model="utente.username"
+            id="username"
+            name="username"
+            type="text"
+            required
+
         /></label>
         <label for="password"
           >Password:
           <input
+
           v-model="utente.password"
+
             id="password"
             name="password"
             type="password"
             required
         /></label>
       </fieldset>
+
       <input type="submit" @click.stop="login" value="Log In" />
+
     </form>
     <h3>
       Non sei ancora registrato?
@@ -31,11 +43,16 @@
   
   <script lang="ts">
 import { defineComponent } from "vue";
+import store from "@/store"
+import router from "@/router"
+
 
 //<label for="age">Input your age (years): <input id="age" type="number" name="age" min="13" max="120" /></label>
 
 export default defineComponent({
+
   name: "LoginPage",
+
 
   data() {
     return {
