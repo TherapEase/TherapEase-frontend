@@ -8,7 +8,6 @@
     <form @submit.prevent>
       <fieldset>
         <label for="username"
-
           >Username:
           <input
             v-model="utente.username"
@@ -16,14 +15,11 @@
             name="username"
             type="text"
             required
-
         /></label>
         <label for="password"
           >Password:
           <input
-
-          v-model="utente.password"
-
+            v-model="utente.password"
             id="password"
             name="password"
             type="password"
@@ -32,7 +28,6 @@
       </fieldset>
 
       <input type="submit" @click.stop="login" value="Log In" />
-
     </form>
     <h3>
       Non sei ancora registrato?
@@ -43,16 +38,13 @@
   
   <script lang="ts">
 import { defineComponent } from "vue";
-import store from "@/store"
-import router from "@/router"
-
+import store from "@/store";
+import router from "@/router";
 
 //<label for="age">Input your age (years): <input id="age" type="number" name="age" min="13" max="120" /></label>
 
 export default defineComponent({
-
   name: "LoginPage",
-
 
   data() {
     return {
@@ -68,9 +60,41 @@ export default defineComponent({
   },
 
   methods: {
-    async login() {
-      console.log("sei dentro")
+    async getUserInfo(token: string) {
+      const opzioniRichiesta = {
+        method: "GET",
+        headers: { 
+          "Content-Type": "application/json", 
+          "x-access-token": token,
+        }
+      };
+      console.log("siamo in get infooooooooo");
 
+      const res = await fetch(
+        `http://localhost:3001/api/v1/il_mio_profilo`,
+        opzioniRichiesta
+      );
+      const data = await res.json();
+      console.log(data.successfull);
+      console.log("DATA: "+data);
+
+
+      try {
+        if (data.successfull) {
+          const user = JSON.parse(atob(data.token.split(".")[1]));
+          console.log(user);
+          return user;
+          } else {
+          this.error.status = true;
+          this.error.messaggio =
+            data?.error || data?.message || "Errore inaspettato";
+          throw new Error("Impossibile prendere le informazioni del profilo");
+        }
+      } catch (e) {
+        this.error.status = true;
+      }
+    },
+    async login() {
       const opzioniRichiesta = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -78,34 +102,30 @@ export default defineComponent({
       };
 
       const res = await fetch(
-        `http://localhost:3000/api/v1/login`,
+        `http://localhost:3001/api/v1/login`,
         opzioniRichiesta
       );
       const data = await res.json();
-      console.log(data.successfull)
-
-
-     
-
 
       try {
         if (data.successfull) {
-        const user = JSON.parse(atob(data.token.split(".")[1]));
-        console.log(data.token)
-        console.log(user.ruolo)
-        this.$store.commit("setLogin", { token: data.token, user: user });
-        this.$router.push("/dashboard");
-      } else {
-        this.error.status = true;
-        this.error.messaggio =
-          data?.error || data?.message || "Errore inaspettato";
-      }
-        
+          console.log(data["token"]);
+
+          const get_user_info = this.getUserInfo(data["token"]);
+
+          store.commit("setState", {
+            token: data["token"],
+            user: get_user_info,
+          });
+          this.$router.push("/dashboard");
+        } else {
+          this.error.status = true;
+          this.error.messaggio =
+            data?.error || data?.message || "Errore inaspettato";
+        }
       } catch (e) {
         this.error.status = true;
       }
-
-
     },
   },
 });
