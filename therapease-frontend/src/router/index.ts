@@ -11,7 +11,11 @@ import OffertaView from "../views/OffertaView.vue"
 import TerapeutaprofiloView from "../views/TerapeutaprofiloView.vue"
 import TerapeutaperutenteView from "../views/TerapeutaperutenteView.vue"
 import ModificaView from "../views/ModificaView.vue"
+
 import DashboardView from '@/views/DashboardView.vue';
+
+import ModificaprofiloterapeutaView from "../views/ModificaprofiloterapeutaView.vue"
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -76,10 +80,17 @@ const router = createRouter({
       component: ModificaView
     },
     {
+ login
       path: '/dashboard',
       name: 'dashboard',
       component: DashboardView
     },
+
+      path: '/modificaterapeuta',
+      name: 'modificaterapeuta',
+      component: ModificaprofiloterapeutaView
+    }
+
   ]
 });
 
@@ -88,6 +99,21 @@ router.beforeEach((to, from, next) => {
   const publicPages = ['/','/login', '/registrazione', '/chisiamo', '/catalogo', '/offerta'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('utente');
+
+  if (authRequired && !loggedIn) {
+    return next('/login');
+  }
+
+  next();
+})
+
+
+router.beforeEach((to, from, next) => {
+  // redirect to login page if not logged in and trying to access a restricted page
+  const publicPages = ['/','/login', '/registrazione', '/chisiamo', '/catalogo', '/offerta'];
+  const authRequired = !publicPages.includes(to.path);
+  const loggedIn = localStorage.getItem('user');
+  console.log(loggedIn)
 
   if (authRequired && !loggedIn) {
     return next('/login');

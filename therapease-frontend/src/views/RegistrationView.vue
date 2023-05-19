@@ -171,9 +171,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import NavBar from "@/components/NavBar.vue";
-//<label for="age">Input your age (years): <input id="age" type="number" name="age" min="13" max="120" /></label>
-//method="post" action="http://localhost:3000/api/v1/registrazione"
-//<input type="submit" @click="(event) => sendForm(event)">
+
 export default defineComponent({
   name: "RegistrationView",
   components: { NavBar },

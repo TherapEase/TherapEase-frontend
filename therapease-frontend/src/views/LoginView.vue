@@ -8,6 +8,7 @@
     <form @submit.prevent>
       <fieldset>
         <label for="username"
+
           >Username:
           <input
             v-model="utente.username"
@@ -15,18 +16,23 @@
             name="username"
             type="text"
             required
+
         /></label>
         <label for="password"
           >Password:
           <input
-            v-model="utente.password"
+
+          v-model="utente.password"
+
             id="password"
             name="password"
             type="password"
             required
         /></label>
       </fieldset>
-     <input type="submit" @click.stop="login"  value="Log In" /><router-link v-if="restaLoggato" to="/da"></router-link>
+
+      <input type="submit" @click.stop="login" value="Log In" />
+
     </form>
     <h3>
       Non sei ancora registrato?
@@ -46,57 +52,60 @@ import router from "@/router"
 export default defineComponent({
 
   name: "LoginPage",
+
+
   data() {
     return {
-      utente:{
-      username: "",
-      password: ""},
-      error:{
+      utente: {
+        username: "",
+        password: "",
+      },
+      error: {
         status: false,
         messaggio: "Messaggio di default.",
       },
-      restaLoggato:false,
-    }
+    };
   },
+
   methods: {
     async login() {
-      console.log("sei nella funxione")
+      console.log("sei dentro")
 
       const opzioniRichiesta = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(this.utente)
-      }
-      console.log(this.utente)
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(this.utente),
+      };
+
+      const res = await fetch(
+        `http://localhost:3000/api/v1/login`,
+        opzioniRichiesta
+      );
+      const data = await res.json();
+      console.log(data.successfull)
+
+
+     
 
 
       try {
-        const res = await fetch(`http://localhost:3000/api/v1/login`, opzioniRichiesta)
-        const data = await res.json()
-        console.log(data.token)
-        this.restaLoggato=data.successfull
-        console.log(data.message)
-
-
         if (data.successfull) {
-        console.log("ci siamooooo")
+        const user = JSON.parse(atob(data.token.split(".")[1]));
+        console.log(data.token)
 
-
-          const token = JSON.parse(atob(data.token.split('.')[1]))
-          console.log(token)
-          //console.log(`TOKEN: ${JSON.parse(atob(data.token))}`)
-
-          this.$store.commit('setLogin', { token: data.token, user: data.utente})
-          await this.$router.replace('/info')
-        }
-        else {
-          this.error.status = true;
-        	this.error.messaggio = data?.error || data?.message || "Errore inaspettato";
-        }
+        this.$store.commit("setLogin", { token: data.token, user: user });
+        this.$router.push("/info");
+      } else {
+        this.error.status = true;
+        this.error.messaggio =
+          data?.error || data?.message || "Errore inaspettato";
+      }
         
-      } catch (error) {
+      } catch (e) {
         this.error.status = true;
       }
+
+
     },
   },
 });
