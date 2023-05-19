@@ -5,7 +5,7 @@ import store from './store'
 
 import './assets/main.css'
 
-const app = createApp(App)
+const app = createApp(App).use(store)
 
 app.use(router)
 app.use(store)
