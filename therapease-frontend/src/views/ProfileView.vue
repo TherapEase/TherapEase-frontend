@@ -37,12 +37,12 @@
                   <div class="card-header">
                     <h4 class="grassetto">Il mio profilo</h4>
                     <div class="informazioni">
-                      <h5><strong>Username:</strong> TizioCaio2001</h5>
-                      <h5><strong>Nome:</strong> TizioCaio2001</h5>
-                      <h5><strong>Cognome:</strong> TizioCaio2001</h5>
-                      <h5><strong>Data Di Nascita:</strong> TizioCaio2001</h5>
-                      <h5><strong>Email:</strong>  TizioCaio2001</h5>
-                      <h5><strong>Codice Fiscale:</strong> TizioCaio2001</h5>
+                      <h5><strong>Username:</strong> {{ utente.username }}</h5>
+                      <h5><strong>Nome:</strong> {{ utente.nome }}</h5>
+                      <h5><strong>Cognome:</strong> {{ utente.cognome }}</h5>
+                      <h5><strong>Data Di Nascita:</strong> {{utente.data_nascita}}</h5>
+                      <h5><strong>Email:</strong>  {{ utente.email }}</h5>
+                      <h5><strong>Codice Fiscale:</strong> {{ utente.cf }}</h5>
                     </div>
                   </div>
                 </div>
@@ -82,7 +82,6 @@ export default defineComponent({
         foto_profilo:"",
         n_gettoni:0,
         associato:""
-
       },
       error: {
         status: false,
@@ -92,42 +91,21 @@ export default defineComponent({
   },
 
   methods: {
-    async login() {
-      console.log("sei dentro")
+    async get_my_profilo() {
+      console.log("ti prendo il profilo")
 
       const opzioniRichiesta = {
-        method: "POST",
+        method: "GET",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(this.utente),
       };
 
       const res = await fetch(
-        `http://localhost:3000/api/v1/login`,
+        `http://localhost:3000/api/v1/il_mio_profilo`,
         opzioniRichiesta
       );
       const data = await res.json();
       console.log(data.successfull)
-
-
-     
-
-
-      try {
-        if (data.successfull) {
-        const user = JSON.parse(atob(data.token.split(".")[1]));
-        console.log(data.token)
-        console.log(user.ruolo)
-        this.$store.commit("setLogin", { token: data.token, user: user });
-        this.$router.push("/dashboard");
-      } else {
-        this.error.status = true;
-        this.error.messaggio =
-          data?.error || data?.message || "Errore inaspettato";
-      }
-        
-      } catch (e) {
-        this.error.status = true;
-      }
 
 
     },
