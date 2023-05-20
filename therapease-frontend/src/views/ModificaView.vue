@@ -5,7 +5,7 @@
       <NavBarVue />
       
     </div>
-    <form class="card mb-4">
+    <form class="card mb-4" @submit.prevent>
       <div class="card-header">
         <h4 class="card-heading">Modifica Profilo</h4>
       </div>
@@ -14,50 +14,69 @@
           <div class="col-md-5">
             <div class="mb-4">
               <label class="form-label">Username</label>
-              <input class="form-control" type="text" placeholder="Company" value="yourUsername">
+              <input
+                v-model="utente.username"
+                id="username"
+                name="username"
+                type="text"
+            />
             </div>
           </div>
           <div class="col-sm-6 col-md-3">
             <div class="mb-4">
               <label class="form-label">Nome</label>
-              <input class="form-control" type="text" placeholder="Nome" value="Tizio">
+              <input v-model="utente.nome" id="nome" name="nome" type="text"/>
             </div>
           </div>
           <div class="col-sm-6 col-md-4">
             <div class="mb-4">
               <label class="form-label">Cogmome</label>
-              <input class="form-control" type="email" placeholder="Cognome" value="Caio">
+              <input
+              v-model="utente.cognome"
+              id="cognome"
+              name="cognome"
+              type="text"
+          />
             </div>
           </div>
           <div class="col-sm-6 col-md-6">
             <div class="mb-4">
               <label class="form-label">Email</label>
-              <input class="form-control" type="text" placeholder="Email" value="tizio.caio@gmail.com">
+              <input
+                v-model="utente.email"
+                id="email"
+                name="email"
+                type="text"
+            />
             </div>
           </div>
           <div class="col-sm-6 col-md-6">
             <div class="mb-4">
               <label class="form-label">Codice Fiscale</label>
-              <input class="form-control" type="text" placeholder="Codice Fiscale" value="TICA836JHGK872">
+              <input
+                  v-model="utente.codice_fiscale"
+                  id="cf"
+                  name="cf"
+                  type="text"
+              />
             </div>
           </div>
           <div class="col-sm-6 col-md-3">
             <div class="mb-4">
               <label class="form-label">Data di nascita</label>
-              <input class="form-control" type="date">
+              <input
+                v-model="utente.data_nascita"
+                id="datanascita"
+                name="datanascita"
+                type="date"
+                pattern="[a-z0-5]{8,}"
+            />
             </div>
           </div>
           <div class="col-sm-6 col-md-3">
             <div class="mb-4">
               <label class="form-label">Foto Profilo</label>
               <input class="form-control" type="file">
-            </div>
-          </div>
-          <div class="col-md-12">
-            <div class="mb-0">
-              <label class="form-label">Descrizione</label>
-              <textarea class="form-control" rows="5"
-                placeholder="Here can be your description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</textarea>
             </div>
           </div>
           <div class="col-md-12">
@@ -70,7 +89,7 @@
         </div>
       </div>
       <div class="card-footer text-end">
-        <button class="btn btn-primary" type="submit">Conferma modifiche</button>
+        <button class="btn btn-primary" type="submit" @click.stop="modifyProfilo">Conferma modifiche</button>
       </div>
     </form>
   </main>
@@ -89,7 +108,62 @@ export default defineComponent({
   props: {
     msg: String,
   },
+
+  data() {
+    return {
+      utente: {
+        username: "",
+        password: "",
+        ruolo: 0,
+        nome: "",
+        cognome: "",
+        email: "",
+        codice_fiscale: "",
+        data_nascita: "",
+        foto_profilo:""
+      },
+    };
+
+
+  },
+
+  methods: {
+
+    async modifyProfilo(){
+
+      var data;
+      const options = {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(this.utente),
+      };
+
+      const res = await fetch("http://localhost:3001/api/v1/modify_profilo", options)
+      data = await res.json();
+      console.log(data);
+
+      if (data.successful) {
+            this.$router.push("/profilo");
+      } else {
+        console.log(data.error || data.message);
+      }
+
+
+    }
+  }
+
+
+
+
 });
+
+
+
+
+
+
+
+
 </script> 
 
 <style scoped>
