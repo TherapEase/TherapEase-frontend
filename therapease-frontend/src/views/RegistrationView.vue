@@ -219,7 +219,7 @@ export default defineComponent({
           console.log(data);
 
           if (data.success) {
-            this.$router.push("/");
+            this.$router.push("/dashboard");
           } else {
             console.log(data.error || data.message);
             this.error.status = true;

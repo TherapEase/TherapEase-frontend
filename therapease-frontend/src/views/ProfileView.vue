@@ -97,14 +97,14 @@
               <div class="card-header">
                 <h4 class="grassetto">Il mio profilo</h4>
                 <div class="informazioni">
-                  <h5><strong>Username:</strong> {{ user.username }}</h5>
-                  <h5><strong>Nome:</strong> {{ user.nome }}</h5>
-                  <h5><strong>Cognome:</strong> {{ user.cognome }}</h5>
+                  <h5><strong>Username:</strong> {{ this.$store.user.username }}</h5>
+                  <h5><strong>Nome:</strong> {{ this.$store.user.nome }}</h5>
+                  <h5><strong>Cognome:</strong> {{ this.$store.user.cognome }}</h5>
                   <h5>
-                    <strong>Data Di Nascita:</strong> {{ user.data_nascita }}
+                    <strong>Data Di Nascita:</strong> {{ this.$store.user.data_nascita }}
                   </h5>
                   <h5><strong>Email:</strong> {{ user.email }}</h5>
-                  <h5><strong>Codice Fiscale:</strong> {{ user.cf }}</h5>
+                  <h5><strong>Codice Fiscale:</strong> {{ $store.user.cf }}</h5>
                 </div>
               </div>
             </div>
@@ -128,15 +128,43 @@ export default defineComponent({
     msg: String,
   },
 
+  data(){
+    return {
+      user: this.$store.getters.returnUser,
+      error: {
+        status: false,
+        messaggio: "Messaggio di default.",
+      },
+    }
+  },
+
   async mounted() {
-  //   const token = store.getters.returnToken;
 
-  //   console.log(`TOKEN IN PROFILE: ${token}`);
+    const token = this.$store.getters.returnToken;
+    console.log(`TOKEN IN PROFILE: ${token}`);
 
-  //   const opzioniRichiesta = {
-  //     method: "GET",
-  //     headers: { "x-access-token": token },
-  //   };
+
+    const opzioniRichiesta = {
+        method: 'GET',
+        headers: {
+          "x-access-token": token,
+        }
+      }
+
+      try {
+        const response = await fetch("http://localhost:3001/api/v1/il_mio_profilo", opzioniRichiesta)
+
+        if(!response.ok) {
+          throw new Error("Unable to get user")
+        }
+        const informazioni = await response.json()
+        console.log(informazioni)
+        console.log("utente: " + this.$store.getters.returnUser);
+      } catch (error) {
+        console.log(error)
+      }
+
+      
 
   //   console.log("sei dentro il profiloooooo");
 

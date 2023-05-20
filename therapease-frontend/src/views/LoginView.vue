@@ -23,8 +23,6 @@
 <script>
 import { defineComponent } from "vue";
 
-//<label for="age">Input your age (years): <input id="age" type="number" name="age" min="13" max="120" /></label>
-
 export default defineComponent({
   name: "LoginPage",
 
@@ -42,6 +40,82 @@ export default defineComponent({
   },
 
   methods: {
+
+    async getUserInfo(token) {
+      const opzioniRichiesta = {
+        method: "GET",
+        headers: { 
+          "Content-Type": "application/json", 
+          "x-access-token": token,
+        }
+      };
+      console.log("siamo in get infooooooooo");
+
+      const res = await fetch(
+        `http://localhost:3001/api/v1/il_mio_profilo`,
+        opzioniRichiesta
+      );
+      const data = await res.json();
+      console.log(data.successfull);
+      console.log("DATA: "+data);
+
+
+      try {
+        if (data.successfull) {
+          const user = JSON.parse(atob(data.token.split(".")[1]));
+          console.log(user);
+          return user;
+          } else {
+          this.error.status = true;
+          this.error.messaggio =
+            data?.error || data?.message || "Errore inaspettato";
+          throw new Error("Impossibile prendere le informazioni del profilo");
+        }
+      } catch (e) {
+        this.error.status = true;
+      }
+    },
+
+    async login(){
+
+        const opzioniRichiesta = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(this.utente),
+      };
+
+        const res = await fetch(
+          `http://localhost:3001/api/v1/login`,
+          opzioniRichiesta
+        );
+        const data = await res.json();
+
+        try {
+          if (data.successfull) {
+            console.log(data["token"]);
+
+            const get_user_info = this.getUserInfo(data["token"]);
+
+            this.$store.commit("setState", {
+              token: data["token"],
+              user: get_user_info,
+            });
+            this.$router.push("/dashboard");
+          } else {
+            this.error.status = true;
+            this.error.messaggio =
+              data?.error || data?.message || "Errore inaspettato";
+          }
+        } catch (e) {
+          this.error.status = true;
+        }
+      
+    }
+
+  } 
+})
+
+
   //   async getUserInfo(token) {
   //     const opzioniRichiesta = {
   //       method: "GET",
@@ -108,8 +182,8 @@ export default defineComponent({
   //       this.error.status = true;
   //     }
   //   },
- },
-});
+// },
+//});
 </script>
   
 
@@ -135,6 +209,7 @@ h1,
 p {
   margin: 1em auto;
   text-align: center;
+  
 }
 
 form {
@@ -143,6 +218,7 @@ form {
   min-width: 300px;
   margin: 0 auto;
   padding-bottom: 2em;
+  
 }
 
 fieldset {
@@ -198,10 +274,10 @@ input[type="submit"] {
   margin: 1em auto;
   height: 2em;
   font-size: 1.1rem;
-  background-color: #99bb8a;
+  background-color: #51634a;
   border-color: #1d2719;
   min-width: 300px;
-  color: #1d2719;
+  color: #ccdbc6;
 }
 
 input[type="file"] {

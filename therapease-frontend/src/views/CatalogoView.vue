@@ -11,10 +11,7 @@
               <div class="colonna">
                 <router-link to="terapeutaperutente"><button>Visita profilo</button></router-link>
               </div>
-
             </div>
-
-
       </div>
     </form>
   </div>
@@ -29,14 +26,14 @@ export default defineComponent({
   components: { NavBarVue },
   data() {
     return {
+      user: this.$store.getters.returnUser,
       terapeuti: {
         nome: "",
         cognome: "",
       }
     }
   },
-  setup() {
-  },
+  
 });
 </script>
 
