@@ -13,6 +13,7 @@ import TerapeutaperutenteView from "../views/TerapeutaperutenteView.vue"
 import ModificaView from "../views/ModificaView.vue"
 import ModificaprofiloterapeutaView from "../views/ModificaprofiloterapeutaView.vue"
 import DashboardView from "../views/DashboardView.vue"
+import ChangepasswordView from "../views/ChangepasswordView.vue"
 
 const routes = [
   {
@@ -78,10 +79,16 @@ const routes = [
     path: '/modificaterapeuta',
     name: 'modificaterapeuta',
     component: ModificaprofiloterapeutaView
-  }, {
+  }, 
+  {
     path: '/dashboard',
     name: 'dashboard',
     component: DashboardView
+  },
+  {
+    path: '/changepassword',
+    name: 'changepassword',
+    component: ChangepasswordView
   }
 ]
 

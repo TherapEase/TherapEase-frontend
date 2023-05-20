@@ -84,6 +84,13 @@
                 placeholder="Here can be your description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</textarea>
             </div>
           </div>
+          <div class="col-md-12">
+            <div class="mb-0">
+              <router-link to="/modificapassword">
+                <button class="change_password">Change Password</button>
+              </router-link>
+            </div>
+          </div>
         </div>
       </div>
       <div class="card-footer text-end">
