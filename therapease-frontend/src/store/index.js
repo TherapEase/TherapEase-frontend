@@ -34,11 +34,17 @@ export default createStore({
   },
   mutations: {
     setState(state, payload) {
+      console.log(`SIAMO NELLO STORE`)
+
       state.token = payload.token;
+      console.log(`state token `+state.token)
+
       state.user = payload.user;
+      console.log(`state token `+ state.user)
+
 
       sessionStorage.setItem('token', payload.token)
-      sessionStorage.setItem('user', JSON.stringify(payload.user))
+      sessionStorage.setItem('user', payload.user)
       // TODO: richiedere se rimanere loggati
       // localStorage.setItem('token', payload.token)
       // localStorage.setItem('user', JSON.stringify(payload.user))

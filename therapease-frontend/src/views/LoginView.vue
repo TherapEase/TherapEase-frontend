@@ -12,7 +12,7 @@
         <input v-model="utente.password" id="password" name="password" type="password" required /></label>
     </fieldset>
 
-    <input type="submit"  value="Log In" />
+    <input type="submit" @click.stop="login"  value="Log In" />
   </form>
   <h3>
     Non sei ancora registrato?
@@ -56,15 +56,15 @@ export default defineComponent({
         opzioniRichiesta
       );
       const data = await res.json();
-      console.log(data.successfull);
-      console.log("DATA: "+data);
+      console.log(data.successful);
+      console.log("DATA: "+JSON.stringify(data));
 
 
       try {
-        if (data.successfull) {
-          const user = JSON.parse(atob(data.token.split(".")[1]));
-          console.log(user);
-          return user;
+        if (data.successful) {
+          const user = data["profile"]
+          console.log("RETURN DELLA FUNZIONE GET MY PROFILO"+ JSON.stringify(user));
+          return user
           } else {
           this.error.status = true;
           this.error.messaggio =
@@ -92,15 +92,17 @@ export default defineComponent({
 
         try {
           if (data.successfull) {
-            console.log(data["token"]);
 
-            const get_user_info = this.getUserInfo(data["token"]);
-
-            this.$store.commit("setState", {
+            const get_user_info = await this.getUserInfo(data["token"]);
+          
+            await this.$store.commit("setState", {
               token: data["token"],
               user: get_user_info,
             });
+
+
             this.$router.push("/dashboard");
+
           } else {
             this.error.status = true;
             this.error.messaggio =
@@ -114,76 +116,6 @@ export default defineComponent({
 
   } 
 })
-
-
-  //   async getUserInfo(token) {
-  //     const opzioniRichiesta = {
-  //       method: "GET",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         "x-access-token": token,
-  //       },
-  //     };
-  //     console.log("siamo in get infooooooooo");
-
-  //     const res = await fetch(
-  //       `http://localhost:3001/api/v1/il_mio_profilo`,
-  //       opzioniRichiesta
-  //     );
-  //     const data = await res.json();
-  //     console.log(data.successfull);
-  //     console.log("DATA: " + data);
-
-  //     try {
-  //       if (data.successfull) {
-  //         const user = JSON.parse(atob(data.token.split(".")[1]));
-  //         console.log(user);
-  //         return user;
-  //       } else {
-  //         this.error.status = true;
-  //         this.error.messaggio =
-  //           data?.error || data?.message || "Errore inaspettato";
-  //         throw new Error("Impossibile prendere le informazioni del profilo");
-  //       }
-  //     } catch (e) {
-  //       this.error.status = true;
-  //     }
-  //   },
-  //   async login() {
-  //     const opzioniRichiesta = {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify(this.utente),
-  //     };
-
-  //     const res = await fetch(
-  //       `http://localhost:3001/api/v1/login`,
-  //       opzioniRichiesta
-  //     );
-  //     const data = await res.json();
-
-  //     try {
-  //       if (data.successfull) {
-  //         console.log(data["token"]);
-
-  //         const get_user_info = this.getUserInfo(data["token"]);
-
-  //         store.commit("setState", {
-  //           token: data["token"],
-  //           user: get_user_info,
-  //         });
-  //         this.$router.push("/dashboard");
-  //       } else {
-  //         this.error.status = true;
-  //         this.error.messaggio =
-  //           data?.error || data?.message || "Errore inaspettato";
-  //       }
-  //     } catch (e) {
-  //       this.error.status = true;
-  //     }
-  //   },
-// },
-//});
 </script>
   
 
