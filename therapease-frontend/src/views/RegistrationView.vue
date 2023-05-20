@@ -212,13 +212,13 @@ export default defineComponent({
           console.log("ok password uguali");
 
           const res = await fetch(
-            "http://localhost:3000/api/v1/registrazione",
+            "http://localhost:3001/api/v1/registrazione",
             options
           );
           data = await res.json();
           console.log(data);
 
-          if (data.success) {
+          if (data.successful) {
             this.$router.push("/dashboard");
           } else {
             console.log(data.error || data.message);

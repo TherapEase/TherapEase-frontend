@@ -15,7 +15,9 @@ export default createStore({
       foto_profilo: "",
       data_nascita: "",
       n_gettoni: "",
-      associato: ""
+      associato: "",
+      sede: "",
+
     }
   },
 
