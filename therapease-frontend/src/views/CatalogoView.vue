@@ -37,9 +37,6 @@ export default defineComponent({
     };
   },
   async mounted() {
-   
-    console.log("sono dentro");
-
     try {
       const response = await fetch(
         "http://localhost:3001/api/v1/catalogo_terapeuti",
