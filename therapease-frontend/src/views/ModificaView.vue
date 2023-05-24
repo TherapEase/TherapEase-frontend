@@ -316,7 +316,6 @@ export default defineComponent({
 
     async modifyProfilo(){
 
-      await this.getRuolo();
       console.log('profilo in modiy:'+ JSON.stringify(this.user))
       console.log('ruolo in modiy:'+ this.user.ruolo)
 

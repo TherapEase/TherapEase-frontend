@@ -68,7 +68,8 @@ const routes = [
   {
     path: '/profilo/:id',
     name: 'profiloId',
-    component: TerapeutaperutenteView
+    component: TerapeutaperutenteView,
+    props: true
   },
   {
     path: '/modifica',

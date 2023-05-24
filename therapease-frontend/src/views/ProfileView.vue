@@ -122,7 +122,7 @@
                   src="../assets/profilePic.webp"
                   alt="Jassa Rich"
                 />
-                <h4 class="mb-3"><strong>{{ user.name }} {{ user.cognome }}</strong></h4>
+                <h4 class="mb-3"><strong>{{user.nome}} {{user.cognome}}</strong></h4>
                 <router-link to="/modifica">
                   <button class="btn btn-outline-dark btn-sm">
                     <span class="fab fa-twitter"></span> Modifica

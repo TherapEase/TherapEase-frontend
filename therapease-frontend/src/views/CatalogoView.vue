@@ -11,7 +11,8 @@
             
           <div class="riga"><img src="../assets/profilePic.webp" alt="foto profilo" width="100">
             <div class="colonna"><h2>{{ terapeuta.nome }} {{ terapeuta.cognome }}</h2>
-           <router-link to="/profilo/:id"><button>Visita profilo</button></router-link></div>
+           <button @click="goToPage">Visita profilo</button>
+          </div>
              
             </div></li>
       </div>
@@ -60,7 +61,11 @@ export default defineComponent({
     } catch (error) {
       console.log(error);
     }
-  },
+  },methods:{
+    async goToPage(){
+      this.$router.push({name: 'profiloId', params: { id: "terapeuta._id"}});
+    }
+  }
 });
 </script>
 
