@@ -1,17 +1,19 @@
 <template>
-  <NavBarVue />
-
-
+  <NavBarVue></NavBarVue>
   <h1>Catalogo dei nostri terapeuti</h1>
 
   <div>
-    <form action="http://localhost:3001/catalogo_terapeuti">
+    <form action="http://localhost:3000/catalogo_terapeuti">
       <div class="job-list">
-            <div class="riga"><img src="src/assets/profilePic.webp" alt="foto profilo" width="100">
-              <div class="colonna">
-                <router-link to="terapeutaperutente"><button>Visita profilo</button></router-link>
-              </div>
-            </div>
+
+        <li v-for="terapeuta in terapeuti" :key="terapeuta._id">
+        
+            
+          <div class="riga"><img src="../assets/profilePic.webp" alt="foto profilo" width="100">
+            <div class="colonna"><h2>{{ terapeuta.nome }} {{ terapeuta.cognome }}</h2>
+           <router-link to="/profilo/:id"><button>Visita profilo</button></router-link></div>
+             
+            </div></li>
       </div>
     </form>
   </div>
@@ -26,14 +28,39 @@ export default defineComponent({
   components: { NavBarVue },
   data() {
     return {
-      user: this.$store.getters.returnUser,
       terapeuti: {
+        _id: "",
         nome: "",
         cognome: "",
-      }
+        foto_profilo:"",
+      },
+    };
+  },
+  async mounted() {
+    try {
+      const response = await fetch(
+        "http://localhost:3001/api/v1/catalogo_terapeuti",
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      console.log(response["successful"]);
+
+      // if (!response.successful) {
+      //   throw new Error("Unable to get user");
+      // }
+      const informazioni = await response.json();
+      console.log(informazioni);
+      console.log("catalogo: " + JSON.stringify(informazioni["catalogo"]));
+
+      this.terapeuti = informazioni["catalogo"];
+      return this.terapeuti;
+    } catch (error) {
+      console.log(error);
     }
   },
-  
 });
 </script>
 
@@ -47,7 +74,6 @@ export default defineComponent({
 img {
   margin-right: 30px;
   margin-left: 30px;
-
 }
 
 .colonna {
@@ -89,20 +115,16 @@ h1 {
   font-weight: bold;
 }
 
-.salary {
-  display: flex;
-}
-
-.salary img {
-  width: 30px;
-}
-
-.salary p {
-  color: #17bf66;
-  font-weight: bold;
-  margin: 10px 4px;
-}
 
 .list-move {
   transition: all 1s;
-}</style>
+}
+
+button{
+  background-color:#2b3a24;
+  color:white;
+  border-radius: 1em;
+  border-color: black;
+}
+
+</style>

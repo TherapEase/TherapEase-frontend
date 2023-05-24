@@ -6,13 +6,27 @@
   <p>Bentornato! Inserisci le tue credenziali</p>
   <form @submit.prevent>
     <fieldset>
-      <label for="username">Username:
-        <input v-model="utente.username" id="username" name="username" type="text" required /></label>
-      <label for="password">Password:
-        <input v-model="utente.password" id="password" name="password" type="password" required /></label>
+      <label for="username"
+        >Username:
+        <input
+          v-model="utente.username"
+          id="username"
+          name="username"
+          type="text"
+          required
+      /></label>
+      <label for="password"
+        >Password:
+        <input
+          v-model="utente.password"
+          id="password"
+          name="password"
+          type="password"
+          required
+      /></label>
     </fieldset>
 
-    <input type="submit" @click.stop="login"  value="Log In" />
+    <input type="submit" @click.stop="login" value="Log In" />
   </form>
   <h3>
     Non sei ancora registrato?
@@ -40,14 +54,13 @@ export default defineComponent({
   },
 
   methods: {
-
     async getUserInfo(token) {
       const opzioniRichiesta = {
         method: "GET",
-        headers: { 
-          "Content-Type": "application/json", 
+        headers: {
+          "Content-Type": "application/json",
           "x-access-token": token,
-        }
+        },
       };
       console.log("siamo in get infooooooooo");
 
@@ -57,15 +70,16 @@ export default defineComponent({
       );
       const data = await res.json();
       console.log(data.successful);
-      console.log("DATA: "+JSON.stringify(data));
-
+      console.log("DATA: " + JSON.stringify(data));
 
       try {
         if (data.successful) {
-          const user = data["profile"]
-          console.log("RETURN DELLA FUNZIONE GET MY PROFILO"+ JSON.stringify(user));
-          return user
-          } else {
+          const user = data["profile"];
+          console.log(
+            "RETURN DELLA FUNZIONE GET MY PROFILO" + JSON.stringify(user)
+          );
+          return user;
+        } else {
           this.error.status = true;
           this.error.messaggio =
             data?.error || data?.message || "Errore inaspettato";
@@ -76,14 +90,17 @@ export default defineComponent({
       }
     },
 
-    async login(){
+    async login() {
+
 
       console.log("siamo dentro")
         const opzioniRichiesta = {
+
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(this.utente),
       };
+
 
         const res = await fetch(
           `http://localhost:3001/api/v1/login`,
@@ -102,21 +119,27 @@ export default defineComponent({
             });
 
 
-            this.$router.push("/dashboard");
+      try {
+        if (data.successful) {
+          const get_user_info = await this.getUserInfo(data["token"]);
 
-          } else {
-            this.error.status = true;
-            this.error.messaggio =
-              data?.error || data?.message || "Errore inaspettato";
-          }
-        } catch (e) {
+          await this.$store.commit("setState", {
+            token: data["token"],
+            user: get_user_info,
+          });
+
+          this.$router.push("/dashboard");
+        } else {
           this.error.status = true;
+          this.error.messaggio =
+            data?.error || data?.message || "Errore inaspettato";
         }
-      
-    }
-
-  } 
-})
+      } catch (e) {
+        this.error.status = true;
+      }
+    },
+  },
+});
 </script>
   
 
@@ -142,7 +165,6 @@ h1,
 p {
   margin: 1em auto;
   text-align: center;
-  
 }
 
 form {
@@ -151,7 +173,6 @@ form {
   min-width: 300px;
   margin: 0 auto;
   padding-bottom: 2em;
-  
 }
 
 fieldset {

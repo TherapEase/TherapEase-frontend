@@ -12,10 +12,12 @@
     <a href="info">Info e Eventi</a>
     <a href="/offerta">La nostra Offerta</a>
     <a href="/supportotecnico">Supporto Tecnico</a>
+
     <div v-if="profilo" class="profilo">
       <img src="../assets/profilePic.webp" width="45" />
       <a href="/profilo">Il Mio Profilo</a>
     </div>
+
   </div>
 </template>
 
