@@ -1,7 +1,7 @@
 
 <template>
-  <main>
-    <div class="white-header">
+ <main>
+    <!--  <div class="white-header">
       <img class="logo" src="@/assets/Copertina.png" />
     </div>
 
@@ -12,7 +12,9 @@
       <a href="info">Info e Eventi</a>
       <a href="/offerta">La Nostra Offerta</a>
       <a href="/supportotecnico">Supporto Tecnico</a>
-    </div>
+    </div> -->
+
+    <nav-bar></nav-bar>
 
     <div class="presentazione">
       <h1>Benvenuti su TherapEase</h1>
@@ -42,11 +44,13 @@
 </template>
 
 <script>
+import NavBar from "@/components/NavBar.vue";
 import { defineComponent } from "vue";
 
 //<label for="age">Input your age (years): <input id="age" type="number" name="age" min="13" max="120" /></label>
 
 export default defineComponent({
+  components: { NavBar },
   name: "HomeView",
 });
 </script>

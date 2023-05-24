@@ -6,16 +6,19 @@
   </div>
 
   <div class="topnav">
-    <a href="/" >Home</a>
+    <a href="/">Home</a>
     <a href="/chisiamo">Chi siamo</a>
     <a href="/catalogo">I nostri Terapeuti</a>
     <a href="info">Info e Eventi</a>
     <a href="/offerta">La nostra Offerta</a>
     <a href="/supportotecnico">Supporto Tecnico</a>
-  <div class="profilo"> <img src="../assets/profilePic.webp" width=45 >
-    <a href="/profilo">Il Mio Profilo</a>
+
+    <div v-if="profilo" class="profilo">
+      <img src="../assets/profilePic.webp" width="45" />
+      <a href="/profilo">Il Mio Profilo</a>
+    </div>
+
   </div>
-</div>
 </template>
 
 <script>
@@ -25,6 +28,16 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "NavBar",
+  data() {
+    return { profilo:false};
+  },
+  async mounted(){
+    const token=sessionStorage.getItem('token')
+    if( token != null){
+      this.profilo=true
+    }
+
+  }
 });
 </script>
 
@@ -34,12 +47,10 @@ export default defineComponent({
   overflow: hidden;
   z-index: 1000;
 }
-img{
+img {
   padding-right: 10px;
   padding-top: 10px;
   padding-left: 5px;
-
-
 }
 .topnav a {
   float: left;
@@ -50,7 +61,7 @@ img{
   font-size: 17px;
 }
 
-.profilo{
+.profilo {
   float: right;
   color: #f2f2f2;
   text-align: center;
@@ -91,6 +102,6 @@ img{
   line-height: 80px; /* if you want it vertically middle of the navbar */
 }
 .white-header {
-    background-color: white;
-  }
+  background-color: white;
+}
 </style>

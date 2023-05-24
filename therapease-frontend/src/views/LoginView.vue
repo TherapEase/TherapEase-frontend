@@ -92,18 +92,32 @@ export default defineComponent({
 
     async login() {
 
-      console.log("siamo dentro la funzione login")
-      const opzioniRichiesta = {
+
+      console.log("siamo dentro")
+        const opzioniRichiesta = {
+
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(this.utente),
       };
 
-      const res = await fetch(
-        `http://localhost:3001/api/v1/login`,
-        opzioniRichiesta
-      );
-      const data = await res.json();
+
+        const res = await fetch(
+          `http://localhost:3001/api/v1/login`,
+          opzioniRichiesta
+        );
+        const data = await res.json();
+
+        try {
+          if (data.successful) {
+
+            const get_user_info = await this.getUserInfo(data["token"]);
+          
+            await this.$store.commit("setState", {
+              token: data["token"],
+              user: get_user_info,
+            });
+
 
       try {
         if (data.successful) {
