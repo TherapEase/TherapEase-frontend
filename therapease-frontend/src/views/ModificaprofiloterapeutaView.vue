@@ -30,7 +30,7 @@
           </div>
           <div class="col-sm-6 col-md-4">
             <div class="mb-4">
-              <label class="form-label">Cogmome</label>
+              <label class="form-label">Cognome</label>
               <input
                   v-model="utente.cognome"
                   id="cognome"
@@ -119,9 +119,14 @@
           </div>
           <div class="col-md-12">
             <div class="mb-0">
-              <router-link to="/modificapassword">
-                <button class="change_password">Change Password</button>
-              </router-link>
+              <form class="form-inline">
+            <div class="form-group">
+                <label for="inputPassword6">Nuova Password</label>
+                <input type="password" id="inputPassword6" class="form-control mx-sm-3" aria-describedby="passwordHelpInline">
+                <label for="inputPassword6">Conferma Nuova Password</label>
+                <input type="password" id="inputPassword6" class="form-control mx-sm-3" aria-describedby="passwordHelpInline">
+            </div>
+            </form>
             </div>
           </div>
         </div>
@@ -154,7 +159,6 @@ export default defineComponent({
       utente: {
         username: "",
         password: "",
-        ruolo: 0,
         nome: "",
         cognome: "",
         email: "",
@@ -174,19 +178,22 @@ export default defineComponent({
 
     async modifyProfilo(){
 
+      const token=sessionStorage.getItem('token')
+
       var data;
       const options = {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        method: "POST",
+        headers: { "x-access-token": token},
         body: JSON.stringify(this.utente),
       };
 
-      const res = await fetch("http://localhost:3001/api/v1/modify_profilo", options)
+      const res = await fetch("http://localhost:3001/api/v1/il_mio_profilo/modifica", options)
       data = await res.json();
       console.log(data);
 
       if (data.successful) {
-            this.$router.push("/profilo");
+           // this.$router.push("/profilo");
+           console.log("info cambiate correttamente")
       } else {
         console.log(data.error || data.message);
       }
@@ -232,6 +239,10 @@ export default defineComponent({
   border-color: #1d2719;
   min-width: 300px;
   color: #1d2719;
+}
+
+.form-group {
+  max-width: 20px;
 }
 </style>
   

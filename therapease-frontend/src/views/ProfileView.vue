@@ -123,7 +123,7 @@
                   alt="Jassa Rich"
                 />
                 <h4 class="mb-3"><strong>{{ user.name }} {{ user.cognome }}</strong></h4>
-                <router-link to="/modificaterapeuta">
+                <router-link to="/modifica">
                   <button class="btn btn-outline-dark btn-sm">
                     <span class="fab fa-twitter"></span> Modifica
                   </button></router-link
@@ -328,6 +328,7 @@ export default defineComponent({
         console.log("utente: " + JSON.stringify(informazioni['profile']['ruolo']));
         this.user = informazioni['profile']
         console.log(this.user._id)
+        this.user.data_nascita=this.user.data_nascita.slice(0, 10);
        
       } catch (error) {
         console.log(error)

@@ -78,6 +78,7 @@ export default defineComponent({
 
     async login(){
 
+      console.log("siamo dentro")
         const opzioniRichiesta = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -91,7 +92,7 @@ export default defineComponent({
         const data = await res.json();
 
         try {
-          if (data.successfull) {
+          if (data.successful) {
 
             const get_user_info = await this.getUserInfo(data["token"]);
           
