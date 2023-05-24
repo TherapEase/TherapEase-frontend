@@ -1,29 +1,23 @@
-
-
-
 <template>
   <main>
-    <body>
-      <div>
-        <nav-bar></nav-bar>
-      </div>
-      <h1>La nostra offerta</h1>
-
-    </body>
+    <div>
+      <NavBarVue />
+    </div>
+    <h1>La nostra offerta</h1>
   </main>
 </template>
 
 
-<script lang="ts">
+<script>
 import { defineComponent } from "vue";
-import NavBar from "@/components/NavBar.vue";
+import NavBarVue from "@/components/NavBar.vue";
 
 //<label for="age">Input your age (years): <input id="age" type="number" name="age" min="13" max="120" /></label>
 
 export default defineComponent({
-    components: { NavBar },
-    name: "OffertaView",
-    props: {
+  components: { NavBarVue },
+  name: "OffertaView",
+  props: {
     msg: String,
   },
 });

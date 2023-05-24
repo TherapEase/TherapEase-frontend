@@ -1,24 +1,20 @@
 <template>
-   <nav-bar></nav-bar>
-   <body>
-    <h1><strong>Benvenuto</strong></h1>
-   </body>
+  <NavBarVue />
 
-    
+  <h1><strong>Benvenuto</strong></h1>
 </template>
 
-<script lang="ts">
-import { defineComponent} from "vue"
-import NavBar from "@/components/NavBar.vue";
+<script>
+import { defineComponent } from "vue"
+import NavBarVue from "@/components/NavBar.vue";
 
 export default defineComponent({
-  components: { NavBar },
-    setup() {
-        
-    },
+  components: { NavBarVue },
+  setup() {
+
+  },
 })
 </script>
 
-<style  scoped>
 
-</style>
+<style  scoped></style>

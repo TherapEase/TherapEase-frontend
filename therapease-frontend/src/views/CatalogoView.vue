@@ -1,100 +1,80 @@
 <template>
-  <nav-bar></nav-bar>
+  <NavBarVue />
+
+
   <h1>Catalogo dei nostri terapeuti</h1>
 
   <div>
-    <form action="http://localhost:3000/catalogo_terapeuti">
-    <div class="job-list">
-      <transition-group name="list" tag="ul">
-        <li v-for="terapeuta in terapeuti" :key="terapeuta.id">
-          <div class="riga"><img src="src/assets/profilePic.webp" alt="foto profilo" width="100">
-          <div class="colonna"><h2>{{ terapeuta.nome }} {{ terapeuta.cognome }}</h2>
-         <router-link to="terapeutaperutente"><button>Visita profilo</button></router-link></div>
-
-         </div>
-        
-       
-        </li>
-      </transition-group>
-    </div></form>
+    <form action="http://localhost:3001/catalogo_terapeuti">
+      <div class="job-list">
+            <div class="riga"><img src="src/assets/profilePic.webp" alt="foto profilo" width="100">
+              <div class="colonna">
+                <router-link to="terapeutaperutente"><button>Visita profilo</button></router-link>
+              </div>
+            </div>
+      </div>
+    </form>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from "vue";
-import NavBar from "@/components/NavBar.vue";
+<script>
+import { defineComponent } from "vue";
+import NavBarVue from "@/components/NavBar.vue";
 
 export default defineComponent({
   name: "App",
-  components: {NavBar },
-  data(){
-    return{
+  components: { NavBarVue },
+  data() {
+    return {
+      user: this.$store.getters.returnUser,
       terapeuti: {
-      nome:"",
-      cognome: "",
-      
-    }
+        nome: "",
+        cognome: "",
+      }
     }
   },
-  setup(){
-    
-    const terapeuti = [
-      {
-        nome: "Mario",
-        cognome: "Rossi",
-        id: "1",
-      },
-      {
-        nome: "Giuseppe",
-        cognome: "Verdi",
-        id: "2",
-      },
-      {
-        nome: "Sara ",
-        cognome: "Rosa",
-        id: "3",
-      },
-    
-    ];
-    return { terapeuti };
-  },
+  
 });
 </script>
 
 
 <style scoped>
-
-.riga{
+.riga {
   display: flex;
   flex-direction: row;
 }
-img{
+
+img {
   margin-right: 30px;
   margin-left: 30px;
 
 }
 
-.colonna{
+.colonna {
   display: flex;
   flex-direction: column;
 }
 
-button{
+button {
   width: 130px;
 }
-h1{
+
+h1 {
   font-weight: bold;
   text-align: center;
   padding-top: 30px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+
 .job-list {
   max-width: 960px;
   margin: 40px auto;
 }
+
 .job-list ul {
   padding: 0;
 }
+
 .job-list li {
   list-style-type: none;
   background: white;
@@ -102,17 +82,21 @@ h1{
   margin: 16px 0;
   border-radius: 4px;
 }
+
 .job-list h2 {
   margin: 0 0 10px;
   text-transform: capitalize;
   font-weight: bold;
 }
+
 .salary {
   display: flex;
 }
+
 .salary img {
   width: 30px;
 }
+
 .salary p {
   color: #17bf66;
   font-weight: bold;
@@ -121,5 +105,4 @@ h1{
 
 .list-move {
   transition: all 1s;
-}
-</style>
+}</style>

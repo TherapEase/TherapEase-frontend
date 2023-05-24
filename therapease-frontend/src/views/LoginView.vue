@@ -1,58 +1,30 @@
 <template>
-  <body>
-    <div class="white-header inline">
-      <img class="logo" src="@/assets/logo.jpeg" />
-    </div>
-    <h1 class="titolo">Log In</h1>
-    <p>Bentornato! Inserisci le tue credenziali</p>
-    <form @submit.prevent>
-      <fieldset>
-        <label for="username"
+  <div class="white-header inline">
+    <img class="logo" src="@/assets/logo.jpeg" />
+  </div>
+  <h1 class="titolo">Log In</h1>
+  <p>Bentornato! Inserisci le tue credenziali</p>
+  <form @submit.prevent>
+    <fieldset>
+      <label for="username">Username:
+        <input v-model="utente.username" id="username" name="username" type="text" required /></label>
+      <label for="password">Password:
+        <input v-model="utente.password" id="password" name="password" type="password" required /></label>
+    </fieldset>
 
-          >Username:
-          <input
-            v-model="utente.username"
-            id="username"
-            name="username"
-            type="text"
-            required
-
-        /></label>
-        <label for="password"
-          >Password:
-          <input
-
-          v-model="utente.password"
-
-            id="password"
-            name="password"
-            type="password"
-            required
-        /></label>
-      </fieldset>
-
-      <input type="submit" @click.stop="login" value="Log In" />
-
-    </form>
-    <h3>
-      Non sei ancora registrato?
-      <router-link to="/registrazione">Registrati!</router-link>
-    </h3>
-  </body>
+    <input type="submit" @click.stop="login"  value="Log In" />
+  </form>
+  <h3>
+    Non sei ancora registrato?
+    <router-link to="/registrazione">Registrati!</router-link>
+  </h3>
 </template>
   
-  <script lang="ts">
+<script>
 import { defineComponent } from "vue";
-import store from "@/store"
-import router from "@/router"
-
-
-//<label for="age">Input your age (years): <input id="age" type="number" name="age" min="13" max="120" /></label>
 
 export default defineComponent({
-
   name: "LoginPage",
-
 
   data() {
     return {
@@ -68,51 +40,87 @@ export default defineComponent({
   },
 
   methods: {
-    async login() {
-      console.log("sei dentro")
 
+    async getUserInfo(token) {
       const opzioniRichiesta = {
+        method: "GET",
+        headers: { 
+          "Content-Type": "application/json", 
+          "x-access-token": token,
+        }
+      };
+      console.log("siamo in get infooooooooo");
+
+      const res = await fetch(
+        `http://localhost:3001/api/v1/il_mio_profilo`,
+        opzioniRichiesta
+      );
+      const data = await res.json();
+      console.log(data.successful);
+      console.log("DATA: "+JSON.stringify(data));
+
+
+      try {
+        if (data.successful) {
+          const user = data["profile"]
+          console.log("RETURN DELLA FUNZIONE GET MY PROFILO"+ JSON.stringify(user));
+          return user
+          } else {
+          this.error.status = true;
+          this.error.messaggio =
+            data?.error || data?.message || "Errore inaspettato";
+          throw new Error("Impossibile prendere le informazioni del profilo");
+        }
+      } catch (e) {
+        this.error.status = true;
+      }
+    },
+
+    async login(){
+
+      console.log("siamo dentro")
+        const opzioniRichiesta = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(this.utente),
       };
 
-      const res = await fetch(
-        `http://localhost:3000/api/v1/login`,
-        opzioniRichiesta
-      );
-      const data = await res.json();
-      console.log(data.successfull)
+        const res = await fetch(
+          `http://localhost:3001/api/v1/login`,
+          opzioniRichiesta
+        );
+        const data = await res.json();
+
+        try {
+          if (data.successful) {
+
+            const get_user_info = await this.getUserInfo(data["token"]);
+          
+            await this.$store.commit("setState", {
+              token: data["token"],
+              user: get_user_info,
+            });
 
 
-     
+            this.$router.push("/dashboard");
 
+          } else {
+            this.error.status = true;
+            this.error.messaggio =
+              data?.error || data?.message || "Errore inaspettato";
+          }
+        } catch (e) {
+          this.error.status = true;
+        }
+      
+    }
 
-      try {
-        if (data.successfull) {
-        const user = JSON.parse(atob(data.token.split(".")[1]));
-        console.log(data.token)
-        console.log(user.ruolo)
-        this.$store.commit("setLogin", { token: data.token, user: user });
-        this.$router.push("/dashboard");
-      } else {
-        this.error.status = true;
-        this.error.messaggio =
-          data?.error || data?.message || "Errore inaspettato";
-      }
-        
-      } catch (e) {
-        this.error.status = true;
-      }
-
-
-    },
-  },
-});
+  } 
+})
 </script>
   
 
-  <style scoped>
+<style scoped>
 .white-header {
   width: auto;
   height: 35vh;
@@ -123,7 +131,7 @@ body {
   width: 100%;
   height: 112vh;
   margin: 0em;
-  background-color: #5b6c53;
+  /* background-color: #5b6c53; */
   color: #f5f6f7;
   font-family: Tahoma;
   font-size: 16px;
@@ -134,6 +142,7 @@ h1,
 p {
   margin: 1em auto;
   text-align: center;
+  
 }
 
 form {
@@ -142,6 +151,7 @@ form {
   min-width: 300px;
   margin: 0 auto;
   padding-bottom: 2em;
+  
 }
 
 fieldset {
@@ -168,6 +178,7 @@ select {
   min-height: 2em;
   border-radius: 0.5em;
 }
+
 h3 {
   font-size: 1em;
 }
@@ -183,6 +194,7 @@ textarea {
   padding-top: 1em;
   font-weight: bold;
 }
+
 .inline {
   width: unset;
   margin: 0 0.5em 0 0;
@@ -195,15 +207,16 @@ input[type="submit"] {
   margin: 1em auto;
   height: 2em;
   font-size: 1.1rem;
-  background-color: #99bb8a;
+  background-color: #51634a;
   border-color: #1d2719;
   min-width: 300px;
-  color: #1d2719;
+  color: #ccdbc6;
 }
 
 input[type="file"] {
   padding: 1px 2px;
 }
+
 .logo {
   /*display: inline-block;
  vertical-align: top;

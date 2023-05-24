@@ -1,28 +1,25 @@
-
-
 <template>
   <main>
-    <body>
-      <div>
-        <nav-bar></nav-bar>
-      </div>
-      <h1>Info ed Eventi</h1>
-
-    </body>
+    <div>
+      <NavBarVue />
+    </div>
+    <h1>Info ed Eventi</h1>
   </main>
 </template>
 
 
-<script lang="ts">
+<script>
 import { defineComponent } from "vue";
-import NavBar from "@/components/NavBar.vue";
+import NavBarVue from "@/components/NavBar.vue";
 
 
 export default defineComponent({
-  components: { NavBar },
+  components: { NavBarVue },
   name: "InfoView",
   props: {
     msg: String,
   },
 });
-</script> 
+
+</script>
+

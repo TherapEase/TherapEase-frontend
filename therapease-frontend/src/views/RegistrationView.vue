@@ -1,180 +1,170 @@
 <template>
-  <!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
+  <div class="white-header">
+    <img class="logo" src="@/assets/Copertina.png" />
+  </div>
 
-      <title>Registration Form</title>
-      <link rel="stylesheet" href="styles.css" />
-    </head>
+  <div class="topnav">
+    <a href="/">Home</a>
+    <a href="/chisiamo">Chi siamo</a>
+    <a href="/catalogo">I nostri Terapeuti</a>
+    <a href="/offerta">La nostra offerta</a>
+    <a href="info">Info e Eventi</a>
+    <a href="/offerta">La Nostra Offerta</a>
+    <a href="/supportotecnico">Supporto Tecnico</a>
+  </div>
 
-    <body>
-      <div class="white-header">
-        <img class="logo" src="@/assets/Copertina.png" />
+  <h1 class="titolo">Registrazione</h1>
+  <p>Entra a far parte della community: inserisci le tue informazioni.</p>
+  <form @submit.prevent>
+    <fieldset>
+      <label for="username"
+        >Username:
+        <input
+          v-model="utente.username"
+          id="username"
+          name="username"
+          type="text"
+          required
+      /></label>
+      <label for="nome"
+        >Nome:
+        <input v-model="utente.nome" id="nome" name="nome" type="text" required
+      /></label>
+      <label for="cognome"
+        >Cognome:
+        <input
+          v-model="utente.cognome"
+          id="cognome"
+          name="cognome"
+          type="text"
+          required
+      /></label>
+      <label for="email"
+        >Email:
+        <input
+          v-model="utente.email"
+          id="email"
+          name="email"
+          type="text"
+          required
+      /></label>
+      <label for="cf"
+        >Codice Fiscale
+        <input
+          v-model="utente.codice_fiscale"
+          id="cf"
+          name="cf"
+          type="text"
+          required
+      /></label>
+      <label for="datanascita"
+        >Data di nascita:
+        <input
+          v-model="utente.data_nascita"
+          id="datanascita"
+          name="datanascita"
+          type="date"
+          pattern="[a-z0-5]{8,}"
+          required
+      /></label>
+      <label for="password"
+        >Password:
+        <input
+          v-model="utente.password"
+          id="password"
+          name="password"
+          type="password"
+          required
+      /></label>
+      <label for="conferma-password"
+        >Conferma Password:
+        <input
+          v-model="confermaPassword"
+          id="conferma-password"
+          name="conferma-password"
+          type="password"
+          required
+      /></label>
+    </fieldset>
+    <fieldset>
+      <label for="cliente"
+        ><input
+          @click="iAmTerapeuta = false"
+          id="cliente"
+          type="radio"
+          name="account-type"
+          class="inline"
+          enabled
+        />
+        Cliente</label
+      >
+      <label for="terapeuta"
+        ><input
+          @click="iAmTerapeuta = !iAmTerapeuta"
+          id="radioterapeuta"
+          type="radio"
+          name="account-type"
+          class="inline"
+        />
+        Terapeuta</label
+      >
+      <div v-if="iAmTerapeuta">
+        <label for="indirizzo"
+          >Indirizzo sede:
+          <input
+            v-model="utente.indirizzo"
+            id="indirizzo"
+            name="indirizzo"
+            type="text"
+        /></label>
+        <label for="documento"
+          >Allega il tuo certificato abilitazione:
+          <input
+            v-model="utente.documenti"
+            id="documenti"
+            type="text"
+            name="file"
+        /></label>
+        <label for="limite"
+          >Limite clienti:
+          <input
+            v-model="utente.limite_clienti"
+            id="limite"
+            type="number"
+            min="1"
+            max="30"
+            name="limite"
+        /></label>
       </div>
 
-      <div class="topnav">
-        <a href="/">Home</a>
-        <a href="/chisiamo">Chi siamo</a>
-        <a href="/catalogo">I nostri Terapeuti</a>
-        <a href="/offerta">La nostra offerta</a>
-        <a href="info">Info e Eventi</a>
-        <a href="/offerta">La Nostra Offerta</a>
-        <a href="/supportotecnico">Supporto Tecnico</a>
-      </div>
-
-      <h1 class="titolo">Registrazione</h1>
-      <p>Entra a far parte della community: inserisci le tue informazioni.</p>
-      <form @submit.prevent>
-        <fieldset>
-          <label for="username"
-            >Username:
-            <input
-              v-model="utente.username"
-              id="username"
-              name="username"
-              type="text"
-              required
-          /></label>
-          <label for="nome"
-            >Nome:
-            <input
-              v-model="utente.nome"
-              id="nome"
-              name="nome"
-              type="text"
-              required
-          /></label>
-          <label for="cognome"
-            >Cognome:
-            <input
-              v-model="utente.cognome"
-              id="cognome"
-              name="cognome"
-              type="text"
-              required
-          /></label>
-          <label for="email"
-            >Email:
-            <input
-              v-model="utente.email"
-              id="email"
-              name="email"
-              type="text"
-              required
-          /></label>
-          <label for="cf"
-            >Codice Fiscale
-            <input
-              v-model="utente.codice_fiscale"
-              id="cf"
-              name="cf"
-              type="text"
-              required
-          /></label>
-          <label for="datanascita"
-            >Data di nascita:
-            <input
-              v-model="utente.data_nascita"
-              id="datanascita"
-              name="datanascita"
-              type="date"
-              pattern="[a-z0-5]{8,}"
-              required
-          /></label>
-          <label for="password"
-            >Password:
-            <input
-              v-model="utente.password"
-              id="password"
-              name="password"
-              type="password"
-              required
-          /></label>
-          <label for="conferma-password"
-            >Conferma Password:
-            <input
-              v-model="confermaPassword"
-              id="conferma-password"
-              name="conferma-password"
-              type="password"
-              required
-          /></label>
-        </fieldset>
-        <fieldset>
-          <label for="cliente"
-            ><input
-              @click="iAmTerapeuta = false"
-              id="cliente"
-              type="radio"
-              name="account-type"
-              class="inline"
-              enabled
-            />
-            Cliente</label
-          >
-          <label for="terapeuta"
-            ><input
-              @click="iAmTerapeuta = !iAmTerapeuta"
-              id="radioterapeuta"
-              type="radio"
-              name="account-type"
-              class="inline"
-            />
-            Terapeuta</label
-          >
-          <div v-if="iAmTerapeuta">
-            <label for="indirizzo"
-              >Indirizzo sede: <input v-model="utente.indirizzo" id="indirizzo" name="indirizzo" type="text"
-            /></label>
-            <label for="documento"
-              >Allega il tuo certificato abilitazione:
-              <input v-model="utente.documenti" id="documenti" type="text" name="file"
-            /></label>
-            <label for="limite"
-              >Limite clienti:
-              <input
-                v-model="utente.limite_clienti"
-                id="limite"
-                type="number"
-                min="1"
-                max="30"
-                name="limite"
-            /></label>
-          </div>
-
-          <label for="terms-and-conditions"
-            ><input
-              id="terms-and-conditions"
-              type="checkbox"
-              required
-              name="terms-and-conditions"
-              class="inline"
-            />
-            I accept the terms and conditions
-          </label>
-        </fieldset>
-        <fieldset>
-          <label for="profile-picture"
-            >Inserisci una foto profilo:
-            <input id="profile-picture" type="file" name="file"
-          /></label>
-        </fieldset>
-        <input value="Conferma" type="submit" @click.stop="sendForm" />
-      </form>
-    </body>
-  </html>
+      <label for="terms-and-conditions"
+        ><input
+          id="terms-and-conditions"
+          type="checkbox"
+          required
+          name="terms-and-conditions"
+          class="inline"
+        />
+        I accept the terms and conditions
+      </label>
+    </fieldset>
+    <fieldset>
+      <label for="profile-picture"
+        >Inserisci una foto profilo:
+        <input id="profile-picture" type="file" name="file"
+      /></label>
+    </fieldset>
+    <input value="Conferma" type="submit" @click.stop="sendForm" />
+  </form>
 </template>
 
 
   
-<script lang="ts">
+<script>
 import { defineComponent } from "vue";
-import NavBar from "@/components/NavBar.vue";
 
 export default defineComponent({
   name: "RegistrationView",
-  components: { NavBar },
   props: {
     msg: String,
   },
@@ -183,7 +173,7 @@ export default defineComponent({
       utente: {
         username: "",
         password: "",
-        ruolo:0,
+        ruolo: 0,
         nome: "",
         cognome: "",
         email: "",
@@ -204,11 +194,10 @@ export default defineComponent({
   },
   methods: {
     async sendForm() {
-      if(this.iAmTerapeuta===false){
-        this.utente.ruolo=1
-      }else{
-        this.utente.ruolo=2
-        
+      if (this.iAmTerapeuta === false) {
+        this.utente.ruolo = 1;
+      } else {
+        this.utente.ruolo = 2;
       }
       console.log(`il mio utente: ${JSON.stringify(this.utente)}`);
       console.log("sei dentro la funzione :))))");
@@ -223,14 +212,14 @@ export default defineComponent({
           console.log("ok password uguali");
 
           const res = await fetch(
-            "http://localhost:3000/api/v1/registrazione",
+            "http://localhost:3001/api/v1/registrazione",
             options
           );
           data = await res.json();
           console.log(data);
 
-          if (data.success) {
-            this.$router.push("/");
+          if (data.successful) {
+            this.$router.push("/dashboard");
           } else {
             console.log(data.error || data.message);
             this.error.status = true;
@@ -254,9 +243,7 @@ export default defineComponent({
 </script> 
   
   
-  
-
-  <style scoped>
+<style scoped>
 .white-header {
   background-color: #ffffff;
 }
