@@ -22,6 +22,9 @@
                     <span class="fab fa-twitter"></span> Modifica
                   </button></router-link
                 >
+                <button class="btn btn-outline-dark btn-sm" @click="logout">
+                  Logout
+                </button>
               </div>
             </div>
             <div class="card mb-4">
@@ -128,6 +131,9 @@
                     <span class="fab fa-twitter"></span> Modifica
                   </button></router-link
                 >
+                <button class="btn btn-outline-dark btn-sm" @click="logout">
+                  Logout
+                </button>
               </div>
             </div>
             <div class="card mb-4">
@@ -303,6 +309,37 @@ export default defineComponent({
       user: {}, 
       
     }
+  },
+
+  async logout(){
+    const token=sessionStorage.getItem('token')
+    const opzioniRichiesta = {
+        method: 'GET',
+        headers: {
+          "x-access-token": token,
+        }
+      }
+
+      try{
+        const response = fetch("http://localhost:3001/api/v1/logout", opzioniRichiesta)
+        if(!response.ok) {
+          console.log("errore nell'eseguire il logout")
+        }
+        const data = await response.json();
+        if(data.successful) {
+          await this.$store.commit("setState", {
+            token: "",
+            user: "",
+          });
+
+          this.$router.push("/");
+        }
+
+      }catch (error){
+        console.log(error)
+      }
+
+
   },
 
 
