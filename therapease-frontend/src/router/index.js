@@ -11,7 +11,6 @@ import OffertaView from "../views/OffertaView.vue"
 import TerapeutaprofiloView from "../views/TerapeutaprofiloView.vue"
 import TerapeutaperutenteView from "../views/TerapeutaperutenteView.vue"
 import ModificaView from "../views/ModificaView.vue"
-import ModificaprofiloterapeutaView from "../views/ModificaprofiloterapeutaView.vue"
 import DashboardView from "../views/DashboardView.vue"
 import ChangepasswordView from "../views/ChangepasswordView.vue"
 
@@ -75,11 +74,6 @@ const routes = [
     name: 'modifica',
     component: ModificaView
   },
-  {
-    path: '/modificaterapeuta',
-    name: 'modificaterapeuta',
-    component: ModificaprofiloterapeutaView
-  }, 
   {
     path: '/dashboard',
     name: 'dashboard',

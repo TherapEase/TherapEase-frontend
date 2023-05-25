@@ -15,9 +15,22 @@
                   src="../assets/profilePic.webp"
                   alt="Jassa Rich"
                 />
-                <h3 class="mb-3"><strong>Mario Rossi</strong></h3>
-                <button class="btn btn-outline-dark btn-sm">
-                  <span class="fab fa-twitter"></span> Associa
+                <h3 class="mb-3">
+                  <strong>{{ user.nome }} {{ user.cognome }}</strong>
+                </h3>
+                <button
+                  @click="associa"
+                  v-if="isAssociato == false"
+                  class="btn btn-outline-dark btn-sm"
+                >
+                  Associa
+                </button>
+                <button
+                  @click="disassocia"
+                  v-if="isAssociato == true && isAssociatoConUtente == true"
+                  class="btn btn-outline-dark btn-sm"
+                >
+                  Disassocia
                 </button>
               </div>
             </div>
@@ -27,14 +40,14 @@
               <div class="card-header">
                 <h4 class="grassetto">Informazioni</h4>
                 <div class="informazioni">
-                  <h5><strong>Username:</strong> TizioCaio2001</h5>
-                  <h5><strong>Nome:</strong> TizioCaio2001</h5>
-                  <h5><strong>Cognome:</strong> TizioCaio2001</h5>
-                  <h5><strong>Data Di Nascita:</strong> TizioCaio2001</h5>
-                  <h5><strong>Email:</strong> TizioCaio2001</h5>
-                  <h5><strong>Codice Fiscale:</strong> TizioCaio2001</h5>
-                  <h5><strong>Sede:</strong> TizioCaio2001</h5>
-                  <h5><strong>Telefono:</strong> TizioCaio2001</h5>
+                  <h5><strong>Username:</strong> {{ user.username }}</h5>
+                  <h5><strong>Nome:</strong> {{ user.nome }}</h5>
+                  <h5><strong>Cognome:</strong> {{ user.cognome }}</h5>
+                  <h5>
+                    <strong>Data Di Nascita:</strong> {{ user.data_nascita }}
+                  </h5>
+                  <h5><strong>Email:</strong> {{ user.email }}</h5>
+                  <h5><strong>Sede:</strong> {{ user.indirizzo }}</h5>
                 </div>
               </div>
             </div>
@@ -61,6 +74,124 @@ export default defineComponent({
   name: "ProfileView",
   props: {
     msg: String,
+  },
+  data() {
+    return {
+      user: {},
+      isAssociato: false,
+      isAssociatoConUtente: false,
+    };
+  },
+  async mounted() {
+    const token = sessionStorage.getItem("token");
+    const opzioniRichiesta = {
+      method: "GET",
+      headers: {
+        "x-access-token": token,
+      },
+    };
+
+    console.log("params: " + this.$route.params.id);
+    const param = this.$route.params.id;
+
+    try {
+      const response = await fetch(
+        `http://localhost:3001/api/v1/profilo/${param}`,
+        opzioniRichiesta
+      );
+
+      if (!response.ok) {
+        throw new Error("Unable to get user");
+      }
+      const informazioni = await response.json();
+      console.log(informazioni.successful);
+      console.log("utente: " + JSON.stringify(informazioni));
+      this.user = informazioni["profilo"];
+      console.log(this.user);
+      this.user.data_nascita = this.user.data_nascita.slice(0, 10);
+    } catch (error) {
+      console.log(error);
+    }
+
+    //il mio profilo
+    try {
+      const response = await fetch(
+        `http://localhost:3001/api/v1/il_mio_profilo`,
+        opzioniRichiesta
+      );
+      const informazioni = await response.json();
+      console.log(informazioni.successful);
+      console.log("info profilo loggato: " + JSON.stringify(informazioni));
+      const teraAssociato = informazioni["profile"]["associato"];
+      if (teraAssociato == this.user._id) {
+        this.isAssociatoConUtente = true;
+      } else {
+        this.isAssociatoConUtente = false;
+      }
+
+      if (teraAssociato != "") {
+        console.log("sei associato con: " + teraAssociato);
+        this.isAssociato = true;
+      }
+      this.user.data_nascita = this.user.data_nascita.slice(0, 10);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  methods: {
+    async associa() {
+      console.log("associato: " + this.associato);
+
+      const token = sessionStorage.getItem("token");
+      const opzioniRichiesta = {
+        method: "GET",
+        headers: {
+          "x-access-token": token,
+        },
+      };
+      const param = this.$route.params.id;
+
+      try {
+        const response = await fetch(
+          `http://localhost:3001/api/v1/associazione/${param}`,
+          opzioniRichiesta
+        );
+        const informazioni = await response.json();
+        console.log(JSON.stringify(informazioni));
+        this.isAssociato = true;
+
+        console.log(informazioni.successful);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async disassocia() {
+      console.log("associato: " + this.associato);
+      console.log("ti stai disassociando");
+      const token = sessionStorage.getItem("token");
+      const opzioniRichiesta = {
+        method: "GET",
+        headers: {
+          "x-access-token": token,
+        },
+      };
+      const param = this.$route.params.id;
+
+      try {
+        const response = await fetch(
+          `http://localhost:3001/api/v1/associazione/rimuovi/${param}`,
+          opzioniRichiesta
+        );
+        const informazioni = await response.json();
+        console.log(informazioni.successful);
+        this.isAssociato = false;
+        console.log("associazione dopo: " + this.associato);
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
 });
 </script>

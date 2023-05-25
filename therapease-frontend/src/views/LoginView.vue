@@ -108,16 +108,6 @@ export default defineComponent({
         );
         const data = await res.json();
 
-        try {
-          if (data.successful) {
-
-            const get_user_info = await this.getUserInfo(data["token"]);
-          
-            await this.$store.commit("setState", {
-              token: data["token"],
-              user: get_user_info,
-            });
-
 
       try {
         if (data.successful) {

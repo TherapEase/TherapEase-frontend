@@ -7,11 +7,10 @@
       <div class="job-list">
 
         <li v-for="terapeuta in terapeuti" :key="terapeuta._id">
-        
-            
+                    
           <div class="riga"><img src="../assets/profilePic.webp" alt="foto profilo" width="100">
             <div class="colonna"><h2>{{ terapeuta.nome }} {{ terapeuta.cognome }}</h2>
-           <router-link to="/profilo/:id"><button>Visita profilo</button></router-link></div>
+           <router-link :to="{name: 'profiloId', params:{id: `${terapeuta._id}`}}"><button>Visita profilo</button></router-link></div>
              
             </div></li>
       </div>

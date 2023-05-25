@@ -3,285 +3,111 @@
     <div>
       <div>
         <NavBarVue />
-
       </div>
-      <section v-if="this.user.ruolo==1">
-        <div class="row">
-          <div class="col-lg-4">
-            <div class="card card-profile mb-4">
-              <div class="card-header" style="background-image"></div>
-              <div class="card-body text-center">
-                <img
-                  class="card-profile-img"
-                  src="../assets/profilePic.webp"
-                  alt="Jassa Rich"
-                />
-                <h4 class="mb-3"><strong>{{user.nome}} {{user.cognome}}</strong></h4>
-                <router-link to="/modifica">
-                  <button class="btn btn-outline-dark btn-sm">
-                    <span class="fab fa-twitter"></span> Modifica
-                  </button></router-link
-                >
-              </div>
-            </div>
-            <div class="card mb-4">
-              <div class="card-body">
-                <div class="d-flex align-items-center">
-                  <div class="flex-shrink-0">
-                    <img
-                      class="avatar avatar-lg p-1"
-                      src="../assets/profilePic.webp"
-                      alt="Jassa Rich"
-                    />
-                  </div>
-                  <div class="flex-grow-1 ps-3">
-                    <h4><strong>Terapeuta Associato: </strong>{{user.associato}}</h4>
-                    <router-link to="/terapeutaperutente">
-                      <button class="btn btn-outline-dark btn-sm">
-                        <span class="fab fa-twitter"></span> Visita Profilo
-                      </button></router-link
-                    >
 
-                      <li class="list-inline-item">
-                        <a
-                          href="javascript:void(0)"
-                          data-bs-toggle="tooltip"
-                          data-placement="top"
-                          title=""
-                          data-bs-original-title="Nathan's Facebook"
-                          aria-label="Nathan's Facebook"
-                          ><i class="fab fa-facebook"></i
-                        ></a>
-                      </li>
-                      <li class="list-inline-item">
-                        <a
-                          href="javascript:void(0)"
-                          data-bs-toggle="tooltip"
-                          data-placement="top"
-                          title=""
-                          data-bs-original-title="@nathan_andrews"
-                          aria-label="@nathan_andrews"
-                          ><i class="fab fa-twitter"></i
-                        ></a>
-                      </li>
-                      <li class="list-inline-item">
-                        <a
-                          href="javascript:void(0)"
-                          data-bs-toggle="tooltip"
-                          data-placement="top"
-                          title=""
-                          data-bs-original-title="+420777555987"
-                          aria-label="+420777555987"
-                          ><i class="fa fa-phone"></i
-                        ></a>
-                      </li>
-                      <li class="list-inline-item">
-                        <a
-                          href="javascript:void(0)"
-                          data-bs-toggle="tooltip"
-                          data-placement="top"
-                          title=""
-                          data-bs-original-title="@nathan"
-                          aria-label="@nathan"
-                          ><i class="fab fa-skype"></i
-                        ></a>
-                      </li>
-
-                  </div>
-                </div>
-              </div>
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="stacca card card-profile mb-4">
+            <div class="card-header" style="background-image"></div>
+            <div class="card-body text-center">
+              <img
+                class="card-profile-img"
+                src="../assets/profilePic.webp"
+                alt="foto profilo"
+              />
+              <h4 class="mb-3">
+                <strong>{{ user.nome }} {{ user.cognome }}</strong>
+              </h4>
+              <router-link to="/modifica">
+                <button class="btn btn-outline-dark btn-sm">
+                  Modifica
+                </button></router-link
+              >
+              <input
+                class="btn btn-outline-dark btn-sm"
+                value="Logout"
+                type="submit"
+                @click.stop="logout"
+              />
             </div>
           </div>
-          <div class="col-lg-8">
-            <div class="card overflow-hidden mb-4">
-              <div class="card-header">
-                <h4 class="grassetto">Il mio profilo</h4>
-                <div class="informazioni">
-                  <h5><strong>Username:</strong> {{ this.user.username }}</h5>
-                  <h5><strong>Nome:</strong> {{this.user.nome }}</h5>
-                  <h5><strong>Cognome:</strong> {{ user.cognome }}</h5>
+          <!-- inizio card terapeuta associato -->
+          <div v-if="user.ruolo == 1" class="card mb-4">
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <div class="flex-shrink-0">
+                  <img
+                    class="avatar avatar-lg p-1"
+                    src="../assets/profilePic.webp"
+                    alt="foto profilo"
+                  />
+                </div>
+                <div class="flex-grow-1 ps-3">
+                  <h4>
+                    <strong> Terapeuta Associato: </strong>
+                  </h4>
                   <h5>
-                    <strong>Data Di Nascita:</strong> {{ user.data_nascita }}
+                    {{ ass.nome }} {{ ass.cognome }}
                   </h5>
-                  <h5><strong>Email:</strong> {{ user.email }}</h5>
-                  <h5><strong>Codice Fiscale:</strong> {{ user.cf }}</h5>
+                  <router-link :to="{name: 'profiloId', params:{id: `${ass._id}`}}">  
+                    <button  v-if="isAssociato" class="btn btn-outline-dark btn-sm">
+                      Visita Profilo
+                    </button></router-link
+                  >
                 </div>
+              </div>
+            </div>
+          </div>
+          <!-- fine card terapeuta associato -->
+        </div>
+        <div class="col-lg-8">
+          <div class="card overflow-hidden mb-4">
+            <div class="card-header">
+              <h4 class="grassetto">Il mio profilo</h4>
+              <div class="informazioni">
+                <h5><strong>Username:</strong> {{ this.user.username }}</h5>
+                <h5><strong>Nome:</strong> {{ this.user.nome }}</h5>
+                <h5><strong>Cognome:</strong> {{ user.cognome }}</h5>
+                <h5>
+                  <strong>Data Di Nascita:</strong> {{ user.data_nascita }}
+                </h5>
+                <h5><strong>Email:</strong> {{ user.email }}</h5>
+                <h5><strong>Codice Fiscale:</strong> {{ user.cf }}</h5>
               </div>
             </div>
           </div>
         </div>
-      </section>
-      <section v-if="this.user.ruolo==2">
-        <div class="row">
-          <div class="col-lg-4">
-            <div class="card card-profile mb-4">
-              <div class="card-header" style="background-image"></div>
-              <div class="card-body text-center">
-                <img
-                  class="card-profile-img"
-                  src="../assets/profilePic.webp"
-                  alt="Jassa Rich"
-                />
-                <h4 class="mb-3"><strong>{{ user.name }} {{ user.cognome }}</strong></h4>
-                <router-link to="/modifica">
-                  <button class="btn btn-outline-dark btn-sm">
-                    <span class="fab fa-twitter"></span> Modifica
-                  </button></router-link
-                >
-              </div>
-            </div>
-            <div class="card mb-4">
-              <h3 class="clienti-associati">
-                <strong>Clienti Associati</strong>
-              </h3>
-              <div class="card-body">
-                <div class="d-flex align-items-center">
-                  <div class="flex-shrink-0">
-                    <img
-                      class="avatar avatar-lg p-1"
-                      src="../assets/profilePic.webp"
-                      alt="Jassa Rich"
-                    />
-                  </div>
-                  <div class="flex-grow-1 ps-3">
-                    <h4>Tizio Caio</h4>
-                    <button class="btn btn-outline-dark btn-sm">
-                      <span class="fab fa-twitter"></span> Visita Profilo
-                    </button>
-                    <ul class="social-links list-inline mb-0 mt-2">
-                      <li class="list-inline-item">
-                        <a
-                          href="javascript:void(0)"
-                          data-bs-toggle="tooltip"
-                          data-placement="top"
-                          title=""
-                          data-bs-original-title="Nathan's Facebook"
-                          aria-label="Nathan's Facebook"
-                          ><i class="fab fa-facebook"></i
-                        ></a>
-                      </li>
-                      <li class="list-inline-item">
-                        <a
-                          href="javascript:void(0)"
-                          data-bs-toggle="tooltip"
-                          data-placement="top"
-                          title=""
-                          data-bs-original-title="@nathan_andrews"
-                          aria-label="@nathan_andrews"
-                          ><i class="fab fa-twitter"></i
-                        ></a>
-                      </li>
-                      <li class="list-inline-item">
-                        <a
-                          href="javascript:void(0)"
-                          data-bs-toggle="tooltip"
-                          data-placement="top"
-                          title=""
-                          data-bs-original-title="+420777555987"
-                          aria-label="+420777555987"
-                          ><i class="fa fa-phone"></i
-                        ></a>
-                      </li>
-                      <li class="list-inline-item">
-                        <a
-                          href="javascript:void(0)"
-                          data-bs-toggle="tooltip"
-                          data-placement="top"
-                          title=""
-                          data-bs-original-title="@nathan"
-                          aria-label="@nathan"
-                          ><i class="fab fa-skype"></i
-                        ></a>
-                      </li>
-                    </ul>
-                  </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-4">
+          <!-- inizio card clienti associati -->
+          <div v-if="user.ruolo == 2" class="stacca card mb-4">
+            <h3 class="clienti-associati">
+              <strong> Clienti Associati</strong>
+            </h3>
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <div class="flex-shrink-0">
+                  <img
+                    class="avatar avatar-lg p-1"
+                    src="../assets/profilePic.webp"
+                    alt="foto profilo"
+                  />
                 </div>
-              </div>
-              <div class="card-body">
-                <div class="d-flex align-items-center">
-                  <div class="flex-shrink-0">
-                    <img
-                      class="avatar avatar-lg p-1"
-                      src="../assets/profilePic.webp"
-                      alt="Jassa Rich"
-                    />
-                  </div>
-                  <div class="flex-grow-1 ps-3">
-                    <h4>Tizietto Caietto</h4>
-                    <button class="btn btn-outline-dark btn-sm">
-                      <span class="fab fa-twitter"></span> Visita Profilo
-                    </button>
-                    <ul class="social-links list-inline mb-0 mt-2">
-                      <li class="list-inline-item">
-                        <a
-                          href="javascript:void(0)"
-                          data-bs-toggle="tooltip"
-                          data-placement="top"
-                          title=""
-                          data-bs-original-title="Nathan's Facebook"
-                          aria-label="Nathan's Facebook"
-                          ><i class="fab fa-facebook"></i
-                        ></a>
-                      </li>
-                      <li class="list-inline-item">
-                        <a
-                          href="javascript:void(0)"
-                          data-bs-toggle="tooltip"
-                          data-placement="top"
-                          title=""
-                          data-bs-original-title="@nathan_andrews"
-                          aria-label="@nathan_andrews"
-                          ><i class="fab fa-twitter"></i
-                        ></a>
-                      </li>
-                      <li class="list-inline-item">
-                        <a
-                          href="javascript:void(0)"
-                          data-bs-toggle="tooltip"
-                          data-placement="top"
-                          title=""
-                          data-bs-original-title="+420777555987"
-                          aria-label="+420777555987"
-                          ><i class="fa fa-phone"></i
-                        ></a>
-                      </li>
-                      <li class="list-inline-item">
-                        <a
-                          href="javascript:void(0)"
-                          data-bs-toggle="tooltip"
-                          data-placement="top"
-                          title=""
-                          data-bs-original-title="@nathan"
-                          aria-label="@nathan"
-                          ><i class="fab fa-skype"></i
-                        ></a>
-                      </li>
-                    </ul>
-                  </div>
+                <div class="flex-grow-1 ps-3">
+                  <h4>Tizietto Caietto</h4>
+                  <button class="btn btn-outline-dark btn-sm" >
+                    Visita Profilo
+                  </button>
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-lg-8">
-            <div class="card overflow-hidden mb-4">
-              <div class="card-header">
-                <h4 class="grassetto">Il mio profilo</h4>
-                <div class="informazioni">
-                  <h5><strong>Username:</strong> {{   user.username }}</h5>
-                  <h5><strong>Nome:</strong> {{   user.nome }}</h5>
-                  <h5><strong>Cognome:</strong> {{ user.cognome }}</h5>
-                  <h5><strong>Data Di Nascita:</strong> {{ user.data_nascita }}</h5>
-                  <h5><strong>Email:</strong> {{   user.email }}</h5>
-                  <h5><strong>Codice Fiscale:</strong> {{user.cf}}</h5>
-                  <h5><strong>Sede:</strong> {{user.indirizzo}}</h5>
-                 
-                </div>
-              </div>
-            </div>
-          </div>
+          <!-- fine card clienti associati -->
         </div>
-      </section>
-    </div> 
+      </div>
+    </div>
   </div>
 </template>
 
@@ -298,68 +124,135 @@ export default defineComponent({
     msg: String,
   },
 
-  data(){
+  data() {
     return {
-      user: {}, 
-      
-    }
+      user: {},
+      ass:{}, 
+      isAssociato:false,
+    };
   },
-
-
-  async mounted() {
-
-    const token=sessionStorage.getItem('token')
-
-    const opzioniRichiesta = {
-        method: 'GET',
+  methods: {
+    async logout() {
+      console.log("sei dentro il logout");
+      const token = sessionStorage.getItem("token");
+      console.log("token al momento del logout: " + token);
+      const opzioniRichiesta = {
+        method: "GET",
         headers: {
+          "Content-Type": "application/json",
           "x-access-token": token,
-        }
-      }
+        },
+      };
 
       try {
-        const response = await fetch("http://localhost:3001/api/v1/il_mio_profilo", opzioniRichiesta)
-
-        if(!response.ok) {
-          throw new Error("Unable to get user")
+        const res = await fetch(
+          "http://localhost:3001/api/v1/logout",
+          opzioniRichiesta
+        );
+        if (!res.ok) {
+          throw new Error("User not found");
         }
-        const informazioni = await response.json()
-        console.log(informazioni)
-        console.log("utente: " + JSON.stringify(informazioni['profile']['ruolo']));
-        this.user = informazioni['profile']
-        console.log(this.user._id)
-        this.user.data_nascita=this.user.data_nascita.slice(0, 10);
-       
+        const data = await res.json();
+        console.log(data);
+        if (data.successful) {
+          await this.$store.commit("removeState");
+          console.log("get item" + sessionStorage.getItem("user"));
+          this.$router.push("/");
+        }
       } catch (error) {
-        console.log(error)
+        console.log(error);
+      }
+    },
+
+    
+
+  },
+
+  async mounted() {
+    const token = sessionStorage.getItem("token");
+
+    const opzioniRichiesta = {
+      method: "GET",
+      headers: {
+        "x-access-token": token,
+      },
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:3001/api/v1/il_mio_profilo",
+        opzioniRichiesta
+      );
+
+      if (!response.ok) {
+        throw new Error("Unable to get user");
+      }
+      const informazioni = await response.json();
+      console.log(informazioni);
+      console.log(
+        "utente: " + JSON.stringify(informazioni["profile"]["ruolo"])
+      );
+      this.user = informazioni["profile"];
+      console.log(this.user._id);
+      this.user.data_nascita = this.user.data_nascita.slice(0, 10);
+      if(this.user.associato != ""){
+        this.isAssociato=true
       }
 
 
 
+
+
+    } catch (error) {
+      console.log(error);
+    }
+
+
+
+   //info terapeuti
+
+   
+    try {
+      const response = await fetch(
+        `http://localhost:3001/api/v1/profilo/${this.user.associato}`,
+        opzioniRichiesta
+      );
+
+      console.log("terapeuta associato: "+this.user.associato)
+
+      const dati = await response.json();
+      console.log(JSON.stringify(dati));
+
+      console.log("stampa del profilooooo");
+      console.log(dati["successful"]);
       
+      this.ass=dati["profilo"];
+      console.log(this.ass)
+    } catch (error) {
+      console.log(error);
+    }
 
- 
 
-  //   const res = await fetch(
-  //     `http://localhost:3001/api/v1/il_mio_profilo`,
-  //     opzioniRichiesta
-  //   );
-  //   const data = await res.json();
-  //   console.log(data.successful);
+    //   const res = await fetch(
+    //     `http://localhost:3001/api/v1/il_mio_profilo`,
+    //     opzioniRichiesta
+    //   );
+    //   const data = await res.json();
+    //   console.log(data.successful);
 
-  //   console;
-  //   //const utente = JSON.parse(atob(data.token.split(".")[1]));
-  //   // console.log("utente: " + utente.username);
-  //   console.log("utente: " + store.getters.returnUser);
-  // },
-  // data() {
-  //   return {
-  //     user: store.getters.returnUser,
-  //     error: {
-  //       status: false,
-  //       messaggio: "Messaggio di default.",
-  //     },
-  //   };
+    //   console;
+    //   //const utente = JSON.parse(atob(data.token.split(".")[1]));
+    //   // console.log("utente: " + utente.username);
+    //   console.log("utente: " + store.getters.returnUser);
+    // },
+    // data() {
+    //   return {
+    //     user: store.getters.returnUser,
+    //     error: {
+    //       status: false,
+    //       messaggio: "Messaggio di default.",
+    //     },
+    //   };
   },
 });
 </script>
@@ -450,7 +343,7 @@ a {
   cursor: pointer;
 }
 .card-profile-img {
-  position: relative;
+  position: center;
   max-width: 8rem;
   margin-top: -6rem;
   margin-bottom: 1rem;
@@ -480,6 +373,9 @@ svg {
   box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
   line-height: 3rem;
 }
+.col-lg-8 {
+  margin-top: 1em;
+}
 .form-control {
   color: #343a40;
 }
@@ -495,12 +391,12 @@ svg {
   height: 9rem;
   background-position: center center;
   background-size: cover;
+
   padding-left: 10px;
   padding-top: 10px;
   padding-bottom: 10px;
   padding-right: 10px;
 }
-
 
 .clienti-associati {
   font-size: 40px;
@@ -511,6 +407,12 @@ svg {
   padding-right: 10px;
   padding-top: 10px;
   padding-bottom: 10px;
+}
+
+.stacca {
+  margin-top: 1em;
+  margin-left: 1em;
+  margin-right: 1em;
 }
 
 .grassetto {
@@ -645,8 +547,5 @@ svg {
   padding-bottom: 10px;
   padding-right: 10px;
 }
-
-
-
 </style>
  
