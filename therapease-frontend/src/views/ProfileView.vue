@@ -44,10 +44,13 @@
                 </div>
                 <div class="flex-grow-1 ps-3">
                   <h4>
-                    <strong> Terapeuta Associato: </strong>{{ user.associato }}
+                    <strong> Terapeuta Associato: </strong>
                   </h4>
-                  <router-link to="/terapeutaperutente">
-                    <button class="btn btn-outline-dark btn-sm">
+                  <h5>
+                    {{ ass.nome }} {{ ass.cognome }}
+                  </h5>
+                  <router-link :to="{name: 'profiloId', params:{id: `${ass._id}`}}">  
+                    <button  v-if="isAssociato" class="btn btn-outline-dark btn-sm">
                       Visita Profilo
                     </button></router-link
                   >
@@ -94,7 +97,7 @@
                 </div>
                 <div class="flex-grow-1 ps-3">
                   <h4>Tizietto Caietto</h4>
-                  <button class="btn btn-outline-dark btn-sm">
+                  <button class="btn btn-outline-dark btn-sm" >
                     Visita Profilo
                   </button>
                 </div>
@@ -124,6 +127,8 @@ export default defineComponent({
   data() {
     return {
       user: {},
+      ass:{}, 
+      isAssociato:false,
     };
   },
   methods: {
@@ -158,6 +163,9 @@ export default defineComponent({
         console.log(error);
       }
     },
+
+    
+
   },
 
   async mounted() {
@@ -187,9 +195,43 @@ export default defineComponent({
       this.user = informazioni["profile"];
       console.log(this.user._id);
       this.user.data_nascita = this.user.data_nascita.slice(0, 10);
+      if(this.user.associato != ""){
+        this.isAssociato=true
+      }
+
+
+
+
+
     } catch (error) {
       console.log(error);
     }
+
+
+
+   //info terapeuti
+
+   
+    try {
+      const response = await fetch(
+        `http://localhost:3001/api/v1/profilo/${this.user.associato}`,
+        opzioniRichiesta
+      );
+
+      console.log("terapeuta associato: "+this.user.associato)
+
+      const dati = await response.json();
+      console.log(JSON.stringify(dati));
+
+      console.log("stampa del profilooooo");
+      console.log(dati["successful"]);
+      
+      this.ass=dati["profilo"];
+      console.log(this.ass)
+    } catch (error) {
+      console.log(error);
+    }
+
 
     //   const res = await fetch(
     //     `http://localhost:3001/api/v1/il_mio_profilo`,
