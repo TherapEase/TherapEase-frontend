@@ -51,7 +51,11 @@
                       Visita Profilo
                     </button></router-link
                   >
+                  <button class="btn btn-outline-dark btn-sm">
+                    Disassocia
+                  </button>
                 </div>
+                
               </div>
             </div>
           </div>
@@ -191,26 +195,6 @@ export default defineComponent({
       console.log(error);
     }
 
-    //   const res = await fetch(
-    //     `http://localhost:3001/api/v1/il_mio_profilo`,
-    //     opzioniRichiesta
-    //   );
-    //   const data = await res.json();
-    //   console.log(data.successful);
-
-    //   console;
-    //   //const utente = JSON.parse(atob(data.token.split(".")[1]));
-    //   // console.log("utente: " + utente.username);
-    //   console.log("utente: " + store.getters.returnUser);
-    // },
-    // data() {
-    //   return {
-    //     user: store.getters.returnUser,
-    //     error: {
-    //       status: false,
-    //       messaggio: "Messaggio di default.",
-    //     },
-    //   };
   },
 });
 </script>
