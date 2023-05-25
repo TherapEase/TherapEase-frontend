@@ -52,8 +52,19 @@ export default createStore({
       // localStorage.setItem('user', JSON.stringify(payload.user))
       console.log(`PAYLOD TOKEN : ${payload.token} `)
     },
+
+    removeState(state){
+      // state.token="";
+      // state.user="";
+  
+      sessionStorage.removeItem('token')
+      sessionStorage.removeItem('user')
+      console.log("token nell'index: "+ state.token)
+    }
     
   },
+
+
   actions: {
   },
   modules: {

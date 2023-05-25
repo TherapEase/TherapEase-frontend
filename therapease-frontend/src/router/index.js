@@ -91,20 +91,20 @@ const router = createRouter({
   routes
 })
 
-// router.beforeEach((to, from, next) => {
-//   // redirect to login page if not logged in and trying to access a restricted page
-//   const publicPages = ['/', '/login', '/registrazione', '/chisiamo', '/catalogo', '/offerta'];
-//   const authRequired = !publicPages.includes(to.path);
-//   const loggedIn = sessionStorage.getItem('user');
-//   console.log(loggedIn)
+router.beforeEach((to, from, next) => {
+  // redirect to login page if not logged in and trying to access a restricted page
+  const publicPages = ['/', '/login', '/registrazione', '/chisiamo', '/catalogo', '/offerta'];
+  const authRequired = !publicPages.includes(to.path);
+  const loggedIn = sessionStorage.getItem('user');
+  console.log(loggedIn)
 
 
-//   if (authRequired && !loggedIn) {
-//     return next('/login');
-//   }
+  if (authRequired && !loggedIn) {
+    return next('/login');
+  }
 
-//   next();
-// })
+  next();
+})
 
 
 export default router
