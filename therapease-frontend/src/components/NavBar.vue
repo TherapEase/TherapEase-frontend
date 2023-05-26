@@ -6,7 +6,9 @@
   </div>
 
   <div class="topnav">
-    <a href="/">Home</a>
+    <a v-if="profilo" href="/dashboard">Home</a>
+    <a v-else href="/">Home</a>
+
     <a href="/chisiamo">Chi siamo</a>
     <a href="/catalogo">I nostri Terapeuti</a>
     <a href="info">Info e Eventi</a>
