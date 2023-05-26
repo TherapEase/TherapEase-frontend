@@ -54,7 +54,11 @@
                       Visita Profilo
                     </button></router-link
                   >
+                  <button class="btn btn-outline-dark btn-sm">
+                    Disassocia
+                  </button>
                 </div>
+                
               </div>
             </div>
           </div>
@@ -253,6 +257,7 @@ export default defineComponent({
     //       messaggio: "Messaggio di default.",
     //     },
     //   };
+
   },
 });
 </script>
