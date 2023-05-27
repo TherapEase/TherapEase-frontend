@@ -1,18 +1,4 @@
 <template>
-  <div class="white-header">
-    <img class="logo" src="@/assets/Copertina.png" />
-  </div>
-
-  <div class="topnav">
-    <a href="/">Home</a>
-    <a href="/chisiamo">Chi siamo</a>
-    <a href="/catalogo">I nostri Terapeuti</a>
-    <a href="/offerta">La nostra offerta</a>
-    <a href="info">Info e Eventi</a>
-    <a href="/offerta">La Nostra Offerta</a>
-    <a href="/supportotecnico">Supporto Tecnico</a>
-  </div>
-
   <h1 class="titolo">Registrazione</h1>
   <p>Entra a far parte della community: inserisci le tue informazioni.</p>
   <form @submit.prevent>
