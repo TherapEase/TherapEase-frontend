@@ -184,9 +184,6 @@ export default defineComponent({
         opzioniRichiesta
       );
 
-      if (!response.ok) {
-        throw new Error("Unable to get user");
-      }
       const informazioni = await response.json();
       console.log(informazioni);
       console.log(
