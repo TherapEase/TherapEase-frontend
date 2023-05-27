@@ -1,8 +1,8 @@
 <template>
   <NavBarVue />
 
-  <h1><strong>Benvenuto</strong></h1>
-  <router-link to="/nuovaseduta"><button v-if="user.ruolo==2">Inserisci seduta</button></router-link>
+  <h1><strong>Benvenuto, {{user.nome}}</strong></h1>
+  <router-link to="/nuovaseduta"><button class="btn sfondo btn-outline-dark btn-sm" v-if="user.ruolo==2">Inserisci seduta</button></router-link>
 </template>
 
 <script>
@@ -38,4 +38,9 @@ export default defineComponent({
 </script>
 
 
-<style  scoped></style>
+<style  scoped>
+.sfondo{
+  background-color: white;
+  margin-left:10px
+}
+</style>

@@ -57,9 +57,11 @@
         >Password:
         <input
           v-model="utente.password"
+          title="La password deve contenere almeno 8 lettere, incluso una maiuscola, una minuscola e un carattere speciale"
           id="password"
           name="password"
           type="password"
+          pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/gm"
           required
       /></label>
       <label for="conferma-password"
