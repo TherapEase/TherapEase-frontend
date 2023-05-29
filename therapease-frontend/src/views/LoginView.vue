@@ -65,7 +65,7 @@ export default defineComponent({
       console.log("siamo in get infooooooooo");
 
       const res = await fetch(
-        `http://localhost:3001/api/v1/il_mio_profilo`,
+        `${process.env.VUE_APP_ROOT_API}/il_mio_profilo`,
         opzioniRichiesta
       );
       const data = await res.json();
@@ -103,7 +103,7 @@ export default defineComponent({
 
 
         const res = await fetch(
-          `http://localhost:3001/api/v1/login`,
+          `${process.env.VUE_APP_ROOT_API}/login`,
           opzioniRichiesta
         );
         const data = await res.json();

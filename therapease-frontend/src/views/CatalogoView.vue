@@ -3,7 +3,7 @@
   <h1>Catalogo dei nostri terapeuti</h1>
 
   <div>
-    <form action="http://localhost:3000/catalogo_terapeuti">
+    <form>
       <div class="job-list">
 
         <li v-for="terapeuta in terapeuti" :key="terapeuta._id">
@@ -27,18 +27,13 @@ export default defineComponent({
   components: { NavBarVue },
   data() {
     return {
-      terapeuti: {
-        _id: "",
-        nome: "",
-        cognome: "",
-        foto_profilo:"",
-      },
+      terapeuti: []
     };
   },
   async mounted() {
     try {
       const response = await fetch(
-        "http://localhost:3001/api/v1/catalogo_terapeuti",
+        `${process.env.VUE_APP_ROOT_API}/catalogo_terapeuti`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -105,7 +100,7 @@ h1 {
   background: white;
   padding: 16px;
   margin: 16px 0;
-  border-radius: 4px;
+  border-radius: 1em;
 }
 
 .job-list h2 {
@@ -122,7 +117,7 @@ h1 {
 button{
   background-color:#2b3a24;
   color:white;
-  border-radius: 1em;
+  border-radius: 0.5em;
   border-color: black;
 }
 

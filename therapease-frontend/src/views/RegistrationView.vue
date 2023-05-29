@@ -200,7 +200,7 @@ export default defineComponent({
           console.log("ok password uguali");
 
           const res = await fetch(
-            "http://localhost:3001/api/v1/registrazione",
+            `${process.env.VUE_APP_ROOT_API}/registrazione`,
             options
           );
           data = await res.json();
