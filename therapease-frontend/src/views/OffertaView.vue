@@ -31,11 +31,7 @@ export default defineComponent({
   components: { NavBarVue },
   data() {
     return {
-      prodotti:{
-        nome:"",
-        prezzo:"",
-        n_gettoni:""
-      }
+      prodotti:[]
     };
   },
 
@@ -62,7 +58,7 @@ export default defineComponent({
   async mounted() {
     try {
       const response = await fetch(
-        "http://localhost:3001/api/v1/catalogo_prodotti",
+        `${process.env.VUE_APP_ROOT_API}/catalogo_prodotti`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },

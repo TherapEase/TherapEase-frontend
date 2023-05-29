@@ -150,7 +150,7 @@ export default defineComponent({
 
       try {
         const res = await fetch(
-          "http://localhost:3001/api/v1/logout",
+          `${process.env.VUE_APP_ROOT_API}/logout`,
           opzioniRichiesta
         );
         if (!res.ok) {
@@ -184,7 +184,7 @@ export default defineComponent({
 
     try {
       const response = await fetch(
-        "http://localhost:3001/api/v1/il_mio_profilo",
+        `${process.env.VUE_APP_ROOT_API}/il_mio_profilo`,
         opzioniRichiesta
       );
 
@@ -215,7 +215,7 @@ export default defineComponent({
    
     try {
       const response = await fetch(
-        `http://localhost:3001/api/v1/profilo/${this.user.associato}`,
+        `${process.env.VUE_APP_ROOT_API}/profilo/${this.user.associato}`,
         opzioniRichiesta
       );
 

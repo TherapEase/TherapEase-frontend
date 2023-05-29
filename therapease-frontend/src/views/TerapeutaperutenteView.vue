@@ -97,7 +97,7 @@ export default defineComponent({
 
     try {
       const response = await fetch(
-        `http://localhost:3001/api/v1/profilo/${param}`,
+        `${process.env.VUE_APP_ROOT_API}/profilo/${param}`,
         opzioniRichiesta
       );
 
@@ -117,7 +117,7 @@ export default defineComponent({
     //il mio profilo
     try {
       const response = await fetch(
-        `http://localhost:3001/api/v1/il_mio_profilo`,
+        `${process.env.VUE_APP_ROOT_API}/il_mio_profilo`,
         opzioniRichiesta
       );
       const informazioni = await response.json();
@@ -155,7 +155,7 @@ export default defineComponent({
 
       try {
         const response = await fetch(
-          `http://localhost:3001/api/v1/associazione/${param}`,
+          `${process.env.VUE_APP_ROOT_API}/associazione/${param}`,
           opzioniRichiesta
         );
         const informazioni = await response.json();
@@ -206,7 +206,7 @@ export default defineComponent({
 
       try {
         const response = await fetch(
-          `http://localhost:3001/api/v1/associazione/rimuovi/${param}`,
+          `${process.env.VUE_APP_ROOT_API}/associazione/rimuovi/${param}`,
           opzioniRichiesta
         );
         const informazioni = await response.json();
