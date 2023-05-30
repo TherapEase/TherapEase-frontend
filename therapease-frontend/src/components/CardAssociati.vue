@@ -1,86 +1,28 @@
 <template>
-  <div>
-    <div>
-      <div>
-        <NavBarVue />
-      </div>
-
-      <div class="row">
-        <div class="col-lg-4">
-          <div class="stacca card card-profile mb-4">
-            <div class="card-header" style="background-image"></div>
-            <div class="card-body text-center">
-              <img
-                class="card-profile-img"
-                src="../assets/profilePic.webp"
-                alt="foto profilo"
-              />
-              <h4 class="mb-3">
-                <strong>{{ user.nome }} {{ user.cognome }}</strong>
-              </h4>
-              <router-link to="/modifica">
-                <button class="btn btn-outline-dark btn-sm">
-                  Modifica
-                </button></router-link
-              >
-              <input
-                class="btn btn-outline-dark btn-sm"
-                value="Logout"
-                type="submit"
-                @click.stop="logout"
-              />
-            </div>
-          </div>
-          <!-- inizio card terapeuta associato -->
-          <CardAssociati class="associati" :ruolo="user.ruolo"></CardAssociati>
-
-          <!-- fine card terapeuta associato -->
+  <div v-if="ruolo == 1" class="card mb-4">
+    <div class="card-body">
+      <div class="d-flex align-items-center">
+        <div class="flex-shrink-0">
+          <img
+            class="avatar avatar-lg p-1"
+            src="../assets/profilePic.webp"
+            alt="foto profilo"
+          />
         </div>
-        <div class="col-lg-8">
-          <div class="card overflow-hidden mb-4">
-            <div class="card-header">
-              <h4 class="grassetto">Il mio profilo</h4>
-              <div class="informazioni">
-                <h5><strong>Username:</strong> {{ this.user.username }}</h5>
-                <h5><strong>Nome:</strong> {{ this.user.nome }}</h5>
-                <h5><strong>Cognome:</strong> {{ user.cognome }}</h5>
-                <h5>
-                  <strong>Data Di Nascita:</strong> {{ user.data_nascita }}
-                </h5>
-                <h5><strong>Email:</strong> {{ user.email }}</h5>
-                <h5><strong>Codice Fiscale:</strong> {{ user.cf }}</h5>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        <div class="flex-grow-1 ps-3">
+          <h4>
+            <strong> Terapeuta Associato: </strong>
+          </h4>
+          <h5>{{ ass.nome }} {{ ass.cognome }}</h5>
 
-      <div class="row">
-        <div class="col-lg-4">
-          <!-- inizio card clienti associati -->
-          <div v-if="user.ruolo == 2" class="stacca card mb-4">
-            <h3 class="clienti-associati">
-              <strong> Clienti Associati</strong>
-            </h3>
-            <div class="card-body">
-              <div class="d-flex align-items-center">
-                <div class="flex-shrink-0">
-                  <img
-                    class="avatar avatar-lg p-1"
-                    src="../assets/profilePic.webp"
-                    alt="foto profilo"
-                  />
-                </div>
-                <div class="flex-grow-1 ps-3">
-                  <h4>Tizietto Caietto</h4>
-                  <button class="btn btn-outline-dark btn-sm" >
-                    Visita Profilo
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- fine card clienti associati -->
+          <router-link
+            :to="{ name: 'profiloId', params: { id: `${ass._id}` } }"
+          >
+            <button v-if="isAssociato" class="btn btn-outline-dark btn-sm">
+              Visita Profilo
+            </button></router-link
+          >
+          <button @click="allertaDissocia" class="btn btn-outline-dark btn-sm">Dissocia</button>
         </div>
       </div>
     </div>
@@ -88,63 +30,62 @@
 </template>
 
 <script>
-//importing bootstrap 5 Modules
-import "bootstrap/dist/css/bootstrap.min.css";
 import { defineComponent } from "vue";
-import NavBarVue from "@/components/NavBar.vue";
-import CardAssociati from "@/components/CardAssociati.vue";
+import Swal from "sweetalert2";
 
 export default defineComponent({
-  components: { NavBarVue, CardAssociati },
-  name: "ProfileView",
-  props: {
-    msg: String,
-  },
-
+  name: "CardAssociati",
+  props: { ruolo: Number },
   data() {
     return {
-      user: {},
-      ass:{}, 
-      isAssociato:false,
+      ass: {},
+      isAssociato:false
     };
   },
-  methods: {
-    async logout() {
-      console.log("sei dentro il logout");
+  methods:{allertaDissocia() {
+      Swal.fire({
+        title: "Sei sicuro di voler procere?",
+        text: `Se clicchi su "continua" non potrai più prenotare sedute con ${this.user.nome.toUpperCase()} ${this.user.cognome.toUpperCase()} `,
+        showCancelButton: true,
+        confirmButtonText: "Continua",
+        cancelButtonText: "Cancella",
+        confirmButtonColor: "#5b6c53",
+        customClass: {
+          confirmButton: "conferma",
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.disassocia();
+        }
+      });
+    },
+
+    async disassocia() {
+      console.log("associato: " + this.associato);
+      console.log("ti stai disassociando");
       const token = sessionStorage.getItem("token");
-      console.log("token al momento del logout: " + token);
       const opzioniRichiesta = {
         method: "GET",
         headers: {
-          "Content-Type": "application/json",
           "x-access-token": token,
         },
       };
+      const param = this.$route.params.id;
 
       try {
-        const res = await fetch(
-          `${process.env.VUE_APP_ROOT_API}/logout`,
+        const response = await fetch(
+          `${process.env.VUE_APP_ROOT_API}/associazione/rimuovi/${param}`,
           opzioniRichiesta
         );
-        if (!res.ok) {
-          throw new Error("User not found");
-        }
-        const data = await res.json();
-        console.log(data);
-        if (data.successful) {
-          await this.$store.commit("removeState");
-          console.log("get item" + sessionStorage.getItem("user"));
-          this.$router.push("/");
-        }
+        const informazioni = await response.json();
+        console.log(informazioni.successful);
+        this.isAssociato = false;
+        console.log("associazione dopo: " + this.associato);
       } catch (error) {
         console.log(error);
       }
-    },
-
-    
-
-  },
-
+    },},
+  setup() {},
   async mounted() {
     const token = sessionStorage.getItem("token");
 
@@ -154,6 +95,8 @@ export default defineComponent({
         "x-access-token": token,
       },
     };
+
+    //loggeduser
 
     try {
       const response = await fetch(
@@ -169,23 +112,15 @@ export default defineComponent({
       this.user = informazioni["profile"];
       console.log(this.user._id);
       this.user.data_nascita = this.user.data_nascita.slice(0, 10);
-      if(this.user.associato != ""){
-        this.isAssociato=true
+      if (this.user.associato != "") {
+        this.isAssociato = true;
       }
-
-
-
-
-
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
     }
 
+//associato
 
-
-   //info terapeuti
-
-   
     try {
       const response = await fetch(
         `${process.env.VUE_APP_ROOT_API}/profilo/${this.user.associato}`,
@@ -202,35 +137,89 @@ export default defineComponent({
       
       this.ass=dati["profilo"];
       console.log(this.ass)
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
     }
-
-
-    //   const res = await fetch(
-    //     `http://localhost:3001/api/v1/il_mio_profilo`,
-    //     opzioniRichiesta
-    //   );
-    //   const data = await res.json();
-    //   console.log(data.successful);
-
-    //   console;
-    //   //const utente = JSON.parse(atob(data.token.split(".")[1]));
-    //   // console.log("utente: " + utente.username);
-    //   console.log("utente: " + store.getters.returnUser);
-    // },
-    // data() {
-    //   return {
-    //     user: store.getters.returnUser,
-    //     error: {
-    //       status: false,
-    //       messaggio: "Messaggio di default.",
-    //     },
-    //   };
-
   },
 });
 </script>
+
+
+<!-- <script>
+import { defineComponent } from "vue"
+import "bootstrap/dist/css/bootstrap.min.css";
+
+
+export default defineComponent({
+  name: "CardAssociati",
+  props:{ruolo:Number},
+  data() {
+    return {
+      user: {},
+      ass: {},
+      isAssociato: false,
+    };
+  },
+  methods() {},
+//   async mounted() {
+//     const token = sessionStorage.getItem("token");
+
+//     const opzioniRichiesta = {
+//       method: "GET",
+//       headers: {
+//         "x-access-token": token,
+//       },
+//     };
+
+//     //loggeduser
+
+//     try {
+//       const response = await fetch(
+//         `${process.env.VUE_APP_ROOT_API}/il_mio_profilo`,
+//         opzioniRichiesta
+//       );
+
+//       const informazioni = await response.json();
+//       console.log(informazioni);
+//       console.log(
+//         "utente: " + JSON.stringify(informazioni["profile"]["ruolo"])
+//       );
+//       this.user = informazioni["profile"];
+//       console.log(this.user._id);
+//       this.user.data_nascita = this.user.data_nascita.slice(0, 10);
+//       if (this.user.associato != "") {
+//         this.isAssociato = true;
+//       }
+//     } catch (err) {
+//       console.log(err);
+//     }
+
+// //associato
+
+//     try {
+//       const response = await fetch(
+//         `${process.env.VUE_APP_ROOT_API}/profilo/${this.user.associato}`,
+//         opzioniRichiesta
+//       );
+
+//       console.log("terapeuta associato: "+this.user.associato)
+
+//       const dati = await response.json();
+//       console.log(JSON.stringify(dati));
+
+//       console.log("stampa del profilooooo");
+//       console.log(dati["successful"]);
+      
+//       this.ass=dati["profilo"];
+//       console.log(this.ass)
+//     } catch (err) {
+//       console.log(err);
+//     }
+//   },
+//
+ });
+</script> -->
+
 
 <style scoped>
 .grassetto {
@@ -523,4 +512,3 @@ svg {
   padding-right: 10px;
 }
 </style>
- 

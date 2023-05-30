@@ -25,18 +25,25 @@
       Calendario
     </button></router-link
   >
+  <CardAssociati class="associati" :ruolo="user.ruolo"></CardAssociati>
+
   <div class="sedute">
     <SedutePrenotate :ruolo="user.ruolo" class="prenotate"></SedutePrenotate>
   </div>
+  <div class="diario">
+
+  <CardDiario class="card" ></CardDiario></div>
 </template>
 
 <script>
 import { defineComponent } from "vue";
 import NavBarVue from "@/components/NavBar.vue";
 import SedutePrenotate from "@/components/SedutePrenotate.vue";
+import CardAssociati from "@/components/CardAssociati.vue";
+import CardDiario from "@/components/CardDiario.vue";
 
 export default defineComponent({
-  components: { NavBarVue, SedutePrenotate },
+  components: { NavBarVue, SedutePrenotate, CardAssociati, CardDiario },
   data() {
     return {
       user: {},
@@ -78,4 +85,14 @@ export default defineComponent({
   background-color: white;
   color: black;
 }
+
+.associati{
+  width: 500px;
+  margin-top: 20px ;
+}
+
+.diario{
+  margin:auto auto;
+}
+
 </style>
