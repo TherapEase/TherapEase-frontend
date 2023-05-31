@@ -17,6 +17,7 @@ import NuovasedutaView from  "../views/NuovasedutaView.vue"
 import PrenotasedutaView from "../views/PrenotasedutaView.vue"
 import CalendarioView from "../views/CalendarioView.vue"
 import PasswordRecoveryView from "../views/PasswordRecoveryView.vue"
+import DiarioViewVue from '@/views/DiarioView.vue';
 
 const routes = [
   {
@@ -102,9 +103,15 @@ const routes = [
     component: CalendarioView
   },
   {
+
     path: '/recupero_password',
     name: 'recuperopassword',
     component: PasswordRecoveryView
+   },
+  {
+    path: '/diario',
+    name: 'diario',
+    component: DiarioViewVue
   }
 ]
 

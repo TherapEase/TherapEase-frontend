@@ -57,6 +57,8 @@ export default defineComponent({
     };
   },
 
+  
+
   methods: {
     async getUserInfo(token) {
       const opzioniRichiesta = {
