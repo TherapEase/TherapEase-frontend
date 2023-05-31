@@ -1,6 +1,5 @@
 <template>
     <div class="container">
-        <h2><strong>Il tuo diario:</strong></h2>
 
         <div class="center"></div>
   <label  for="data"
@@ -11,13 +10,14 @@
     ><strong>Scrivi il tuo diario:</strong><br />
     <input class="testo" v-model="pagina.testo" type="text"
   /></label>
-  <button class="btn btn-outline-dark size " @click="scriviPagina" >Invia</button>
+  <button class="btn btn-outline-dark size " @click="AlertScriviPagina" >Invia</button>
 </div>
 </template>
 
 
 <script>
 import { defineComponent } from "vue";
+import Swal from "sweetalert2";
 
 export default defineComponent({
   name: "CardDiario",
@@ -31,6 +31,11 @@ export default defineComponent({
     };
   },
   methods: {
+    AlertScriviPagina(){
+      Swal.fire('Success')
+      this.scriviPagina()
+      
+    },
     async scriviPagina() {
       console.log(JSON.stringify(this.pagina));
       const token = sessionStorage.getItem("token");

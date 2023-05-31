@@ -51,46 +51,7 @@ export default {
       :time="false"
       :events="events"
       active-view="day"
-      style="height: 250px"
     />
   </div>
 </template>
 
-<style scoped>
-.vuecal__title {
-  background-color: #2b3a24;
-}
-.calendario {
-  background-color: #f4f6f4;
-}
-.vuecal__menu,
-.vuecal__cell-events-count {
-  background-color: #e4f5ef;
-}
-.vuecal__title-bar {
-  background-color: #2b3a24;
-}
-.vuecal__cell--current {
-  background: none;
-}
-.vuecal:not(.vuecal--day-view) .vuecal__cell--selected {
-  background-color: #e4f5ef;
-}
-.vuecal__cell--selected:before {
-  border-color: #e4f5ef;
-}
-/* Cells and buttons get highlighted when an event is dragged over it. */
-.vuecal__cell--highlighted:not(.vuecal__cell--has-splits),
-.vuecal__cell-split--highlighted {
-  background: none;
-}
-.vuecal__arrow.vuecal__arrow--highlighted,
-.vuecal__view-btn.vuecal__view-btn--highlighted {
-  background-color: #e4f5ef;
-}
-</style>
-
-<!-- .calendario{
-  background-color: #f8f8f8cc;
-
-} -->

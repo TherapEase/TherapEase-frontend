@@ -1,25 +1,6 @@
 <template>
   <NavBarVue />
-  <div v-if="user.ruolo == 2 || user.ruolo == 1">
-    <h1>
-      <strong>Ciao, {{ user.nome }}</strong>
-    </h1>
-    <router-link to="/nuovaseduta"
-      ><button
-        class="btn sfondo btn-outline-dark btn-sm"
-        v-if="user.ruolo == 2"
-      >
-        Inserisci seduta
-      </button></router-link
-    >
-    <router-link to="/prenotaseduta"
-      ><button
-        v-if="user.ruolo == 1"
-        class="btn sfondo btn-outline-dark btn-sm"
-      >
-        Prenota seduta
-      </button></router-link
-    >
+   
 
   <h1>
     <strong>Ciao, {{ user.nome }}</strong>
@@ -34,6 +15,8 @@
       Prenota seduta
     </button></router-link
   >
+  <router-link to="/diario"> <button class="btn sfondo btn-outline-dark btn-sm" v-if="user.ruolo == 1"  >Diario</button></router-link>
+
 
   <router-link to="/prenotaseduta"
     ><button v-if="user.ruolo == 2" class="btn sfondo btn-outline-dark btn-sm">
@@ -50,12 +33,9 @@
   <div class="sedute">
     <SedutePrenotate :ruolo="user.ruolo" class="prenotate"></SedutePrenotate>
   </div>
-  <div class="diario">
-
-  <CardDiario class="card" ></CardDiario></div>
+ 
 
 
-  <router-link to="/diario"> <button>Diario</button></router-link>
 
 
 </template>
@@ -65,10 +45,9 @@ import { defineComponent } from "vue";
 import NavBarVue from "@/components/NavBar.vue";
 import SedutePrenotate from "@/components/SedutePrenotate.vue";
 import CardAssociati from "@/components/CardAssociati.vue";
-import CardDiario from "@/components/CardDiario.vue";
 
 export default defineComponent({
-  components: { NavBarVue, SedutePrenotate, CardAssociati, CardDiario },
+  components: { NavBarVue, SedutePrenotate, CardAssociati },
   data() {
     return {
       user: {},
