@@ -1,75 +1,45 @@
 <template>
   <NavBarVue />
-<div v-if="user.ruolo == 2 || user.ruolo == 1">
-  <h1>
-    <strong>Ciao, {{ user.nome }}</strong>
-  </h1>
-  <router-link to="/nuovaseduta"
-    ><button class="btn sfondo btn-outline-dark btn-sm" v-if="user.ruolo == 2">
-      Inserisci seduta
-    </button></router-link
-  >
-  <router-link to="/prenotaseduta"
-    ><button v-if="user.ruolo == 1" class="btn sfondo btn-outline-dark btn-sm">
-      Prenota seduta
-    </button></router-link
-  >
+  <div v-if="user.ruolo == 2 || user.ruolo == 1">
+    <h1>
+      <strong>Ciao, {{ user.nome }}</strong>
+    </h1>
+    <router-link to="/nuovaseduta"
+      ><button
+        class="btn sfondo btn-outline-dark btn-sm"
+        v-if="user.ruolo == 2"
+      >
+        Inserisci seduta
+      </button></router-link
+    >
+    <router-link to="/prenotaseduta"
+      ><button
+        v-if="user.ruolo == 1"
+        class="btn sfondo btn-outline-dark btn-sm"
+      >
+        Prenota seduta
+      </button></router-link
+    >
 
-  <router-link to="/prenotaseduta"
-    ><button v-if="user.ruolo == 2" class="btn sfondo btn-outline-dark btn-sm">
-      Visualizza slot
-    </button></router-link
-  >
-  <router-link to="/calendario"
-    ><button class="btn sfondo btn-outline-dark btn-sm">
-      Calendario
-    </button></router-link
-  >
-  <div class="sedute">
-    <SedutePrenotate :ruolo="user.ruolo" class="prenotate"></SedutePrenotate>
-  </div>
-</div>
-
-<div v-if="user.ruolo == 4">
-  
-  <div class="terapeuti">
-
-    <li v-for="terapeuta in terapeuti" :key="terapeuta._id">
-                    
-    <div class="riga"><img src="../assets/profilePic.webp" alt="foto profilo" width="100">
-      <div class="colonna"><h2>{{ terapeuta.nome }} {{ terapeuta.cognome }}</h2>
-      <button class="rimozione_forzata">Rimuovi profilo</button></div>
-        
-      </div></li>
-
-  </div>
-
-  <div class="clienti">
-    <li v-for="cliente in clienti" :key="cliente._id">
-                    
-      <div class="riga"><img src="../assets/profilePic.webp" alt="foto profilo" width="100">
-        <div class="colonna"><h2>{{ cliente.nome }} {{ cliente.cognome }}</h2>
-        <button class="rimozione_forzata">Rimuovi profilo</button></div>
-        
-        </div></li>
-  </div>
-
-  <div class="segnalazioni">
-    <li v-for="segnalazione in segnalazioni" :key="segnalazione._id">
-    <div v-if="segnalazione.gestita==false">
-      <div class="riga"><img src="../assets/profilePic.webp" alt="foto profilo" width="100">
-        <div class="colonna"><h2>{{ segnalazione.testo }} {{ segnalazione.segnalato }} {{ segnalazione.data }}</h2>
-        <button class="gestione_segnalazione" @click="gestisci_segnalazione">Gestisci Segnalazione</button></div>
+    <router-link to="/prenotaseduta"
+      ><button
+        v-if="user.ruolo == 2"
+        class="btn sfondo btn-outline-dark btn-sm"
+      >
+        Visualizza slot
+      </button></router-link
+    >
+    <router-link to="/calendario"
+      ><button class="btn sfondo btn-outline-dark btn-sm">
+        Calendario
+      </button></router-link
+    >
+    <div class="sedute">
+      <SedutePrenotate :ruolo="user.ruolo" class="prenotate"></SedutePrenotate>
     </div>
-    </div></li>
   </div>
 
-
-
-
-</div>
-
-
+  <router-link to="/diario"> <button>Diario</button></router-link>
 </template>
 
 <script>
@@ -85,15 +55,11 @@ export default defineComponent({
       userRuolo: 1,
       terapeuti: [],
       clienti: [],
-      segnalazioni: []
+      segnalazioni: [],
     };
   },
   async mounted() {
-
-    
     const token = sessionStorage.getItem("token");
-
-
 
     const options = {
       method: "GET",
@@ -110,7 +76,6 @@ export default defineComponent({
     console.log(JSON.stringify(dati));
     this.user = dati["profile"];
     this.userRuolo = this.user.ruolo;
-
 
     //catalogo terapeuti
 
@@ -138,7 +103,6 @@ export default defineComponent({
       console.log(error);
     }
 
-
     //catalogo clienti
 
     try {
@@ -165,7 +129,6 @@ export default defineComponent({
       console.log(error);
     }
 
-
     //catalogo segnalazioni
 
     try {
@@ -173,13 +136,12 @@ export default defineComponent({
         `${process.env.VUE_APP_ROOT_API}/segnalazione/catalogo_segnalazioni`,
         {
           method: "GET",
-          headers: { 
+          headers: {
             "Content-Type": "application/json",
-            "token":token
+            token: token,
           },
         }
       );
-
 
       console.log(response["successful"]);
 
@@ -196,22 +158,25 @@ export default defineComponent({
     }
   },
 
-  async gestisci_segnalazione(){
-    const token=sessionStorage.getItem("token");
+  async gestisci_segnalazione() {
+    const token = sessionStorage.getItem("token");
 
-    const options={
+    const options = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         "x-access-token": token,
       },
     };
-    const param = this.$route.params.id
-    const res = await fetch(`${process.env.VUE_APP_ROOT_API}/segnalazione/gestisci/${param}`, options)
-    const i = await res.json()
-    console.log(i.successful)
-    console.log("gestita: "+JSON.stringify(i))
-  }
+    const param = this.$route.params.id;
+    const res = await fetch(
+      `${process.env.VUE_APP_ROOT_API}/segnalazione/gestisci/${param}`,
+      options
+    );
+    const i = await res.json();
+    console.log(i.successful);
+    console.log("gestita: " + JSON.stringify(i));
+  },
 });
 </script>
 
