@@ -9,7 +9,10 @@
             <li v-for="segnalazione in segnalazioni" :key="segnalazione._id">
             <div class="riga"><img src="../assets/profilePic.webp" alt="foto profilo" width="100">
                 <div class="colonna"><h2>{{ segnalazione.testo }} {{ segnalazione.segnalato }} {{ segnalazione.data }}</h2>
-                <button class="gestione_segnalazione" @click="gestisci_segnalazione">Gestisci Segnalazione</button></div>
+            </div>
+            <button v-on:click="gestisci_segnalazione">
+                Gestisci
+            </button>
             </div></li>
         </div>
       </form>
@@ -58,23 +61,34 @@
       console.log(error);
     }
     },
+    methods: {
+        async gestisci_segnalazione(){
+            const token=sessionStorage.getItem("token");
+            console.log("token in gestione: "+token)
 
-    async gestisci_segnalazione(){
-    const token=sessionStorage.getItem("token");
+            const options={
+                method: "GET",
+                headers: { 
+                    "Content-Type": "application/json",
+                    "x-access-token": token
+                },
+            };
+            const param = this.$route.params.id
 
-    const options={
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": token
-      },
-    };
-    const param = this.$route.params.id
-    const res = await fetch(`${process.env.VUE_APP_ROOT_API}/segnalazione/gestisci/${param}`, options)
-    const i = await res.json()
-    console.log(i.successful)
-    console.log("gestita: "+JSON.stringify(i))
-  }
+            try{
+                const res = await fetch(
+                    `${process.env.VUE_APP_ROOT_API}/segnalazione/gestisci/${param}`, 
+                    options
+                )
+                const i = await res.json()
+                console.log(i.successful)
+                console.log("gestita: "+JSON.stringify(i))
+            } catch(error) {
+                console.log(error);
+            }
+            }
+    }
+    
   });
   </script>
   
@@ -139,6 +153,7 @@
     color:white;
     border-radius: 0.5em;
     border-color: black;
+    max-height: 35px;
   }
   
   </style>
