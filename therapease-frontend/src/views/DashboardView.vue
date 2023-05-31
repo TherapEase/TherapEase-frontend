@@ -21,34 +21,54 @@
       </button></router-link
     >
 
-    <router-link to="/prenotaseduta"
-      ><button
-        v-if="user.ruolo == 2"
-        class="btn sfondo btn-outline-dark btn-sm"
-      >
-        Visualizza slot
-      </button></router-link
-    >
-    <router-link to="/calendario"
-      ><button class="btn sfondo btn-outline-dark btn-sm">
-        Calendario
-      </button></router-link
-    >
-    <div class="sedute">
-      <SedutePrenotate :ruolo="user.ruolo" class="prenotate"></SedutePrenotate>
-    </div>
+  <h1>
+    <strong>Ciao, {{ user.nome }}</strong>
+  </h1>
+  <router-link to="/nuovaseduta"
+    ><button class="btn sfondo btn-outline-dark btn-sm" v-if="user.ruolo == 2">
+      Inserisci seduta
+    </button></router-link
+  >
+  <router-link to="/prenotaseduta"
+    ><button v-if="user.ruolo == 1" class="btn sfondo btn-outline-dark btn-sm">
+      Prenota seduta
+    </button></router-link
+  >
+
+  <router-link to="/prenotaseduta"
+    ><button v-if="user.ruolo == 2" class="btn sfondo btn-outline-dark btn-sm">
+      Visualizza slot
+    </button></router-link
+  >
+  <router-link to="/calendario"
+    ><button class="btn sfondo btn-outline-dark btn-sm">
+      Calendario
+    </button></router-link
+  >
+  <CardAssociati class="associati" :ruolo="user.ruolo"></CardAssociati>
+
+  <div class="sedute">
+    <SedutePrenotate :ruolo="user.ruolo" class="prenotate"></SedutePrenotate>
   </div>
+  <div class="diario">
+
+  <CardDiario class="card" ></CardDiario></div>
+
 
   <router-link to="/diario"> <button>Diario</button></router-link>
+
+
 </template>
 
 <script>
 import { defineComponent } from "vue";
 import NavBarVue from "@/components/NavBar.vue";
 import SedutePrenotate from "@/components/SedutePrenotate.vue";
+import CardAssociati from "@/components/CardAssociati.vue";
+import CardDiario from "@/components/CardDiario.vue";
 
 export default defineComponent({
-  components: { NavBarVue, SedutePrenotate },
+  components: { NavBarVue, SedutePrenotate, CardAssociati, CardDiario },
   data() {
     return {
       user: {},
@@ -192,4 +212,14 @@ export default defineComponent({
   background-color: white;
   color: black;
 }
+
+.associati{
+  width: 500px;
+  margin-top: 20px ;
+}
+
+.diario{
+  margin:auto auto;
+}
+
 </style>
