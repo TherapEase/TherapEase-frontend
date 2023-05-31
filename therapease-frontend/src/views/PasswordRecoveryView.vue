@@ -49,8 +49,8 @@ export default defineComponent({
         return{
             utente:{
                 username: "",
-                mail: "",
-                cf: ""
+                email_address: "",
+                codice_fiscale: ""
             },
             error:{
                 status:false,
