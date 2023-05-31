@@ -12,7 +12,7 @@
   import FullCalendar from "@/components/FullCalendar.vue"
   
   export default defineComponent({
-    components: { NavBarVue, FullCalendar},
+    components: { NavBarVue, FullCalendar },
     name: "ProfileView",
     props: {
       msg: String,
