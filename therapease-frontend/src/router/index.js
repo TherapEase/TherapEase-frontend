@@ -16,6 +16,7 @@ import ChangepasswordView from "../views/ChangepasswordView.vue"
 import NuovasedutaView from  "../views/NuovasedutaView.vue"
 import PrenotasedutaView from "../views/PrenotasedutaView.vue"
 import CalendarioView from "../views/CalendarioView.vue"
+import PasswordRecoveryView from "../views/PasswordRecoveryView.vue"
 
 const routes = [
   {
@@ -100,6 +101,11 @@ const routes = [
     name: 'calendario',
     component: CalendarioView
   },
+  {
+    path: '/recupero_password',
+    name: 'recuperopassword',
+    component: PasswordRecoveryView
+  }
 ]
 
 const router = createRouter({
@@ -109,7 +115,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   // redirect to login page if not logged in and trying to access a restricted page
-  const publicPages = ['/', '/login', '/registrazione', '/chisiamo', '/catalogo', '/offerta'];
+  const publicPages = ['/', '/login', '/registrazione', '/chisiamo', '/catalogo', '/offerta', '/recupero_password'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = sessionStorage.getItem('user');
   console.log(loggedIn)
