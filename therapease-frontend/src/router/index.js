@@ -16,6 +16,8 @@ import ChangepasswordView from "../views/ChangepasswordView.vue"
 import NuovasedutaView from  "../views/NuovasedutaView.vue"
 import PrenotasedutaView from "../views/PrenotasedutaView.vue"
 import CalendarioView from "../views/CalendarioView.vue"
+import CatalogoclientiView from "../views/CatalogoclientiView.vue"
+import CatalogosegnalazioniView from "../views/CatalogosegnalazioniView.vue"
 
 const routes = [
   {
@@ -100,6 +102,16 @@ const routes = [
     name: 'calendario',
     component: CalendarioView
   },
+  {
+    path: '/clienti',
+    name: 'clienti',
+    component: CatalogoclientiView
+  },
+  {
+    path: '/segnalazioni',
+    name: 'segnalazioni',
+    component: CatalogosegnalazioniView
+  }
 ]
 
 const router = createRouter({

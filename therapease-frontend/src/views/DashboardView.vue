@@ -2,7 +2,7 @@
   <NavBarVue />
 <div v-if="user.ruolo == 2 || user.ruolo == 1">
   <h1>
-    <strong>Ciao, {{ user.nome }}</strong>
+    <strong>Ciao, {{ user.name }}</strong>
   </h1>
   <router-link to="/nuovaseduta"
     ><button class="btn sfondo btn-outline-dark btn-sm" v-if="user.ruolo == 2">
@@ -32,36 +32,26 @@
 
 <div v-if="user.ruolo == 4">
   
-  <div class="terapeuti">
-
-    <li v-for="terapeuta in terapeuti" :key="terapeuta._id">
-                    
-    <div class="riga"><img src="../assets/profilePic.webp" alt="foto profilo" width="100">
-      <div class="colonna"><h2>{{ terapeuta.nome }} {{ terapeuta.cognome }}</h2>
-      <button class="rimozione_forzata">Rimuovi profilo</button></div>
-        
-      </div></li>
+  <div class="job-list">
+    <h4>Terapeuti</h4>
+    <router-link to="/catalogo">
+      <button class="rimozione_forzata"> Visualizza</button>
+    </router-link>
 
   </div>
 
-  <div class="clienti">
-    <li v-for="cliente in clienti" :key="cliente._id">
-                    
-      <div class="riga"><img src="../assets/profilePic.webp" alt="foto profilo" width="100">
-        <div class="colonna"><h2>{{ cliente.nome }} {{ cliente.cognome }}</h2>
-        <button class="rimozione_forzata">Rimuovi profilo</button></div>
-        
-        </div></li>
+  <div class="job-list">
+    <h4>Clilenti: </h4>   
+    <router-link to="/clienti">
+      <button class="rimozione_forzata"> Visualizza</button>
+    </router-link>
   </div>
 
-  <div class="segnalazioni">
-    <li v-for="segnalazione in segnalazioni" :key="segnalazione._id">
-    <div v-if="segnalazione.gestita==false">
-      <div class="riga"><img src="../assets/profilePic.webp" alt="foto profilo" width="100">
-        <div class="colonna"><h2>{{ segnalazione.testo }} {{ segnalazione.segnalato }} {{ segnalazione.data }}</h2>
-        <button class="gestione_segnalazione" @click="gestisci_segnalazione">Gestisci Segnalazione</button></div>
-    </div>
-    </div></li>
+  <div class="job-list">
+    <h4>Segnalazioni: </h4>   
+    <router-link to="/segnalazioni">
+      <button class="rimozione_forzata"> Visualizza</button>
+    </router-link>
   </div>
 
 
@@ -99,7 +89,7 @@ export default defineComponent({
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "x-access-token": token,
+        "x-access-token": token
       },
     };
     const response = await fetch(
@@ -119,17 +109,17 @@ export default defineComponent({
         `${process.env.VUE_APP_ROOT_API}/catalogo_terapeuti`,
         {
           method: "GET",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json" }
         }
       );
 
-      console.log(response["successful"]);
+      console.log(response["successful"])
 
       // if (!response.successful) {
       //   throw new Error("Unable to get user");
       // }
-      const informazioni = await response.json();
-      console.log(informazioni);
+      const informazioni = await response.json()
+      console.log(informazioni)
       console.log("catalogo: " + JSON.stringify(informazioni["catalogo"]));
 
       this.terapeuti = informazioni["catalogo"];
@@ -146,7 +136,7 @@ export default defineComponent({
         `${process.env.VUE_APP_ROOT_API}/catalogo_clienti`,
         {
           method: "GET",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json" }
         }
       );
 
@@ -203,7 +193,7 @@ export default defineComponent({
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "x-access-token": token,
+        "x-access-token": token
       },
     };
     const param = this.$route.params.id
@@ -217,6 +207,72 @@ export default defineComponent({
 
 
 <style  scoped>
+.riga {
+  display: flex;
+  flex-direction: row;
+}
+
+img {
+  margin-right: 30px;
+  margin-left: 30px;
+}
+
+.colonna {
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  width: 130px;
+}
+
+h1 {
+  font-weight: bold;
+  text-align: center;
+  padding-top: 30px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.job-list {
+  max-width: 960px;
+  margin: 40px auto;
+}
+
+.job-list ul {
+  padding: 0;
+}
+
+.job-list li {
+  list-style-type: none;
+  background: white;
+  padding: 16px;
+  margin: 16px 0;
+  border-radius: 1em;
+}
+
+.job-list h2 {
+  margin: 0 0 10px;
+  text-transform: capitalize;
+  font-weight: bold;
+}
+
+.job-list h4 {
+  margin: 0 0 10px;
+  text-transform: capitalize;
+  font-weight: bold;
+}
+
+
+.list-move {
+  transition: all 1s;
+}
+
+.rimozione_forzata{
+  background-color:#2b3a24;
+  color:white;
+  border-radius: 0.5em;
+  border-color: black;
+}
 .sfondo {
   background-color: white;
   margin-left: 10px;
