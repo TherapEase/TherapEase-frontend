@@ -33,7 +33,7 @@
 <div v-if="user.ruolo == 4">
   
   <div class="job-list">
-    <h4>Terapeuti</h4>
+    <h4>Terapeuti:</h4>
     <router-link to="/catalogo">
       <button class="rimozione_forzata"> Visualizza</button>
     </router-link>

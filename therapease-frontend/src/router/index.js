@@ -18,6 +18,7 @@ import PrenotasedutaView from "../views/PrenotasedutaView.vue"
 import CalendarioView from "../views/CalendarioView.vue"
 import CatalogoclientiView from "../views/CatalogoclientiView.vue"
 import CatalogosegnalazioniView from "../views/CatalogosegnalazioniView.vue"
+import SegnalazioneView from "../views/SegnalazioneView.vue"
 
 const routes = [
   {
@@ -111,6 +112,11 @@ const routes = [
     path: '/segnalazioni',
     name: 'segnalazioni',
     component: CatalogosegnalazioniView
+  },
+  {
+    path: '/compila_segnalazione',
+    name: 'compila_segnalazione',
+    component: SegnalazioneView
   }
 ]
 

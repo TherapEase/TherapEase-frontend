@@ -32,6 +32,13 @@
                 >
                   Disassocia
                 </button>
+
+                <router-link to="/compila_segnalazione">
+                  <button class="btn btn-outline-dark btn-sm">
+                  Segnala
+                </button>
+                </router-link>
+
               </div>
             </div>
           </div>
@@ -217,6 +224,10 @@ export default defineComponent({
         console.log(error);
       }
     },
+
+    
+
+
   },
 });
 </script>

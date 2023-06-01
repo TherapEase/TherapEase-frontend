@@ -10,7 +10,7 @@
             <div class="riga"><img src="../assets/profilePic.webp" alt="foto profilo" width="100">
                 <div class="colonna"><h2>{{ segnalazione.testo }} {{ segnalazione.segnalato }} {{ segnalazione.data }}</h2>
             </div>
-            <button v-on:click="gestisci_segnalazione">
+            <button v-on:click="gestisci_segnalazione(segnalazione._id)">
                 Gestisci
             </button>
             </div></li>
@@ -29,6 +29,7 @@
     data() {
       return {
         segnalazioni: []
+
       };
     },
     async mounted() {
@@ -62,7 +63,7 @@
     }
     },
     methods: {
-        async gestisci_segnalazione(){
+        async gestisci_segnalazione(id){
             const token=sessionStorage.getItem("token");
             console.log("token in gestione: "+token)
 
@@ -73,11 +74,10 @@
                     "x-access-token": token
                 },
             };
-            const param = this.$route.params.id
 
             try{
                 const res = await fetch(
-                    `${process.env.VUE_APP_ROOT_API}/segnalazione/gestisci/${param}`, 
+                    `${process.env.VUE_APP_ROOT_API}/segnalazione/gestisci/${id}`, 
                     options
                 )
                 const i = await res.json()
