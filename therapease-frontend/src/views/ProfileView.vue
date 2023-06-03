@@ -29,6 +29,13 @@
                 type="submit"
                 @click.stop="logout"
               />
+
+              <input
+                class="btn btn-outline-dark btn-sm"
+                value="Elimina"
+                type="submit"
+                @click.stop="elimina"
+              />
             </div>
           </div>
           <!-- inizio card terapeuta associato -->
@@ -140,7 +147,26 @@ export default defineComponent({
         console.log(error);
       }
     },
+    async elimina(){
+      const token = sessionStorage.getItem("token")
+      const opzioniRichiesta={
+        method: 'DELETE',
+        headers:{
+          "Content-Type":"application/json",
+          "x-access-token": token
+        }
+      }
 
+      try {
+        const res = await fetch(`${process.env.VUE_APP_ROOT_API}/il_mio_profilo/elimina`,opzioniRichiesta)
+        const data = await res.json()
+        if(data.successful){
+          this.$router.push("/")
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
     
 
   },
