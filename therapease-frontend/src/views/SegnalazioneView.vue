@@ -1,6 +1,6 @@
 <template>
-    <h1 class="titolo">Registrazione</h1>
-    <p>Entra a far parte della community: inserisci le tue informazioni.</p>
+    <h1 class="titolo">Segnalazioni</h1>
+    <p>Facci sapere che cosa non va</p>
     <form @submit.prevent>
       <fieldset>
         <label for="testo"
@@ -23,7 +23,7 @@
             required
         /></label>
       </fieldset>
-      <input value="Invia segnalazione" type="submit" @click.stop="sendForm" />
+      <input value="Invia segnalazione" type="submit" @click.stop="segnala()" />
     </form>
   </template>
   
@@ -46,7 +46,7 @@
       };
     },
     methods: {
-      async sendForm() {
+      async segnala(id) {
         const token = sessionStorage.getItem('token')
         console.log("il token è: "+token)
         console.log("sei dentro la funzione :))))");
@@ -59,10 +59,10 @@
             },
           body: JSON.stringify(this.segnalazione),
         };
-        const param = this.$route.params.id;
+        
         try {
             const res = await fetch(
-              `${process.env.VUE_APP_ROOT_API}/segnalazione/${param}`,
+              `${process.env.VUE_APP_ROOT_API}/segnalazione/${id}`,
               options
             );
             data = await res.json();

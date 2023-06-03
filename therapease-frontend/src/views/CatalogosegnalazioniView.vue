@@ -10,7 +10,7 @@
             <div class="riga"><img src="../assets/profilePic.webp" alt="foto profilo" width="100">
                 <div class="colonna"><h2>{{ segnalazione.testo }} {{ segnalazione.segnalato }} {{ segnalazione.data }}</h2>
             </div>
-            <button v-on:click="gestisci_segnalazione(segnalazione._id)">
+            <button @click.prevent="gestisci_segnalazione(segnalazione._id)">
                 Gestisci
             </button>
             </div></li>
@@ -62,13 +62,17 @@
       console.log(error);
     }
     },
+
     methods: {
+
+      //gestione segnalazioni
         async gestisci_segnalazione(id){
             const token=sessionStorage.getItem("token");
+            console.log("stai gestendo la segnalazione")
             console.log("token in gestione: "+token)
 
             const options={
-                method: "GET",
+                method: "POST",
                 headers: { 
                     "Content-Type": "application/json",
                     "x-access-token": token
