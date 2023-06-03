@@ -39,6 +39,7 @@
     },
     data() {
       return {
+        user: {},
         segnalazione: {
           testo: "",
           data: "",
@@ -46,30 +47,60 @@
       };
     },
     methods: {
-      async segnala(id) {
-        const token = sessionStorage.getItem('token')
+      async segnala() {
+      const token = sessionStorage.getItem('token')
+      const opzioniRichiesta = {
+      method: "GET",
+      headers: {
+        "x-access-token": token,
+      },
+    };
         console.log("il token è: "+token)
         console.log("sei dentro la funzione :))))");
-        var data;
-        const options = {
-          method: "POST",
-          headers: { 
-            "x-access-token": token,
-            "Content-Type": "application/json" 
-            },
-          body: JSON.stringify(this.segnalazione),
-        };
-        
+
+        //my profilo per prendere il terapeuta associato
         try {
-            const res = await fetch(
-              `${process.env.VUE_APP_ROOT_API}/segnalazione/${id}`,
-              options
-            );
-            data = await res.json();
-            console.log(data);
-        } catch (error) {
-          console.log(error);
-        }
+          const response = await fetch(
+            `${process.env.VUE_APP_ROOT_API}/il_mio_profilo`,
+            opzioniRichiesta
+          );
+          const informazioni = await response.json();
+          const teraAssociato = informazioni["profile"]["associato"]
+
+          if (teraAssociato != "") {
+            console.log("sei associato con: " + teraAssociato);
+            this.isAssociato = true;
+          }
+          
+
+        var info;
+          const options = {
+            method: "POST",
+            headers: { 
+              "x-access-token": token,
+              "Content-Type": "application/json" 
+              },
+            body: JSON.stringify(this.segnalazione),
+          };
+          
+          try {
+            console.log("stai inviando la segnalazione")
+              const res = await fetch(
+                `${process.env.VUE_APP_ROOT_API}/segnalazione/${teraAssociato}`,
+                options
+              );
+              info = await res.json();
+              console.log(info);
+          } catch (error) {
+            console.log(error);
+          }
+
+      } catch (error) {
+        console.log(error);
+      }
+
+
+        
       },
     },
   });
