@@ -1,8 +1,119 @@
 <template>
   <NavBarVue />
-   
+  <div class="contenitore">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="stacca card mb-4">
+        <div class="card-header">
+          <h1>
+            <strong>Ciao, {{ user.nome }}</strong>
+          </h1>
+        </div>
+        <div class="card-body">
+          Bentornato su TherapEase!
+          <br />
 
-  <h1>
+          <router-link to="/prenotaseduta"
+            ><button
+              v-if="user.ruolo == 1"
+              class="two btn btn-outline-dark size btn-sm"
+            >
+              Prenota seduta
+            </button></router-link
+          >
+
+          <br />
+
+          <router-link to="/diario">
+            <button
+              v-if="user.ruolo == 1"
+              class="btn  btn-outline-dark size btn-sm"
+            >
+              Diario
+            </button></router-link
+          >
+
+          <br />
+         
+
+          <router-link to="/prenotaseduta"
+            ><button
+              v-if="user.ruolo == 2"
+              class="btn tera  btn-outline-dark size btn-sm"
+            >
+              Visualizza slot
+            </button></router-link
+          >
+
+          <br />
+
+          <router-link to="/calendario"
+            ><button class="btn tera btn-outline-dark size btn-sm">
+              Calendario
+            </button></router-link
+          >
+          <br>
+
+          <router-link to="/nuovaseduta"
+          ><button
+            class="btn tera size btn-outline-dark btn-sm"
+            v-if="user.ruolo == 2"
+          >
+            Inserisci seduta
+          </button></router-link
+        >
+        <br />
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6">
+      <div class="stacca card mb-4">
+        <div class="card-header">
+          <h1>
+            <strong>Le tue prossime sedute</strong>
+          </h1>
+        </div>
+        <div class="card-body">
+          <div class="sedute">
+            <SedutePrenotate
+              :ruolo="user.ruolo"
+              class="prenotate"
+            ></SedutePrenotate>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card mb-4">
+        <!-- <div class="card-body">
+          <h1>
+            <strong>Terapeuta associato</strong>
+          </h1> -->
+        <CardAssociati class="associati" :ruolo="user.ruolo"></CardAssociati>
+      </div>
+      <!-- </div>-->
+    </div>
+
+    <div v-if="user.ruolo == 1" class="col-sm-6">
+      <div class="card mb-4">
+        <div class="card-header">
+          <h1>
+            <strong> Il tuo diario terapeutico</strong>
+          </h1>
+        </div>
+        <div class="card-body">
+          <diario-terapeutico></diario-terapeutico>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- <h1>
     <strong>Ciao, {{ user.nome }}</strong>
   </h1>
   <router-link to="/nuovaseduta"
@@ -34,10 +145,7 @@
     <SedutePrenotate :ruolo="user.ruolo" class="prenotate"></SedutePrenotate>
   </div>
  
-
-
-
-
+ -->
 </template>
 
 <script>
@@ -45,9 +153,11 @@ import { defineComponent } from "vue";
 import NavBarVue from "@/components/NavBar.vue";
 import SedutePrenotate from "@/components/SedutePrenotate.vue";
 import CardAssociati from "@/components/CardAssociati.vue";
+import DiarioTerapeutico from "@/components/DiarioTerapeutico.vue";
 
 export default defineComponent({
-  components: { NavBarVue, SedutePrenotate, CardAssociati },
+  components: { NavBarVue, SedutePrenotate, CardAssociati, DiarioTerapeutico },
+  //components: { SedutePrenotate, NavBarVue },
   data() {
     return {
       user: {},
@@ -192,13 +302,320 @@ export default defineComponent({
   color: black;
 }
 
-.associati{
+.associati {
   width: 500px;
-  margin-top: 20px ;
+  margin-top: 20px;
 }
 
-.diario{
-  margin:auto auto;
+.diario {
+  margin: auto auto;
+}
+.grassetto {
+  font-size: 40px;
+  color: rgb(37, 66, 37);
+  font-family: Tahoma;
+  font-weight: bold;
+}
+.card-header:first-child {
+  border-radius: calc(1rem - 1px) calc(1rem - 1px) 0 0;
+}
+.card-header {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  position: relative;
+  padding: 2rem 2rem;
+  border-bottom: none;
+  background-color: white;
+  box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%);
+  z-index: 2;
+  font-weight: bold;
+}
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: none;
+  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
+  border-radius: 1rem;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.bg-gray-100 {
+  background-color: #f8f9fa !important;
+}
+body {
+  font-family: Tahoma;
+}
+.text-primary {
+  color: #4650dd !important;
+}
+h3 {
+  font-size: small;
+}
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4,
+h5,
+.h5,
+h6,
+.h6 {
+  line-height: 1.2;
+}
+.text-muted {
+  color: #6c757d !important;
 }
 
+.lead {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 1.125rem;
+  font-weight: 300;
+}
+.text-sm {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 0.7875rem;
+}
+
+.page-holder {
+  display: flex;
+  overflow-x: hidden;
+  width: 100%;
+  min-height: calc(100vh - 72px);
+
+  flex-wrap: wrap;
+}
+a {
+  color: #4650dd;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.card-profile-img {
+  position: center;
+  max-width: 8rem;
+  margin-top: -6rem;
+  margin-bottom: 1rem;
+  border: 3px solid #fff;
+  border-radius: 100%;
+  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
+  z-index: 2;
+}
+img,
+svg {
+  vertical-align: middle;
+}
+.avatar.avatar-lg {
+  width: 5rem;
+  height: 5rem;
+  line-height: 5rem;
+}
+.avatar {
+  display: inline-block;
+  position: relative;
+  width: 3rem;
+  height: 3rem;
+  text-align: center;
+  border: #dee2e6;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
+  line-height: 3rem;
+}
+.col-lg-8 {
+  margin-top: 1em;
+}
+.form-control {
+  color: #343a40;
+}
+.page-heading {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 300;
+}
+.contentDiv {
+  padding-top: 4rem;
+}
+.card-profile .card-header {
+  height: 9rem;
+  background-position: center center;
+  background-size: cover;
+
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 10px;
+}
+
+.clienti-associati {
+  font-size: 40px;
+  color: rgb(37, 66, 37);
+  font-family: Tahoma;
+  font-weight: bold;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.stacca {
+  margin-top: 1em;
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.grassetto {
+  font-size: 40px;
+  color: rgb(37, 66, 37);
+  font-family: Tahoma;
+  font-weight: bold;
+}
+.card-header:first-child {
+  border-radius: calc(1rem - 1px) calc(1rem - 1px) 0 0;
+}
+.card-header {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  position: relative;
+  padding: 2rem 2rem;
+  border-bottom: none;
+  background-color: white;
+  box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%);
+  z-index: 2;
+  font-weight: bold;
+}
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: none;
+  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
+  border-radius: 1rem;
+}
+.bg-gray-100 {
+  background-color: #f8f9fa !important;
+}
+body {
+  font-family: Tahoma;
+}
+.text-primary {
+  color: #4650dd !important;
+}
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4,
+h5,
+.h5,
+h6,
+.h6 {
+  line-height: 1.2;
+}
+.text-muted {
+  color: #6c757d !important;
+}
+
+.lead {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 1.125rem;
+  font-weight: 300;
+}
+.text-sm {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 0.7875rem;
+}
+
+.page-holder {
+  display: flex;
+  overflow-x: hidden;
+  width: 100%;
+  min-height: calc(100vh - 72px);
+
+  flex-wrap: wrap;
+}
+a {
+  color: #4650dd;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.card-profile-img {
+  position: relative;
+  max-width: 8rem;
+  margin-top: -6rem;
+  margin-bottom: 1rem;
+  border: 3px solid #fff;
+  border-radius: 100%;
+  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
+  z-index: 2;
+}
+img,
+svg {
+  vertical-align: middle;
+}
+.avatar.avatar-lg {
+  width: 5rem;
+  height: 5rem;
+  line-height: 5rem;
+}
+.avatar {
+  display: inline-block;
+  position: relative;
+  width: 3rem;
+  height: 3rem;
+  text-align: center;
+  border: #dee2e6;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
+  line-height: 3rem;
+}
+.form-control {
+  color: #343a40;
+}
+.page-heading {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 300;
+}
+.contentDiv {
+  padding-top: 4rem;
+}
+.card-profile .card-header {
+  height: 9rem;
+  background-position: center center;
+  background-size: cover;
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 10px;
+}
+
+.size {
+  width: 600px;
+  height: 50px;
+}
+
+.two {
+  margin-bottom: 20px;
+}
+
+.contenitore{
+  width:98%
+}
+.tera{
+  margin-bottom: 10px;
+}
 </style>
+ 
