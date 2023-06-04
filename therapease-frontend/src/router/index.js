@@ -93,11 +93,13 @@ const routes = [
     path: '/changepassword',
     name: 'changepassword',
     component: ChangepasswordView
-  },{
+  },
+  {
     path: '/nuovaseduta',
     name: 'nuovaseduta',
     component: NuovasedutaView
-  },{
+  },
+  {
     path: '/prenotaseduta',
     name: 'prenotaseduta',
     component: PrenotasedutaView
@@ -121,8 +123,8 @@ const routes = [
     path: '/compila_segnalazione',
     name: 'compila_segnalazione',
     component: SegnalazioneView
-
-
+  },
+  {
     path: '/recupero_password',
     name: 'recuperopassword',
     component: PasswordRecoveryView

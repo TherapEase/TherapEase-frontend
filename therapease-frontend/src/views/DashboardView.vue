@@ -2,9 +2,6 @@
   <NavBarVue />
 
 <div v-if="user.ruolo == 2 || user.ruolo == 1">
-  <h1>
-    <strong>Ciao, {{ user.name }}</strong>
-
   <div class="contenitore">
   <div class="row">
     <div class="col-sm-6">
@@ -125,7 +122,7 @@
  
 </div>
 
-  <!-- <h1>
+   <h1>
     <strong>Ciao, {{ user.nome }}</strong>
 
   </h1>
