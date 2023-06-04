@@ -93,8 +93,11 @@
           <h1>
             <strong>Terapeuta associato</strong>
           </h1> -->
+        <div v-if="user.ruolo==2" class="card-header"><h1><strong>I tuoi clienti</strong></h1></div>
         <CardAssociati class="associati" :ruolo="user.ruolo"></CardAssociati>
+        <ClientiAssociati style="width: 90%; margin: auto auto" v-if="user.ruolo==2"></ClientiAssociati>
       </div>
+
       <!-- </div>-->
     </div>
 
@@ -111,6 +114,8 @@
       </div>
     </div>
   </div>
+
+ 
 </div>
 
   <!-- <h1>
@@ -154,9 +159,10 @@ import NavBarVue from "@/components/NavBar.vue";
 import SedutePrenotate from "@/components/SedutePrenotate.vue";
 import CardAssociati from "@/components/CardAssociati.vue";
 import DiarioTerapeutico from "@/components/DiarioTerapeutico.vue";
+import ClientiAssociati from "@/components/ClientiAssociati.vue";
 
 export default defineComponent({
-  components: { NavBarVue, SedutePrenotate, CardAssociati, DiarioTerapeutico },
+  components: { NavBarVue, SedutePrenotate, CardAssociati, DiarioTerapeutico, ClientiAssociati },
   //components: { SedutePrenotate, NavBarVue },
   data() {
     return {
