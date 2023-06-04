@@ -1,18 +1,27 @@
 <template>
-    <h1 class="titolo">Segnalazioni</h1>
-    <p>Facci sapere che cosa non va</p>
+    <h1 class="titolo">Recensioni</h1>
+    <p>Facci sapere la tua opinione!</p>
     <form @submit.prevent>
       <fieldset>
-        <label for="testo"
-          >Motivo della segnalazione
+        <label for="voto"
+          >Esprimi un vot da 1 a 5
           <input
-            v-model="segnalazione.testo"
+            v-model="recensione.voto"
+            id="voto"
+            name="voto"
+            type="number"
+            required
+        /></label>
+        <label for="testo"
+          >Motivazione
+          <input
+            v-model="recensione.testo"
             id="testo"
             name="testo"
             type="text"
             required
         /></label>
-        <label for="data"
+        <!--label for="data"
           >Quando è avvenuto l'episodio?:
           <input
             v-model="segnalazione.data"
@@ -21,9 +30,9 @@
             type="date"
             pattern="[a-z0-5]{8,}"
             required
-        /></label>
+        /></label-->
       </fieldset>
-      <input value="Invia segnalazione" type="submit" @click.stop="segnala()" />
+      <input value="Invia segnalazione" type="submit" @click.stop="recensisci()" />
     </form>
   </template>
   
@@ -33,21 +42,23 @@
   import { defineComponent } from "vue";
   
   export default defineComponent({
-    name: "RegistrationView",
+    name: "RecensioneView",
     props: {
       msg: String,
     },
     data() {
       return {
         user: {},
-        segnalazione: {
+        recensione: {
           testo: "",
-          data: "",
+          voto: "",
+          data: ""
         },
       };
     },
     methods: {
-      async segnala() {
+      async recensisci() {
+      this.data = new Date()
       const token = sessionStorage.getItem('token')
       const opzioniRichiesta = {
       method: "GET",
@@ -72,7 +83,7 @@
             this.isAssociato = true;
           }
           
-//segnalazione
+
         var info;
           const options = {
             method: "POST",
@@ -80,22 +91,17 @@
               "x-access-token": token,
               "Content-Type": "application/json" 
               },
-            body: JSON.stringify(this.segnalazione),
+            body: JSON.stringify(this.recensione),
           };
           
           try {
-            console.log("stai inviando la segnalazione")
+            console.log("stai inviando la recensione")
               const res = await fetch(
-                `${process.env.VUE_APP_ROOT_API}/segnalazione/${teraAssociato}`,
+                `${process.env.VUE_APP_ROOT_API}/recensione/${teraAssociato}`,
                 options
               );
               info = await res.json();
               console.log(info);
-
-              if(info.successful) {
-                this.$router.push("/dashboard");
-              }
-
           } catch (error) {
             console.log(error);
           }

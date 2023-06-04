@@ -60,7 +60,11 @@
             </div>
             <div class="card mb-4">
               <h3 class="recensioni"><strong>Recensioni</strong></h3>
-              <button class="recensione">Scrivi una recensione</button>
+              <router-link to="/recensisci">
+                  <button class="btn btn-outline-dark btn-sm">
+                  Scrivi una recensione
+                </button>
+                </router-link>
               <div class="card-body">
                 <li v-for="recensione in recensioni" :key="recensione._id">
                     
@@ -288,6 +292,7 @@ export default defineComponent({
   border-radius: 0.5em;
   border-color: black;
   max-height: 35px;
+  max-width: 70px;
 }
 .recensioni {
   font-size: 40px;
