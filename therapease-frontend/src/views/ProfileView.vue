@@ -36,7 +36,7 @@
 
           <!-- fine card terapeuta associato -->
         </div>
-        <div class="col-lg-8">
+        <div class="col-sm-6">
           <div class="card overflow-hidden mb-4">
             <div class="card-header">
               <h4 class="grassetto">Il mio profilo</h4>
@@ -57,7 +57,7 @@
 
       <div class="row">
         <div class="col-lg-4">
-          <!-- inizio card clienti associati -->
+          <!-- inizio card clienti associati 
           <div v-if="user.ruolo == 2" class="stacca card mb-4">
             <h3 class="clienti-associati">
               <strong> Clienti Associati</strong>
@@ -80,7 +80,7 @@
               </div>
             </div>
           </div>
-          <!-- fine card clienti associati -->
+         fine card clienti associati -->
         </div>
       </div>
     </div>
