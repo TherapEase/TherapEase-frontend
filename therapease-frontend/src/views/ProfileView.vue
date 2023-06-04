@@ -1,13 +1,11 @@
 <template>
   <div>
-    <div>
-      <div>
-        <NavBarVue />
-      </div>
-      <div class="contenitore">
-
-      <div class="row">
-        <div class="col-lg-4">
+    <NavBarVue />
+  </div>
+  <div class="contenitore">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="col">
           <div class="stacca card card-profile mb-4">
             <div class="card-header" style="background-image"></div>
             <div class="card-body text-center">
@@ -38,79 +36,98 @@
                 @click.stop="alertElimina"
               />
             </div>
+            
+            
+
+
+
+            
           </div>
-          <!-- inizio card terapeuta associato -->
 
-          <CardAssociati v-if="user.ruolo==1" class=" stacca associati" :ruolo="user.ruolo"></CardAssociati>
+            <div v-if="user.ruolo == 1" class="stacca card mb-4">
+              <CardAssociati
+                class="associati"
+                :ruolo="user.ruolo"
+              ></CardAssociati>
+            </div>
+          <!-- <div class="col-sm-6"> -->
+            <div v-if="user.ruolo == 2" class="stacca card mb-4">
+              <h3 class="clienti-associati">
+                <strong> Clienti Associati</strong>
+              </h3>
+              <div class="card-body">
+                <div class="d-flex align-items-center">
+                  <ClientiAssociati style="width: 90%"></ClientiAssociati>
+                </div>
+              </div>
+            </div>
+          <!-- </div> -->
 
+              <GettoniView class="stacca"></GettoniView>
+            </div>
+        <!-- inizio card terapeuta associato -->
 
-          <!-- fine card terapeuta associato -->
-        </div>
-        <div class="col-sm-6">
-          <div class="card stacca overflow-hidden mb-4">
+        <!-- <CardAssociati v-if="user.ruolo==1" class=" stacca associati" :ruolo="user.ruolo"></CardAssociati> -->
+
+        <!-- fine card terapeuta associato -->
+      </div>
+
+      <div class="col-sm-6">
+        <div class="col">
+          <div class="card stacca mb-4">
             <div class="card-header">
-              <h4 class="grassetto">Il mio profilo</h4>
-              <div class="informazioni">
-                <h5><strong>Username:</strong> {{ this.user.username }}</h5>
-                <h5><strong>Nome:</strong> {{ this.user.nome }}</h5>
-                <h5><strong>Cognome:</strong> {{ user.cognome }}</h5>
-                <h5>
-                  <strong>Data Di Nascita:</strong> {{ user.data_nascita }}
-                </h5>
-                <h5><strong>Email:</strong> {{ user.email }}</h5>
-                <h5><strong>Codice Fiscale:</strong> {{ user.cf }}</h5>
-              </div>
+              <h4 class="grassetto">Il mio profilo personale</h4>
+            </div>
+
+            <div class="informazioni card-body">
+              <h5><strong>Username:</strong> {{ this.user.username }}</h5>
+              <h5><strong>Nome:</strong> {{ this.user.nome }}</h5>
+              <h5><strong>Cognome:</strong> {{ user.cognome }}</h5>
+              <h5><strong>Data Di Nascita:</strong> {{ user.data_nascita }}</h5>
+              <h5><strong>Email:</strong> {{ user.email }}</h5>
+              <h5><strong>Codice Fiscale:</strong> {{ user.cf }}</h5>
             </div>
           </div>
         </div>
-      </div>
-
-      <div class="row">
-
-        <div class="col-sm-4">
-          <div class=" stacca card mb-4">
-            <!-- <div class="card-body">
-              <h1>
-                <strong>Terapeuta associato</strong>
-              </h1> -->
-              <CardAssociati class="associati" :ruolo="user.ruolo"></CardAssociati>
-            </div>
-            <!-- </div>-->
+        <div v-if="user.ruolo == 2" class="stacca card mb-4">
+          <div class="card-header">
+            <h4 class="grassetto">Le mie recensioni</h4>
           </div>
 
-        <div class=" col-sm-4">
-          <!-- inizio card clienti associati -->
-
-          <div v-if="user.ruolo == 2" class="stacca card mb-4">
-            <h3 class="clienti-associati">
-              <strong> Clienti Associati</strong>
-            </h3>
-            <div class="card-body">
-              <div class="d-flex align-items-center">
-               
-                
-                <ClientiAssociati></ClientiAssociati>
-
-
-
-
-
-
-
-              </div>
-            </div>
+          <div class="card-body">
+            <CardRecensioni></CardRecensioni>
           </div>
         </div>
-      </div>
-
-      <div class="row">
-          <!-- inizio card gettoni cliente -->
-          <div class="  col-sm-4">
-          <GettoniView class="stacca"></GettoniView></div>
-          <!-- fine card gettoni cliente -->
-      </div>
       </div>
     </div>
+
+    <!-- <div class="col">
+      <div class="col-sm-4">
+        <div v-if="user.ruolo == 1" class="stacca card mb-4">
+         
+          <CardAssociati class="associati" :ruolo="user.ruolo"></CardAssociati>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <div v-if="user.ruolo == 2" class="stacca card mb-4">
+          <h3 class="clienti-associati">
+            <strong> Clienti Associati</strong>
+          </h3>
+          <div class="card-body">
+            <div class="d-flex align-items-center">
+              <ClientiAssociati style="width: 90%"></ClientiAssociati>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-4">
+        <GettoniView class="stacca"></GettoniView>
+      </div>
+    </div> -->
   </div>
 </template>
 
@@ -121,13 +138,20 @@ import { defineComponent } from "vue";
 import NavBarVue from "@/components/NavBar.vue";
 import CardAssociati from "@/components/CardAssociati.vue";
 import GettoniView from "@/components/GettoniView.vue";
+import ClientiAssociati from "@/components/ClientiAssociati.vue";
+import CardRecensioni from "@/components/CardRecensioni.vue";
 
 import Swal from "sweetalert2";
-import ClientiAssociati from "@/components/ClientiAssociati.vue";
-
 
 export default defineComponent({
-  components: { NavBarVue, CardAssociati, GettoniView, ClientiAssociati },
+  components: {
+    NavBarVue,
+    CardAssociati,
+    GettoniView,
+    ClientiAssociati,
+    CardRecensioni,
+  },
+  
   name: "ProfileView",
   props: {
     msg: String,
@@ -136,9 +160,9 @@ export default defineComponent({
   data() {
     return {
       user: {},
-      ass:{}, 
+      ass: {},
       // clienti_associati:[],
-      isAssociato:false,
+      isAssociato: false,
     };
   },
   methods: {
@@ -174,8 +198,7 @@ export default defineComponent({
       }
     },
 
-
-    alertElimina(){
+    alertElimina() {
       Swal.fire({
         title: "Sei sicuro di voler procere?",
         text: `Se clicchi su "continua" il tuo account verrà eliminato`,
@@ -191,32 +214,31 @@ export default defineComponent({
           this.elimina();
         }
       });
-
     },
 
-    async elimina(){
-      const token = sessionStorage.getItem("token")
-      const opzioniRichiesta={
-        method: 'DELETE',
-        headers:{
-          "Content-Type":"application/json",
-          "x-access-token": token
-        }
-      }
+    async elimina() {
+      const token = sessionStorage.getItem("token");
+      const opzioniRichiesta = {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": token,
+        },
+      };
 
       try {
-        const res = await fetch(`${process.env.VUE_APP_ROOT_API}/il_mio_profilo/elimina`,opzioniRichiesta)
-        const data = await res.json()
-        if(data.successful){
-          this.$router.push("/")
+        const res = await fetch(
+          `${process.env.VUE_APP_ROOT_API}/il_mio_profilo/elimina`,
+          opzioniRichiesta
+        );
+        const data = await res.json();
+        if (data.successful) {
+          this.$router.push("/");
         }
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-    }
-
-    
-
+    },
   },
 
   async mounted() {
@@ -243,41 +265,34 @@ export default defineComponent({
       this.user = informazioni["profile"];
       console.log(this.user._id);
       this.user.data_nascita = this.user.data_nascita.slice(0, 10);
-      if(this.user.associato != ""){
-        this.isAssociato=true
+      if (this.user.associato != "") {
+        this.isAssociato = true;
       }
-
-
-
-
-
     } catch (error) {
       console.log(error);
     }
 
+    //info terapeuti
+    if (this.user.ruolo) {
+      try {
+        const response = await fetch(
+          `${process.env.VUE_APP_ROOT_API}/profilo/${this.user.associato}`,
+          opzioniRichiesta
+        );
 
+        console.log("terapeuta associato: " + this.user.associato);
 
-   //info terapeuti
+        const dati = await response.json();
+        console.log(JSON.stringify(dati));
 
-   
-    try {
-      const response = await fetch(
-        `${process.env.VUE_APP_ROOT_API}/profilo/${this.user.associato}`,
-        opzioniRichiesta
-      );
+        console.log("stampa del profilooooo");
+        console.log(dati["successful"]);
 
-      console.log("terapeuta associato: "+this.user.associato)
-
-      const dati = await response.json();
-      console.log(JSON.stringify(dati));
-
-      console.log("stampa del profilooooo");
-      console.log(dati["successful"]);
-      
-      this.ass=dati["profilo"];
-      console.log(this.ass)
-    } catch (error) {
-      console.log(error);
+        this.ass = dati["profilo"];
+        console.log(this.ass);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     //get info clienti
@@ -288,23 +303,22 @@ export default defineComponent({
         `http://localhost:3001/api/v1/catalogo_associati`,
         {
           method: "GET",
-          headers: { 
+          headers: {
             "Content-Type": "application/json",
-            "x-access-token": token
+            "x-access-token": token,
           },
         }
       );
       const dati = await response.json();
       console.log(JSON.stringify(dati));
       console.log("catalogo: " + JSON.stringify(dati["catalogo"]));
-      this.clienti_associati = dati["catalogo"]
+      this.clienti_associati = dati["catalogo"];
       console.log(dati["successful"]);
-      
-      console.log(this.clienti_associati)
+
+      console.log(this.clienti_associati);
     } catch (error) {
       console.log(error);
     }
-
 
     //   const res = await fetch(
     //     `http://localhost:3001/api/v1/il_mio_profilo`,
@@ -326,13 +340,12 @@ export default defineComponent({
     //       messaggio: "Messaggio di default.",
     //     },
     //   };
-
   },
 });
 </script>
 
 <style scoped>
-.contenitore{
+.contenitore {
   width: 99%;
 }
 .grassetto {

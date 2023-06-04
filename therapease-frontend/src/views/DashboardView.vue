@@ -3,159 +3,132 @@
 
 <div v-if="user.ruolo == 2 || user.ruolo == 1">
   <div class="contenitore">
-  <div class="row">
-    <div class="col-sm-6">
-      <div class="stacca card mb-4">
-        <div class="card-header">
-          <h1>
-            <strong>Ciao, {{ user.nome }}</strong>
-          </h1>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="col">
+          <div class="stacca card mb-4">
+            <div class="card-header">
+              <h1>
+                <strong>Ciao, {{ user.nome }}</strong>
+              </h1>
+            </div>
+            <div class="card-body">
+              Bentornato su TherapEase!
+              <br />
+
+              <router-link to="/prenotaseduta"
+                ><button
+                  v-if="user.ruolo == 1"
+                  class="two btn btn-outline-dark size btn-sm"
+                >
+                  Prenota seduta
+                </button></router-link
+              >
+
+              <br />
+
+              <router-link to="/diario">
+                <button
+                  v-if="user.ruolo == 1"
+                  class="btn btn-outline-dark size btn-sm"
+                >
+                  Diario
+                </button></router-link
+              >
+
+              <br />
+
+              <router-link to="/prenotaseduta"
+                ><button
+                  v-if="user.ruolo == 2"
+                  class="btn tera btn-outline-dark size btn-sm"
+                >
+                  Visualizza slot
+                </button></router-link
+              >
+
+              <br />
+
+              <router-link to="/calendario"
+                ><button class="btn tera btn-outline-dark size btn-sm">
+                  Calendario
+                </button></router-link
+              >
+              <br />
+
+              <router-link to="/nuovaseduta"
+                ><button
+                  class="btn tera size btn-outline-dark btn-sm"
+                  v-if="user.ruolo == 2"
+                >
+                  Inserisci seduta
+                </button></router-link
+              >
+              <br />
+            </div>
+          </div>
         </div>
-        <div class="card-body">
-          Bentornato su TherapEase!
-          <br />
-
-          <router-link to="/prenotaseduta"
-            ><button
-              v-if="user.ruolo == 1"
-              class="two btn btn-outline-dark size btn-sm"
-            >
-              Prenota seduta
-            </button></router-link
-          >
-
-          <br />
-
-          <router-link to="/diario">
-            <button
-              v-if="user.ruolo == 1"
-              class="btn  btn-outline-dark size btn-sm"
-            >
-              Diario
-            </button></router-link
-          >
-
-          <br />
-         
-
-          <router-link to="/prenotaseduta"
-            ><button
-              v-if="user.ruolo == 2"
-              class="btn tera  btn-outline-dark size btn-sm"
-            >
-              Visualizza slot
-            </button></router-link
-          >
-
-          <br />
-
-          <router-link to="/calendario"
-            ><button class="btn tera btn-outline-dark size btn-sm">
-              Calendario
-            </button></router-link
-          >
-          <br>
-
-          <router-link to="/nuovaseduta"
-          ><button
-            class="btn tera size btn-outline-dark btn-sm"
-            v-if="user.ruolo == 2"
-          >
-            Inserisci seduta
-          </button></router-link
-        >
-        <br />
-        </div>
-      </div>
-    </div>
-
-    <div class="col-sm-6">
-      <div class="stacca card mb-4">
-        <div class="card-header">
-          <h1>
-            <strong>Le tue prossime sedute</strong>
-          </h1>
-        </div>
-        <div class="card-body">
-          <div class="sedute">
-            <SedutePrenotate
+        <div class="col">
+          <div class="card mb-4">
+            <div v-if="user.ruolo == 2" class="card-header">
+              <h1><strong>I tuoi clienti</strong></h1>
+            </div>
+            <CardAssociati
+              class="associati"
+              profile="dashboard"
               :ruolo="user.ruolo"
-              class="prenotate"
-            ></SedutePrenotate>
+            ></CardAssociati>
+            <ClientiAssociati
+              style="width: 90%; margin: auto auto"
+              v-if="user.ruolo == 2"
+            ></ClientiAssociati>
+          </div>
+        </div>
+
+        <gettoni-view></gettoni-view>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="col">
+          <div class="stacca card mb-4">
+            <div class="card-header">
+              <h1>
+                <strong>Le tue prossime sedute</strong>
+              </h1>
+            </div>
+            <div class="card-body">
+              <div class="sedute">
+                <SedutePrenotate
+                  :ruolo="user.ruolo"
+                  class="prenotate"
+                ></SedutePrenotate>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div v-if="user.ruolo == 1">
+            <div class="card mb-4">
+              <div class="card-header">
+                <h1>
+                  <strong> Il tuo diario terapeutico</strong>
+                </h1>
+              </div>
+              <div class="card-body">
+                <diario-terapeutico style="width: 90%"></diario-terapeutico>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-sm-6">
-      <div class="card mb-4">
-        <!-- <div class="card-body">
-          <h1>
-            <strong>Terapeuta associato</strong>
-          </h1> -->
-
-        <div v-if="user.ruolo==2" class="card-header"><h1><strong>I tuoi clienti</strong></h1></div>
-        <CardAssociati class="associati" profile="dashboard" :ruolo="user.ruolo"></CardAssociati>
-        <ClientiAssociati style="width: 90%; margin: auto auto" v-if="user.ruolo==2"></ClientiAssociati>
-      </div>
-
-  
-    </div>
-
-
-    <div v-if="user.ruolo == 1" class="col-sm-6">
-      <div class="card mb-4">
-        <div class="card-header">
-          <h1>
-            <strong> Il tuo diario terapeutico</strong>
-          </h1>
-        </div>
-        <div class="card-body">
-          <diario-terapeutico style="width: 90%"></diario-terapeutico>
-        </div>
-      </div>
-    </div>
-  </div>
 
  
 </div>
 
-   <h1>
-    <strong>Ciao, {{ user.nome }}</strong>
 
-  </h1>
-  <router-link to="/nuovaseduta"
-    ><button class="btn sfondo btn-outline-dark btn-sm" v-if="user.ruolo == 2">
-      Inserisci seduta
-    </button></router-link
-  >
-  <router-link to="/prenotaseduta"
-    ><button v-if="user.ruolo == 1" class="btn sfondo btn-outline-dark btn-sm">
-      Prenota seduta
-    </button></router-link
-  >
-  <router-link to="/diario"> <button class="btn sfondo btn-outline-dark btn-sm" v-if="user.ruolo == 1"  >Diario</button></router-link>
-
-
-  <router-link to="/prenotaseduta"
-    ><button v-if="user.ruolo == 2" class="btn sfondo btn-outline-dark btn-sm">
-      Visualizza slot
-    </button></router-link
-  >
-  <router-link to="/calendario"
-    ><button class="btn sfondo btn-outline-dark btn-sm">
-      Calendario
-    </button></router-link
-  >
-  <CardAssociati class="associati" :ruolo="user.ruolo"></CardAssociati>
-
-  <div class="sedute">
-    <SedutePrenotate :ruolo="user.ruolo" class="prenotate"></SedutePrenotate>
-  </div>
-
-</div>
 
 <div v-if="user.ruolo == 4">
   
@@ -188,6 +161,7 @@
 
 
 
+
 </template>
 
 <script>
@@ -197,9 +171,17 @@ import SedutePrenotate from "@/components/SedutePrenotate.vue";
 import CardAssociati from "@/components/CardAssociati.vue";
 import DiarioTerapeutico from "@/components/DiarioTerapeutico.vue";
 import ClientiAssociati from "@/components/ClientiAssociati.vue";
+import GettoniView from "@/components/GettoniView.vue";
 
 export default defineComponent({
-  components: { NavBarVue, SedutePrenotate, CardAssociati, DiarioTerapeutico, ClientiAssociati },
+  components: {
+    NavBarVue,
+    SedutePrenotate,
+    CardAssociati,
+    DiarioTerapeutico,
+    ClientiAssociati,
+    GettoniView,
+  },
   //components: { SedutePrenotate, NavBarVue },
   data() {
     return {
@@ -720,10 +702,10 @@ svg {
   margin-bottom: 20px;
 }
 
-.contenitore{
-  width:98%
+.contenitore {
+  width: 98%;
 }
-.tera{
+.tera {
   margin-bottom: 10px;
 }
 </style>
