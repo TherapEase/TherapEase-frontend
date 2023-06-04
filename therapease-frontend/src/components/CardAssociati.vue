@@ -1,5 +1,5 @@
 <template>
-  <div v-if="ruolo == 1" class="card mb-4">
+  <div v-if="ruolo == 1 && isAssociato" class="card mb-4">
     <div class="card-body">
       <div class="d-flex align-items-center">
         <div class="flex-shrink-0">

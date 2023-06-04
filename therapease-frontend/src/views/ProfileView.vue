@@ -30,6 +30,13 @@
                 type="submit"
                 @click.stop="logout"
               />
+
+              <input
+                class="btn btn-outline-dark btn-sm"
+                value="Elimina"
+                type="submit"
+                @click.stop="elimina"
+              />
             </div>
           </div>
           <!-- inizio card terapeuta associato -->
@@ -37,7 +44,7 @@
 
           <!-- fine card terapeuta associato -->
         </div>
-        <div class="col-lg-8">
+        <div class="col-sm-6">
           <div class="card overflow-hidden mb-4">
             <div class="card-header">
               <h4 class="grassetto">Il mio profilo</h4>
@@ -57,8 +64,10 @@
       </div>
 
       <div class="row">
+
         <div class=" col-sm-4">
           <!-- inizio card clienti associati -->
+
           <div v-if="user.ruolo == 2" class="stacca card mb-4">
             <h3 class="clienti-associati">
               <strong> Clienti Associati</strong>
@@ -81,7 +90,7 @@
               </div>
             </div>
           </div>
-          <!-- fine card clienti associati -->
+         fine card clienti associati -->
         </div>
       </div>
 
@@ -150,7 +159,26 @@ export default defineComponent({
         console.log(error);
       }
     },
+    async elimina(){
+      const token = sessionStorage.getItem("token")
+      const opzioniRichiesta={
+        method: 'DELETE',
+        headers:{
+          "Content-Type":"application/json",
+          "x-access-token": token
+        }
+      }
 
+      try {
+        const res = await fetch(`${process.env.VUE_APP_ROOT_API}/il_mio_profilo/elimina`,opzioniRichiesta)
+        const data = await res.json()
+        if(data.successful){
+          this.$router.push("/")
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
     
 
   },
