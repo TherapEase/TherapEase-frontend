@@ -53,12 +53,15 @@
                   <h5>
                     <strong>Data Di Nascita:</strong> {{ user.data_nascita }}
                   </h5>
-                  <h5><strong>Email:</strong> {{ user.email }}</h5>
-                  <h5><strong>Sede:</strong> {{ user.indirizzo }}</h5>
+                  <div v-if="user.ruolo == 2">
+                    <h4>Informazioni Professionali</h4>
+                    <h5><strong>Email:</strong> {{ user.email }}</h5>
+                    <h5><strong>Sede:</strong> {{ user.indirizzo }}</h5>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="card mb-4">
+            <div v-if="user.ruolo == 2" class="card mb-4">
               <h3 class="recensioni"><strong>Recensioni</strong></h3>
               <button class="recensione">Scrivi una recensione</button>
               <div class="card-body">

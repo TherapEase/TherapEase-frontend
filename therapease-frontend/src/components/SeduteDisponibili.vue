@@ -4,7 +4,7 @@
         <div class="colonna">
           <h2 class="fontsize">
             <strong>Data: </strong>{{ seduta.data.slice(0, 10) }},
-            <strong>Ore: </strong>{{ seduta.data.slice(11, 16) }}
+            <strong>Ore: </strong>{{ new Date(seduta.data).getHours() }}:{{ seduta.data.slice(14,16) }}
           </h2>
           <h3 class="fontsize" v-if="presenza">{{ seduta.indirizzo }}</h3>
           <h3 v-if="!presenza">Online</h3>

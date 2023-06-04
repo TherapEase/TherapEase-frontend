@@ -14,9 +14,13 @@ export default {
       calendarOptions: {
         plugins: [dayGridPlugin, interactionPlugin],
         initialView: "dayGridMonth",
+        headerToolbar: {
+          left: "prev,next",
+          center: "title",
+          right: "dayGridMonth,dayGridWeek",
+        },
         dateClick: this.handleDateClick,
         events: [],
-       
       },
     };
   },
@@ -36,12 +40,20 @@ export default {
     );
 
     const dati = await response.json();
-   
+
     const dim = dati["sedute"].length;
-    
+
     for (let i = 0; i < dim; i++) {
       this.calendarOptions.events.push({
-        title: dati["sedute"][i]["data"].slice(12, 16),
+        title:
+          new Date(dati["sedute"][i]["data"]).getHours() +
+          ":" +
+          dati["sedute"][i]["data"].slice(14,16) +
+          "-" +
+          `${new Date(dati["sedute"][i]["data"]).getHours() + 1}` +
+          ":" +
+          dati["sedute"][i]["data"].slice(14,16),
+          
         date: dati["sedute"][i]["data"].slice(0, 10),
       });
     }
