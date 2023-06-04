@@ -82,10 +82,13 @@
                   />
                 </div>
                 <div class="flex-grow-1 ps-3">
-                  <h4>Tizietto Caietto</h4>
-                  <button class="btn btn-outline-dark btn-sm" >
-                    Visita Profilo
-                  </button>
+                  <li v-for="cliente_associato in clienti_associati" :key="cliente_associato._id">
+                    
+                    <div class="riga"><img src="../assets/profilePic.webp" alt="foto profilo" width="100">
+                      <div class="colonna"><h2>{{ cliente_associato.nome }} {{ cliente_associato.cognome }}</h2>
+                       <router-link :to="{name: 'profiloId', params:{id: `${cliente_associato._id}`}}"><button>Visita profilo</button></router-link></div>
+                       
+                      </div></li>
                 </div>
               </div>
             </div>
@@ -124,6 +127,11 @@ export default defineComponent({
     return {
       user: {},
       ass:{}, 
+      clienti_associati:{
+        _id: "",
+        nome: "",
+        cognome: "",
+        foto_profilo:"",},
       isAssociato:false,
     };
   },
@@ -159,6 +167,7 @@ export default defineComponent({
         console.log(error);
       }
     },
+
     async elimina(){
       const token = sessionStorage.getItem("token")
       const opzioniRichiesta={
@@ -179,6 +188,7 @@ export default defineComponent({
         console.log(error)
       }
     }
+
     
 
   },
@@ -240,6 +250,31 @@ export default defineComponent({
       
       this.ass=dati["profilo"];
       console.log(this.ass)
+    } catch (error) {
+      console.log(error);
+    }
+
+    //get info clienti
+
+    try {
+      //probabilmente la fetch cambierà
+      const response = await fetch(
+        `http://localhost:3001/api/v1/catalogo_associati`,
+        {
+          method: "GET",
+          headers: { 
+            "Content-Type": "application/json",
+            "x-access-token": token
+          },
+        }
+      );
+      const dati = await response.json();
+      console.log(JSON.stringify(dati));
+      console.log("catalogo: " + JSON.stringify(dati["catalogo"]));
+      this.clienti_associati = dati["catalogo"]
+      console.log(dati["successful"]);
+      
+      console.log(this.clienti_associati)
     } catch (error) {
       console.log(error);
     }
