@@ -16,8 +16,13 @@ import ChangepasswordView from "../views/ChangepasswordView.vue"
 import NuovasedutaView from  "../views/NuovasedutaView.vue"
 import PrenotasedutaView from "../views/PrenotasedutaView.vue"
 import CalendarioView from "../views/CalendarioView.vue"
+import CatalogoclientiView from "../views/CatalogoclientiView.vue"
+import CatalogosegnalazioniView from "../views/CatalogosegnalazioniView.vue"
+import SegnalazioneView from "../views/SegnalazioneView.vue"
+
 import PasswordRecoveryView from "../views/PasswordRecoveryView.vue"
 import DiarioViewVue from '@/views/DiarioView.vue';
+
 
 const routes = [
   {
@@ -103,6 +108,20 @@ const routes = [
     component: CalendarioView
   },
   {
+    path: '/clienti',
+    name: 'clienti',
+    component: CatalogoclientiView
+  },
+  {
+    path: '/segnalazioni',
+    name: 'segnalazioni',
+    component: CatalogosegnalazioniView
+  },
+  {
+    path: '/compila_segnalazione',
+    name: 'compila_segnalazione',
+    component: SegnalazioneView
+
 
     path: '/recupero_password',
     name: 'recuperopassword',
@@ -112,6 +131,7 @@ const routes = [
     path: '/diario',
     name: 'diario',
     component: DiarioViewVue
+
   }
 ]
 

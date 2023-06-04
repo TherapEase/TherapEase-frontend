@@ -32,6 +32,13 @@
                 >
                   Disassocia
                 </button>
+
+                <router-link to="/compila_segnalazione">
+                  <button class="btn btn-outline-dark btn-sm">
+                  Segnala
+                </button>
+                </router-link>
+
               </div>
             </div>
           </div>
@@ -56,7 +63,17 @@
             </div>
             <div v-if="user.ruolo == 2" class="card mb-4">
               <h3 class="recensioni"><strong>Recensioni</strong></h3>
-              <div class="card-body"></div>
+              <button class="recensione">Scrivi una recensione</button>
+              <div class="card-body">
+                <li v-for="recensione in recensioni" :key="recensione._id">
+                    
+                    <div class="riga"><img src="../assets/profilePic.webp" alt="foto profilo" width="100">
+                      <div class="colonna"><h4>Voto: {{ recensione.voto }} {{ recensione.testo }}</h4> 
+                        <h6>{{ recensione.data }}</h6>
+                     </div>
+                       
+                    </div></li>
+              </div>
               <div class="card-body"></div>
             </div>
           </div>
@@ -84,6 +101,7 @@ export default defineComponent({
       user: {},
       isAssociato: false,
       isAssociatoConUtente: false,
+      recensioni: []
     };
   },
   async mounted() {
@@ -138,9 +156,46 @@ export default defineComponent({
         this.isAssociato = true;
       }
       this.user.data_nascita = this.user.data_nascita.slice(0, 10);
+
+
+    //catalogo recensioni 
+    try {
+      console.log("il terapeuta associato è "+teraAssociato)
+      const response = await fetch(
+        `${process.env.VUE_APP_ROOT_API}/recensioni_associato/${teraAssociato}`,
+        {
+          method: "GET",
+          headers: { 
+            "Content-Type": "application/json",
+            "x-access-token": token 
+          },
+        }
+      );
+
+      console.log(response["successful"]);
+
+      // if (!response.successful) {
+      //   throw new Error("Unable to get user");
+      // }
+      const informazioni = await response.json();
+      console.log(informazioni);
+      console.log("catalogo: " + JSON.stringify(informazioni["catalogo"]));
+
+      this.recensioni = informazioni["catalogo"];
+      return this.recensioni;
+      } catch (error) {
+      console.log(error);
+      }
+
+
+
     } catch (error) {
       console.log(error);
     }
+
+
+
+   
   },
 
   methods: {
@@ -220,11 +275,23 @@ export default defineComponent({
         console.log(error);
       }
     },
+
+    
+
+
   },
 });
 </script>
   
   <style scoped>
+
+.recensione{
+  background-color:rgb(37, 66, 37);
+  color:white;
+  border-radius: 0.5em;
+  border-color: black;
+  max-height: 35px;
+}
 .recensioni {
   font-size: 40px;
   color: rgb(37, 66, 37);
