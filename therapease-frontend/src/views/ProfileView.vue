@@ -4,6 +4,7 @@
       <div>
         <NavBarVue />
       </div>
+      <div class="contenitore">
 
       <div class="row">
         <div class="col-lg-4">
@@ -39,7 +40,7 @@
             </div>
           </div>
           <!-- inizio card terapeuta associato -->
-          <CardAssociati class="associati" :ruolo="user.ruolo"></CardAssociati>
+          <CardAssociati class=" stacca associati" :ruolo="user.ruolo"></CardAssociati>
 
           <!-- fine card terapeuta associato -->
         </div>
@@ -63,8 +64,10 @@
       </div>
 
       <div class="row">
-        <div class="col-lg-4">
-          <!-- inizio card clienti associati 
+
+        <div class=" col-sm-4">
+          <!-- inizio card clienti associati -->
+
           <div v-if="user.ruolo == 2" class="stacca card mb-4">
             <h3 class="clienti-associati">
               <strong> Clienti Associati</strong>
@@ -90,6 +93,14 @@
          fine card clienti associati -->
         </div>
       </div>
+
+      <div class="row">
+          <!-- inizio card gettoni cliente -->
+          <div class="  col-sm-4">
+          <GettoniView class="stacca"></GettoniView></div>
+          <!-- fine card gettoni cliente -->
+      </div>
+      </div>
     </div>
   </div>
 </template>
@@ -100,9 +111,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { defineComponent } from "vue";
 import NavBarVue from "@/components/NavBar.vue";
 import CardAssociati from "@/components/CardAssociati.vue";
+import GettoniView from "@/components/GettoniView.vue";
 
 export default defineComponent({
-  components: { NavBarVue, CardAssociati },
+  components: { NavBarVue, CardAssociati, GettoniView },
   name: "ProfileView",
   props: {
     msg: String,
@@ -259,6 +271,9 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.contenitore{
+  width: 99%;
+}
 .grassetto {
   font-size: 40px;
   color: rgb(37, 66, 37);
