@@ -13,6 +13,11 @@ import TerapeutaperutenteView from "../views/TerapeutaperutenteView.vue"
 import ModificaView from "../views/ModificaView.vue"
 import DashboardView from "../views/DashboardView.vue"
 import ChangepasswordView from "../views/ChangepasswordView.vue"
+import NuovasedutaView from  "../views/NuovasedutaView.vue"
+import PrenotasedutaView from "../views/PrenotasedutaView.vue"
+import CalendarioView from "../views/CalendarioView.vue"
+import PasswordRecoveryView from "../views/PasswordRecoveryView.vue"
+import DiarioViewVue from '@/views/DiarioView.vue';
 
 const routes = [
   {
@@ -83,6 +88,30 @@ const routes = [
     path: '/changepassword',
     name: 'changepassword',
     component: ChangepasswordView
+  },{
+    path: '/nuovaseduta',
+    name: 'nuovaseduta',
+    component: NuovasedutaView
+  },{
+    path: '/prenotaseduta',
+    name: 'prenotaseduta',
+    component: PrenotasedutaView
+  },
+  {
+    path: '/calendario',
+    name: 'calendario',
+    component: CalendarioView
+  },
+  {
+
+    path: '/recupero_password',
+    name: 'recuperopassword',
+    component: PasswordRecoveryView
+   },
+  {
+    path: '/diario',
+    name: 'diario',
+    component: DiarioViewVue
   }
 ]
 
@@ -93,7 +122,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   // redirect to login page if not logged in and trying to access a restricted page
-  const publicPages = ['/', '/login', '/registrazione', '/chisiamo', '/catalogo', '/offerta'];
+  const publicPages = ['/', '/login', '/registrazione', '/chisiamo', '/catalogo', '/offerta', '/recupero_password'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = sessionStorage.getItem('user');
   console.log(loggedIn)

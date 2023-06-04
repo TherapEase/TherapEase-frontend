@@ -4,6 +4,7 @@
       <div>
         <NavBarVue />
       </div>
+      <div class="contenitore">
 
       <div class="row">
         <div class="col-lg-4">
@@ -29,42 +30,21 @@
                 type="submit"
                 @click.stop="logout"
               />
+
+              <input
+                class="btn btn-outline-dark btn-sm"
+                value="Elimina"
+                type="submit"
+                @click.stop="elimina"
+              />
             </div>
           </div>
           <!-- inizio card terapeuta associato -->
-          <div v-if="user.ruolo == 1" class="card mb-4">
-            <div class="card-body">
-              <div class="d-flex align-items-center">
-                <div class="flex-shrink-0">
-                  <img
-                    class="avatar avatar-lg p-1"
-                    src="../assets/profilePic.webp"
-                    alt="foto profilo"
-                  />
-                </div>
-                <div class="flex-grow-1 ps-3">
-                  <h4>
-                    <strong> Terapeuta Associato: </strong>
-                  </h4>
-                  <h5>
-                    {{ ass.nome }} {{ ass.cognome }}
-                  </h5>
-                  <router-link :to="{name: 'profiloId', params:{id: `${ass._id}`}}">  
-                    <button  v-if="isAssociato" class="btn btn-outline-dark btn-sm">
-                      Visita Profilo
-                    </button></router-link
-                  >
-                  <button class="btn btn-outline-dark btn-sm">
-                    Disassocia
-                  </button>
-                </div>
-                
-              </div>
-            </div>
-          </div>
+          <CardAssociati class=" stacca associati" :ruolo="user.ruolo"></CardAssociati>
+
           <!-- fine card terapeuta associato -->
         </div>
-        <div class="col-lg-8">
+        <div class="col-sm-6">
           <div class="card overflow-hidden mb-4">
             <div class="card-header">
               <h4 class="grassetto">Il mio profilo</h4>
@@ -84,8 +64,10 @@
       </div>
 
       <div class="row">
-        <div class="col-lg-4">
+
+        <div class=" col-sm-4">
           <!-- inizio card clienti associati -->
+
           <div v-if="user.ruolo == 2" class="stacca card mb-4">
             <h3 class="clienti-associati">
               <strong> Clienti Associati</strong>
@@ -111,8 +93,16 @@
               </div>
             </div>
           </div>
-          <!-- fine card clienti associati -->
+         fine card clienti associati -->
         </div>
+      </div>
+
+      <div class="row">
+          <!-- inizio card gettoni cliente -->
+          <div class="  col-sm-4">
+          <GettoniView class="stacca"></GettoniView></div>
+          <!-- fine card gettoni cliente -->
+      </div>
       </div>
     </div>
   </div>
@@ -123,9 +113,11 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { defineComponent } from "vue";
 import NavBarVue from "@/components/NavBar.vue";
+import CardAssociati from "@/components/CardAssociati.vue";
+import GettoniView from "@/components/GettoniView.vue";
 
 export default defineComponent({
-  components: { NavBarVue },
+  components: { NavBarVue, CardAssociati, GettoniView },
   name: "ProfileView",
   props: {
     msg: String,
@@ -158,7 +150,7 @@ export default defineComponent({
 
       try {
         const res = await fetch(
-          "http://localhost:3001/api/v1/logout",
+          `${process.env.VUE_APP_ROOT_API}/logout`,
           opzioniRichiesta
         );
         if (!res.ok) {
@@ -175,6 +167,28 @@ export default defineComponent({
         console.log(error);
       }
     },
+
+    async elimina(){
+      const token = sessionStorage.getItem("token")
+      const opzioniRichiesta={
+        method: 'DELETE',
+        headers:{
+          "Content-Type":"application/json",
+          "x-access-token": token
+        }
+      }
+
+      try {
+        const res = await fetch(`${process.env.VUE_APP_ROOT_API}/il_mio_profilo/elimina`,opzioniRichiesta)
+        const data = await res.json()
+        if(data.successful){
+          this.$router.push("/")
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
     
 
   },
@@ -191,13 +205,10 @@ export default defineComponent({
 
     try {
       const response = await fetch(
-        "http://localhost:3001/api/v1/il_mio_profilo",
+        `${process.env.VUE_APP_ROOT_API}/il_mio_profilo`,
         opzioniRichiesta
       );
 
-      if (!response.ok) {
-        throw new Error("Unable to get user");
-      }
       const informazioni = await response.json();
       console.log(informazioni);
       console.log(
@@ -225,7 +236,7 @@ export default defineComponent({
    
     try {
       const response = await fetch(
-        `http://localhost:3001/api/v1/profilo/${this.user.associato}`,
+        `${process.env.VUE_APP_ROOT_API}/profilo/${this.user.associato}`,
         opzioniRichiesta
       );
 
@@ -295,6 +306,9 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.contenitore{
+  width: 99%;
+}
 .grassetto {
   font-size: 40px;
   color: rgb(37, 66, 37);

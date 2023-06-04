@@ -1,18 +1,4 @@
 <template>
-  <div class="white-header">
-    <img class="logo" src="@/assets/Copertina.png" />
-  </div>
-
-  <div class="topnav">
-    <a href="/">Home</a>
-    <a href="/chisiamo">Chi siamo</a>
-    <a href="/catalogo">I nostri Terapeuti</a>
-    <a href="/offerta">La nostra offerta</a>
-    <a href="info">Info e Eventi</a>
-    <a href="/offerta">La Nostra Offerta</a>
-    <a href="/supportotecnico">Supporto Tecnico</a>
-  </div>
-
   <h1 class="titolo">Registrazione</h1>
   <p>Entra a far parte della community: inserisci le tue informazioni.</p>
   <form @submit.prevent>
@@ -71,9 +57,11 @@
         >Password:
         <input
           v-model="utente.password"
+          title="La password deve contenere almeno 8 lettere, incluso una maiuscola, una minuscola e un carattere speciale"
           id="password"
           name="password"
           type="password"
+          pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/gm"
           required
       /></label>
       <label for="conferma-password"
@@ -212,7 +200,7 @@ export default defineComponent({
           console.log("ok password uguali");
 
           const res = await fetch(
-            "http://localhost:3001/api/v1/registrazione",
+            `${process.env.VUE_APP_ROOT_API}/registrazione`,
             options
           );
           data = await res.json();

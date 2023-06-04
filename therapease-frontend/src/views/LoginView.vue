@@ -32,6 +32,10 @@
     Non sei ancora registrato?
     <router-link to="/registrazione">Registrati!</router-link>
   </h3>
+  <h3>
+    Hai scordato la password? 
+    <router-link to="/recupero_password">Recuperala!</router-link>
+  </h3>
 </template>
   
 <script>
@@ -53,6 +57,8 @@ export default defineComponent({
     };
   },
 
+  
+
   methods: {
     async getUserInfo(token) {
       const opzioniRichiesta = {
@@ -65,7 +71,7 @@ export default defineComponent({
       console.log("siamo in get infooooooooo");
 
       const res = await fetch(
-        `http://localhost:3001/api/v1/il_mio_profilo`,
+        `${process.env.VUE_APP_ROOT_API}/il_mio_profilo`,
         opzioniRichiesta
       );
       const data = await res.json();
@@ -103,7 +109,7 @@ export default defineComponent({
 
 
         const res = await fetch(
-          `http://localhost:3001/api/v1/login`,
+          `${process.env.VUE_APP_ROOT_API}/login`,
           opzioniRichiesta
         );
         const data = await res.json();

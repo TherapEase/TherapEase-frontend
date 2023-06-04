@@ -14,9 +14,10 @@
               <h2>prodotto {{ prodotto.nome }}</h2>
               <h3>numero gettoni: {{ prodotto.n_gettoni }}</h3>
               <h3>prezzo: {{ prodotto.prezzo }}€ </h3>
-              <button>Acquista</button></div>
+              <button v-if="isLogged==true" @click.prevent="(event) => acquista(prodotto._id, event)">Acquista</button></div>
              
-            </div></li>
+            </div>
+          </li>
       </div>
     </form>
   </div>
@@ -27,42 +28,58 @@ import { defineComponent } from "vue";
 import NavBarVue from "@/components/NavBar.vue";
 
 export default defineComponent({
-  name: "App",
+  
   components: { NavBarVue },
   data() {
     return {
-      prodotti:{
-        nome:"",
-        prezzo:"",
-        n_gettoni:""
-      }
+      prodotti:[], isLogged:true
     };
   },
 
- /* methods: {
-    async acquista(){
+
+ methods: {
+    async acquista(id, event){
+      console.log("siamo dentro", event);
       const token = sessionStorage.getItem('token')
+    
 
       try {
       const response = await fetch(
-        "http://localhost:3001/api/v1//prodotto/acquisto/:id",
+        `${process.env.VUE_APP_ROOT_API}/prodotto/checkout/${id}`,
         {
           method: "GET",
           headers: { 
             "x-access-token": token,
-            "Content-Type": "application/json" },
+            "Content-Type": "application/json",
+            "mode": "cors"
+          },
         }
-      );
+      )
+      const dati=await response.json()
+      if(!dati["successful"]){
+        console.log("Not Ok");
+        return;
+      }
+      console.log(`${process.env.VUE_APP_ROOT_API}/prodotto/checkout/${id}`)
+      window.location=dati.url
+      console.log(dati.url)
+
     } catch(error) {
       console.log(error)
     }
     }
-  },*/
+  },
 
   async mounted() {
+    const token=sessionStorage.getItem('token')
+    console.log("il token: "+token)
+    if(token==null){
+      this.isLogged=false
+    }
+
     try {
       const response = await fetch(
-        "http://localhost:3001/api/v1/catalogo_prodotti",
+        `${process.env.VUE_APP_ROOT_API}/catalogo_prodotti`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },

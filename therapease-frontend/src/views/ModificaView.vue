@@ -166,7 +166,7 @@ export default defineComponent({
       }
 
       try {
-        const response = await fetch("http://localhost:3001/api/v1/il_mio_profilo", opzioniRichiesta)
+        const response = await fetch(`${process.env.VUE_APP_ROOT_API}/il_mio_profilo`, opzioniRichiesta)
 
         if(!response.ok) {
           throw new Error("Unable to get user")
@@ -208,7 +208,7 @@ export default defineComponent({
         body: JSON.stringify(this.utente),
       };
 
-      const res = await fetch("http://localhost:3001/api/v1/il_mio_profilo/modifica", options)
+      const res = await fetch(`${process.env.VUE_APP_ROOT_API}/il_mio_profilo/modifica`, options)
       data = await res.json();
       console.log(data);
 

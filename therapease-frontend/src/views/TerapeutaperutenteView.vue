@@ -26,7 +26,7 @@
                   Associa
                 </button>
                 <button
-                  @click="disassocia"
+                  @click="allertaDisassocia"
                   v-if="isAssociato == true && isAssociatoConUtente == true"
                   class="btn btn-outline-dark btn-sm"
                 >
@@ -71,6 +71,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { defineComponent } from "vue";
 import NavBarVue from "@/components/NavBar.vue";
+import Swal from "sweetalert2";
 
 export default defineComponent({
   components: { NavBarVue },
@@ -99,7 +100,7 @@ export default defineComponent({
 
     try {
       const response = await fetch(
-        `http://localhost:3001/api/v1/profilo/${param}`,
+        `${process.env.VUE_APP_ROOT_API}/profilo/${param}`,
         opzioniRichiesta
       );
 
@@ -119,7 +120,7 @@ export default defineComponent({
     //il mio profilo
     try {
       const response = await fetch(
-        `http://localhost:3001/api/v1/il_mio_profilo`,
+        `${process.env.VUE_APP_ROOT_API}/il_mio_profilo`,
         opzioniRichiesta
       );
       const informazioni = await response.json();
@@ -157,7 +158,7 @@ export default defineComponent({
 
       try {
         const response = await fetch(
-          `http://localhost:3001/api/v1/associazione/${param}`,
+          `${process.env.VUE_APP_ROOT_API}/associazione/${param}`,
           opzioniRichiesta
         );
         const informazioni = await response.json();
@@ -165,9 +166,33 @@ export default defineComponent({
         this.isAssociato = true;
 
         console.log(informazioni.successful);
+        Swal.fire({
+          icon: "success",
+          title: "Complimenti!",
+          text: `Sei stato associato a ${this.user.nome.toUpperCase()} ${this.user.cognome.toUpperCase()}`,
+          buttonColor: "#5b6c53"
+        });
       } catch (error) {
         console.log(error);
       }
+    },
+
+    allertaDisassocia() {
+      Swal.fire({
+        title: "Sei sicuro di voler procere?",
+        text: `Se clicchi su "continua" non potrai più prenotare sedute con ${this.user.nome.toUpperCase()} ${this.user.cognome.toUpperCase()} `,
+        showCancelButton: true,
+        confirmButtonText: "Continua",
+        cancelButtonText: "Cancella",
+        confirmButtonColor: "#5b6c53",
+        customClass: {
+          confirmButton: "conferma",
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.disassocia();
+        }
+      });
     },
 
     async disassocia() {
@@ -184,7 +209,7 @@ export default defineComponent({
 
       try {
         const response = await fetch(
-          `http://localhost:3001/api/v1/associazione/rimuovi/${param}`,
+          `${process.env.VUE_APP_ROOT_API}/associazione/rimuovi/${param}`,
           opzioniRichiesta
         );
         const informazioni = await response.json();
@@ -325,6 +350,10 @@ svg {
 }
 .form-control {
   color: #343a40;
+}
+.conferma {
+  background-color: #dee2e6;
+  color: #4650dd;
 }
 .page-heading {
   text-transform: uppercase;
