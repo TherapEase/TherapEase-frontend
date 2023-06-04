@@ -1,5 +1,5 @@
 <template>
-  <div v-if="ruolo == 1 && isAssociato" class="card mb-4">
+  <div v-if="ruolo == 1 && isAssociato" class="mb-4">
     <div class="card-body">
       <div class="d-flex align-items-center">
         <div class="flex-shrink-0">
@@ -22,7 +22,27 @@
               Visita Profilo
             </button></router-link
           >
-          <button @click="allertaDissocia" class="btn btn-outline-dark btn-sm">Dissocia</button>
+          <button
+            v-if="isAssociato"
+            @click="allertaDissocia"
+            class="btn btn-outline-dark btn-sm"
+          >
+            Dissocia
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div v-if="isAssociato == false" class="mb-4">
+    <div class="card-body">
+      <div class="d-flex align-items-center">
+        <div class="flex-grow-1 ps-3">
+          <h2><strong>Terapeuta Associato</strong></h2>
+          Associati a un terapeuta tramite il nostro catalogo <br />
+          <router-link to="/catalogo"
+            ><button>Vai al catalogo</button></router-link
+          >
         </div>
       </div>
     </div>
@@ -35,17 +55,18 @@ import Swal from "sweetalert2";
 
 export default defineComponent({
   name: "CardAssociati",
-  props: { ruolo: Number },
+  props: { ruolo: Number, profile: String },
   data() {
     return {
       ass: {},
-      isAssociato:false
+      isAssociato: false,
     };
   },
-  methods:{allertaDissocia() {
+  methods: {
+    allertaDissocia() {
       Swal.fire({
         title: "Sei sicuro di voler procere?",
-        text: `Se clicchi su "continua" non potrai più prenotare sedute con ${this.user.nome.toUpperCase()} ${this.user.cognome.toUpperCase()} `,
+        text: `Se clicchi su "continua" non potrai più prenotare sedute con ${this.ass.nome.toUpperCase()} ${this.ass.cognome.toUpperCase()} `,
         showCancelButton: true,
         confirmButtonText: "Continua",
         cancelButtonText: "Cancella",
@@ -61,30 +82,34 @@ export default defineComponent({
     },
 
     async disassocia() {
-      console.log("associato: " + this.associato);
-      console.log("ti stai disassociando");
-      const token = sessionStorage.getItem("token");
-      const opzioniRichiesta = {
-        method: "GET",
-        headers: {
-          "x-access-token": token,
-        },
-      };
-      const param = this.$route.params.id;
+      
+        console.log("associato: " + this.ass._id);
 
-      try {
-        const response = await fetch(
-          `${process.env.VUE_APP_ROOT_API}/associazione/rimuovi/${param}`,
-          opzioniRichiesta
-        );
-        const informazioni = await response.json();
-        console.log(informazioni.successful);
-        this.isAssociato = false;
-        console.log("associazione dopo: " + this.associato);
-      } catch (error) {
-        console.log(error);
-      }
-    },},
+        console.log("ti stai disassociando");
+        const token = sessionStorage.getItem("token");
+        const opzioniRichiesta = {
+          method: "GET",
+          headers: {
+            "x-access-token": token,
+          },
+        };
+        const param = this.$route.params.id;
+        console.log("cosa sto dissociando :" + param);
+
+        try {
+          const response = await fetch(
+            `${process.env.VUE_APP_ROOT_API}/associazione/rimuovi/${this.ass._id}`,
+            opzioniRichiesta
+          );
+          const informazioni = await response.json();
+          console.log(informazioni.successful);
+          this.isAssociato = false;
+          console.log("associazione dopo: " + this.ass);
+        } catch (error) {
+          console.log(error);
+        }
+    },
+  },
   setup() {},
   async mounted() {
     const token = sessionStorage.getItem("token");
@@ -119,7 +144,7 @@ export default defineComponent({
       console.log(err);
     }
 
-//associato
+    //associato
 
     try {
       const response = await fetch(
@@ -127,16 +152,16 @@ export default defineComponent({
         opzioniRichiesta
       );
 
-      console.log("terapeuta associato: "+this.user.associato)
+      console.log("terapeuta associato: " + this.user.associato);
 
       const dati = await response.json();
       console.log(JSON.stringify(dati));
 
       console.log("stampa del profilooooo");
       console.log(dati["successful"]);
-      
-      this.ass=dati["profilo"];
-      console.log(this.ass)
+
+      this.ass = dati["profilo"];
+      console.log(this.ass);
     } catch (err) {
       console.log(err);
     }

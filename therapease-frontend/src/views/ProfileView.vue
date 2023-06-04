@@ -35,17 +35,19 @@
                 class="btn btn-outline-dark btn-sm"
                 value="Elimina"
                 type="submit"
-                @click.stop="elimina"
+                @click.stop="alertElimina"
               />
             </div>
           </div>
           <!-- inizio card terapeuta associato -->
+
           <CardAssociati v-if="user.ruolo==1" class=" stacca associati" :ruolo="user.ruolo"></CardAssociati>
+
 
           <!-- fine card terapeuta associato -->
         </div>
         <div class="col-sm-6">
-          <div class="card overflow-hidden mb-4">
+          <div class="card stacca overflow-hidden mb-4">
             <div class="card-header">
               <h4 class="grassetto">Il mio profilo</h4>
               <div class="informazioni">
@@ -64,6 +66,17 @@
       </div>
 
       <div class="row">
+
+        <div class="col-sm-4">
+          <div class=" stacca card mb-4">
+            <!-- <div class="card-body">
+              <h1>
+                <strong>Terapeuta associato</strong>
+              </h1> -->
+              <CardAssociati class="associati" :ruolo="user.ruolo"></CardAssociati>
+            </div>
+            <!-- </div>-->
+          </div>
 
         <div class=" col-sm-4">
           <!-- inizio card clienti associati -->
@@ -108,7 +121,10 @@ import { defineComponent } from "vue";
 import NavBarVue from "@/components/NavBar.vue";
 import CardAssociati from "@/components/CardAssociati.vue";
 import GettoniView from "@/components/GettoniView.vue";
+
+import Swal from "sweetalert2";
 import ClientiAssociati from "@/components/ClientiAssociati.vue";
+
 
 export default defineComponent({
   components: { NavBarVue, CardAssociati, GettoniView, ClientiAssociati },
@@ -156,6 +172,26 @@ export default defineComponent({
       } catch (error) {
         console.log(error);
       }
+    },
+
+
+    alertElimina(){
+      Swal.fire({
+        title: "Sei sicuro di voler procere?",
+        text: `Se clicchi su "continua" il tuo account verrà eliminato`,
+        showCancelButton: true,
+        confirmButtonText: "Continua",
+        cancelButtonText: "Cancella",
+        confirmButtonColor: "#5b6c53",
+        customClass: {
+          confirmButton: "conferma",
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.elimina();
+        }
+      });
+
     },
 
     async elimina(){

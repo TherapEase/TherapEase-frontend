@@ -93,13 +93,15 @@
           <h1>
             <strong>Terapeuta associato</strong>
           </h1> -->
+
         <div v-if="user.ruolo==2" class="card-header"><h1><strong>I tuoi clienti</strong></h1></div>
-        <CardAssociati class="associati" :ruolo="user.ruolo"></CardAssociati>
+        <CardAssociati class="associati" profile="dashboard" :ruolo="user.ruolo"></CardAssociati>
         <ClientiAssociati style="width: 90%; margin: auto auto" v-if="user.ruolo==2"></ClientiAssociati>
       </div>
 
-      <!-- </div>-->
+  
     </div>
+
 
     <div v-if="user.ruolo == 1" class="col-sm-6">
       <div class="card mb-4">
@@ -109,7 +111,7 @@
           </h1>
         </div>
         <div class="card-body">
-          <diario-terapeutico></diario-terapeutico>
+          <diario-terapeutico style="width: 90%"></diario-terapeutico>
         </div>
       </div>
     </div>
@@ -609,7 +611,7 @@ svg {
 }
 
 .size {
-  width: 600px;
+  width: 90%;
   height: 50px;
 }
 

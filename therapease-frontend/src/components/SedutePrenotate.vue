@@ -2,7 +2,11 @@
 
 <template>
 <!-- <h1>Prossime sedute:</h1> -->
-  <div class="job-list">
+<div v-if="hasSedute==false">
+  <h5>Nessuna seduta prenotata</h5>
+</div>
+
+  <div v-else class="job-list">
     <li v-for="seduta in sedute" :key="seduta._id">
       <div class="colonna">
         <h2 class="font">
@@ -32,6 +36,7 @@ export default defineComponent({
   data() {
     return {
       sedute: [],
+      hasSedute:true
     };
   },
 
@@ -108,6 +113,10 @@ export default defineComponent({
     // console.log("id: "+ this.sedute._id)
 
     this.sedute = dati["sedute"];
+    if(this.sedute==""){
+      this.hasSedute=false
+      console.log("nessuna seduta")
+    }
 
     console.log(this.sedute.data);
   },
@@ -184,3 +193,7 @@ button {
 </style>
   
  
+
+
+
+
