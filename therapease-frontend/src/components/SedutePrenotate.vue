@@ -165,7 +165,7 @@ h1 {
 
 .job-list li {
   list-style-type: none;
-  background: #a4af9e;
+  background-color: #a4af9e;
   padding: 16px;
   margin: 16px 0;
   border-radius: 1em;
