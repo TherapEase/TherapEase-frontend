@@ -52,9 +52,9 @@
       </div>
       <div class="contatti">
         <h1>Contatti</h1>
-        <h3>Scrivici a: therapease@thera.pease</h3>
-        <h3>Chiama: +391234567890, +390987654321</h3>
-        <h3>Sede Legale: Via Stocazzo, n 69, Trento (TN)</h3>
+        <h3>Scrivici a: therapease.ingsw@gmail.com</h3>
+        <h3>Chiama: +39 329-999-6464, +39 327-888-8888</h3>
+        <h3>Sede Legale: Via Roma, n 109, Trento (TN)</h3>
       </div>
   </main>
 </template>
