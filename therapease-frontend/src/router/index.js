@@ -22,6 +22,10 @@ import SegnalazioneView from "../views/SegnalazioneView.vue"
 import RecensioneView from "../views/RecensioneView.vue"
 
 
+import PasswordRecoveryView from "../views/PasswordRecoveryView.vue"
+import DiarioViewVue from '@/views/DiarioView.vue';
+
+
 const routes = [
   {
     path: '/',
@@ -91,11 +95,13 @@ const routes = [
     path: '/changepassword',
     name: 'changepassword',
     component: ChangepasswordView
-  },{
+  },
+  {
     path: '/nuovaseduta',
     name: 'nuovaseduta',
     component: NuovasedutaView
-  },{
+  },
+  {
     path: '/prenotaseduta',
     name: 'prenotaseduta',
     component: PrenotasedutaView
@@ -121,9 +127,20 @@ const routes = [
     component: SegnalazioneView
   },
   {
+
     path: '/recensisci',
     name: 'recensisci',
     component: RecensioneView
+  },
+  {
+    path: '/recupero_password',
+    name: 'recuperopassword',
+    component: PasswordRecoveryView
+   },
+  {
+    path: '/diario',
+    name: 'diario',
+    component: DiarioViewVue
   }
 ]
 
@@ -134,7 +151,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   // redirect to login page if not logged in and trying to access a restricted page
-  const publicPages = ['/', '/login', '/registrazione', '/chisiamo', '/catalogo', '/offerta'];
+  const publicPages = ['/', '/login', '/registrazione', '/chisiamo', '/catalogo', '/offerta', '/recupero_password', '/info'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = sessionStorage.getItem('user');
   console.log(loggedIn)

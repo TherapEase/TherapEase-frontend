@@ -1,8 +1,12 @@
 
 
 <template>
-<h1>Prossime sedute:</h1>
-  <div class="job-list">
+<!-- <h1>Prossime sedute:</h1> -->
+  <div v-if="hasSedute==false">
+  <h5>Nessuna seduta prenotata</h5>
+</div>
+
+  <div v-else  class="job-list">
     <li v-for="seduta in sedute" :key="seduta._id">
       <div class="colonna">
         <h2 class="font">
@@ -156,7 +160,7 @@ h1 {
 
 .job-list li {
   list-style-type: none;
-  background: white;
+  background: #a4af9e;
   padding: 16px;
   margin: 16px 0;
   border-radius: 1em;

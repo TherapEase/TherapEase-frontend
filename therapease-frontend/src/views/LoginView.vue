@@ -32,6 +32,10 @@
     Non sei ancora registrato?
     <router-link to="/registrazione">Registrati!</router-link>
   </h3>
+  <h3>
+    Hai scordato la password? 
+    <router-link to="/recupero_password">Recuperala!</router-link>
+  </h3>
 </template>
   
 <script>

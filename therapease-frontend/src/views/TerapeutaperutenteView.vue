@@ -7,7 +7,7 @@
       <section>
         <div class="row">
           <div class="col-lg-4">
-            <div class="card card-profile mb-4">
+            <div class="card stacca card-profile mb-4">
               <div class="card-header" style="background-image"></div>
               <div class="card-body text-center">
                 <img
@@ -43,39 +43,50 @@
             </div>
           </div>
           <div class="col-lg-8">
-            <div class="card overflow-hidden mb-4">
-              <div class="card-header">
-                <h4 class="grassetto">Informazioni</h4>
-                <div class="informazioni">
-                  <h5><strong>Username:</strong> {{ user.username }}</h5>
-                  <h5><strong>Nome:</strong> {{ user.nome }}</h5>
-                  <h5><strong>Cognome:</strong> {{ user.cognome }}</h5>
-                  <h5>
-                    <strong>Data Di Nascita:</strong> {{ user.data_nascita }}
-                  </h5>
+            <div class="card stacca mb-4">
+              <div class="card-header"><h4 class="grassetto">Informazioni</h4></div>
+              <div class="card-body informazioni">
+                <h5><strong>Username:</strong> {{ user.username }}</h5>
+                <h5><strong>Nome:</strong> {{ user.nome }}</h5>
+                <h5><strong>Cognome:</strong> {{ user.cognome }}</h5>
+                <h5>
+                  <strong>Data Di Nascita:</strong> {{ user.data_nascita }}
+                </h5>
+                <div v-if="user.ruolo == 2">
+                  <h4>Informazioni Professionali</h4>
                   <h5><strong>Email:</strong> {{ user.email }}</h5>
                   <h5><strong>Sede:</strong> {{ user.indirizzo }}</h5>
                 </div>
               </div>
             </div>
-            <div class="card mb-4">
-              <h3 class="recensioni"><strong>Recensioni</strong></h3>
+
+
+
+            <div v-if="user.ruolo == 2" class="stacca card mb-4">
+              <h3 class="recensioni card-header">
+                <strong>Recensioni</strong>
+              </h3>
               <router-link to="/recensisci">
                   <button class="btn btn-outline-dark btn-sm">
                   Scrivi una recensione
                 </button>
-                </router-link>
               <div class="card-body">
-                <li v-for="recensione in recensioni" :key="recensione._id">
-                    
-                    <div class="riga"><img src="../assets/profilePic.webp" alt="foto profilo" width="100">
-                      <div class="colonna"><h4>Voto: {{ recensione.voto }} {{ recensione.testo }}</h4> 
-                        <h6>{{ recensione.data }}</h6>
-                     </div>
-                       
-                    </div></li>
+                <card-recensioni></card-recensioni>
               </div>
-              <div class="card-body"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <div v-if="user.ruolo == 1" class="stacca card mb-4">
+              <div class="card-header">
+                <h4 class="grassetto">Il diario del cliente</h4>
+              </div>
+
+              <div class="card-body">
+                <diario-terapeutico></diario-terapeutico>
+              </div>
+
             </div>
           </div>
         </div>
@@ -90,9 +101,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { defineComponent } from "vue";
 import NavBarVue from "@/components/NavBar.vue";
 import Swal from "sweetalert2";
+import DiarioTerapeutico from "@/components/DiarioTerapeutico.vue";
+import CardRecensioni from "@/components/CardRecensioni.vue";
 
 export default defineComponent({
-  components: { NavBarVue },
+  components: { NavBarVue, DiarioTerapeutico, CardRecensioni },
   name: "ProfileView",
   props: {
     msg: String,
@@ -131,6 +144,8 @@ export default defineComponent({
       console.log("utente: " + JSON.stringify(informazioni));
       this.user = informazioni["profilo"];
       console.log(this.user);
+      console.log("userruolodamandare:" + this.user.ruolo);
+
       this.user.data_nascita = this.user.data_nascita.slice(0, 10);
     } catch (error) {
       console.log(error);
@@ -226,7 +241,7 @@ export default defineComponent({
           icon: "success",
           title: "Complimenti!",
           text: `Sei stato associato a ${this.user.nome.toUpperCase()} ${this.user.cognome.toUpperCase()}`,
-          buttonColor: "#5b6c53"
+          buttonColor: "#5b6c53",
         });
       } catch (error) {
         console.log(error);
@@ -286,13 +301,21 @@ export default defineComponent({
   
   <style scoped>
 
+.stacca {
+  margin-top: 1em;
+  margin-left: 1em;
+  margin-right: 1em;
+
+
 .recensione{
   background-color:rgb(37, 66, 37);
   color:white;
   border-radius: 0.5em;
   border-color: black;
   max-height: 35px;
+
   max-width: 70px;
+
 }
 .recensioni {
   font-size: 40px;

@@ -72,7 +72,9 @@
             this.isAssociato = true;
           }
           
+
 //segnalazione
+
         var info;
           const options = {
             method: "POST",
@@ -92,9 +94,11 @@
               info = await res.json();
               console.log(info);
 
+
               if(info.successful) {
                 this.$router.push("/dashboard");
               }
+
 
           } catch (error) {
             console.log(error);
