@@ -39,6 +39,12 @@
                 </button>
                 </router-link>
 
+              <router-link to="/recensisci">
+                  <button class="btn btn-outline-dark btn-sm">
+                  Scrivi una recensione
+                </button>
+              </router-link>
+
               </div>
             </div>
           </div>
@@ -66,11 +72,7 @@
               <h3 class="recensioni card-header">
                 <strong>Recensioni</strong>
               </h3>
-              <router-link to="/recensisci">
-                  <button class="btn btn-outline-dark btn-sm">
-                  Scrivi una recensione
-                </button>
-              </router-link>
+              
               <div class="card-body">
                 <card-recensioni></card-recensioni>
               </div>

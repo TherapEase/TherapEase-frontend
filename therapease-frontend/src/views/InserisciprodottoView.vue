@@ -1,30 +1,38 @@
 <template>
-    <h1 class="titolo">Segnalazioni</h1>
-    <p>Facci sapere che cosa non va</p>
+    <h1 class="titolo">Inserisci prodotto</h1>
+    <p>Questo prodotto verrà visualizzato e acquistato dai clienti sull'app</p>
     <div class="card">
     <form @submit.prevent>
       <fieldset>
-        <label for="testo"
-          >Motivo della segnalazione
+        <label for="nome"
+          >Nome del prodotto
           <input
-            v-model="segnalazione.testo"
-            id="testo"
-            name="testo"
+            v-model="prodotto.nome"
+            id="nome"
+            name="nome"
             type="text"
             required
         /></label>
-        <label for="data"
-          >Quando è avvenuto l'episodio?:
+        <label for="prezzo"
+          >Prezzo del prodotto:
           <input
-            v-model="segnalazione.data"
-            id="data"
-            name="data"
-            type="date"
-            pattern="[a-z0-5]{8,}"
+            v-model="prodotto.prezzo"
+            id="prezzo"
+            name="prezzo"
+            type="Number"
+            required
+        /></label>
+        <label for="n_gettoni"
+          >Numero gettoni:
+          <input
+            v-model="prodotto.n_gettoni"
+            id="n_gettoni"
+            name="n_gettoni"
+            type="Number"
             required
         /></label>
       </fieldset>
-      <input value="Invia segnalazione" type="submit" @click.stop="segnala()" />
+      <input value="Inserisci prodotto" type="submit" @click.stop="inserisci()" />
     </form>
   </div>
   </template>
@@ -35,44 +43,24 @@
   import { defineComponent } from "vue";
   
   export default defineComponent({
-    name: "SegnalazioneView",
+    name: "InserisciprodottoView",
     props: {
       msg: String,
     },
     data() {
       return {
         user: {},
-        segnalazione: {
-          testo: "",
-          data: "",
+        prodotto: {
+          nome: "",
+          prezzo: "",
+          n_gettoni: ""
         },
       };
     },
     methods: {
-      async segnala() {
+      async inserisci() {
       const token = sessionStorage.getItem('token')
-      const opzioniRichiesta = {
-      method: "GET",
-      headers: {
-        "x-access-token": token,
-      },
-    };
-        console.log("il token è: "+token)
-        console.log("sei dentro la funzione :))))");
 
-        //my profilo per prendere il terapeuta associato
-        try {
-          const response = await fetch(
-            `${process.env.VUE_APP_ROOT_API}/il_mio_profilo`,
-            opzioniRichiesta
-          );
-          const informazioni = await response.json();
-          const teraAssociato = informazioni["profile"]["associato"]
-
-          if (teraAssociato != "") {
-            console.log("sei associato con: " + teraAssociato);
-            this.isAssociato = true;
-          }
           
 
 //segnalazione
@@ -84,13 +72,13 @@
               "x-access-token": token,
               "Content-Type": "application/json" 
               },
-            body: JSON.stringify(this.segnalazione),
+            body: JSON.stringify(this.prodotto),
           };
           
           try {
-            console.log("stai inviando la segnalazione")
+            console.log("stai inserendo il prodotto")
               const res = await fetch(
-                `${process.env.VUE_APP_ROOT_API}/segnalazione/${teraAssociato}`,
+                `${process.env.VUE_APP_ROOT_API}/prodotto/inserisci`,
                 options
               );
               info = await res.json();
@@ -98,17 +86,13 @@
 
 
               if(info.successful) {
-                this.$router.push(`/profilo/${teraAssociato}`);
+                this.$router.push(`/dashboard`);
               }
 
 
           } catch (error) {
             console.log(error);
           }
-
-      } catch (error) {
-        console.log(error);
-      }
 
 
         

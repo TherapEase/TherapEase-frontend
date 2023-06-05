@@ -20,6 +20,7 @@ import CatalogoclientiView from "../views/CatalogoclientiView.vue"
 import CatalogosegnalazioniView from "../views/CatalogosegnalazioniView.vue"
 import SegnalazioneView from "../views/SegnalazioneView.vue"
 import RecensioneView from "../views/RecensioneView.vue"
+import InserisciprodottoView from "../views/InserisciprodottoView.vue"
 
 
 import PasswordRecoveryView from "../views/PasswordRecoveryView.vue"
@@ -141,6 +142,11 @@ const routes = [
     path: '/diario',
     name: 'diario',
     component: DiarioViewVue
+  },
+  {
+    path: '/inserisci_prodotto',
+    name: '/inserisci_prodotto',
+    component: InserisciprodottoView
   }
 ]
 
