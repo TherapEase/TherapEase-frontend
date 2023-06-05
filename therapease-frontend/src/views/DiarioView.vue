@@ -6,12 +6,12 @@
   <div class="container">
     <DiarioTerapeutico class="diario"></DiarioTerapeutico>
     <div class="centro">
-      <button class="auto btn btn-outline-dark size" src="/">Aggiungi</button>
+      <button class="auto btn btn-outline-dark size" src="/" @click="showAdd=!showAdd">Aggiungi</button>
       <button class="btn btn-outline-dark size">Modifica</button>
       <button class="btn btn-outline-dark size">Elimina</button>
     </div>
   </div>
-    <CardDiario class="card"></CardDiario>
+    <CardDiario v-if="showAdd" class="card"></CardDiario>
   </div>
 </template>
 
@@ -22,7 +22,9 @@ import CardDiario from '@/components/CardDiario.vue';
 export default {
   name: "DiarioView",
   components: { NavBar, DiarioTerapeutico, CardDiario },
-  data() {},
+  data() {return{
+    showAdd:false}
+  },
 };
 </script>
 

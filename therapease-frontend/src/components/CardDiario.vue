@@ -55,7 +55,7 @@ export default defineComponent({
       );
       const dati = await res.json();
       console.log(JSON.stringify(dati));
-      this.$router.push('/diario')
+      this.$router.go(0)
     },
   },
 });

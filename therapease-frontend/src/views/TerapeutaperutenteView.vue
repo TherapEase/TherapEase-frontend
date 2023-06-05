@@ -34,10 +34,16 @@
                 </button>
 
                 <router-link to="/compila_segnalazione">
-                  <button class="btn btn-outline-dark btn-sm">
+                  <button v-if="isAssociatoConUtente" class="btn btn-outline-dark btn-sm">
                   Segnala
                 </button>
                 </router-link>
+
+                <router-link to="/recensisci">
+                  <button class="btn btn-outline-dark btn-sm">
+                  Scrivi una recensione
+                </button>
+              </router-link>
 
               </div>
             </div>
@@ -66,11 +72,7 @@
               <h3 class="recensioni card-header">
                 <strong>Recensioni</strong>
               </h3>
-              <router-link to="/recensisci">
-                  <button class="btn btn-outline-dark btn-sm">
-                  Scrivi una recensione
-                </button>
-              </router-link>
+              
               <div class="card-body">
                 <card-recensioni></card-recensioni>
               </div>
@@ -238,12 +240,13 @@ export default defineComponent({
         this.isAssociato = true;
 
         console.log(informazioni.successful);
-        Swal.fire({
+        await Swal.fire({
           icon: "success",
           title: "Complimenti!",
           text: `Sei stato associato a ${this.user.nome.toUpperCase()} ${this.user.cognome.toUpperCase()}`,
           buttonColor: "#5b6c53",
         });
+        this.$router.go(0)
       } catch (error) {
         console.log(error);
       }
@@ -288,6 +291,8 @@ export default defineComponent({
         console.log(informazioni.successful);
         this.isAssociato = false;
         console.log("associazione dopo: " + this.associato);
+        this.$router.go(0)
+
       } catch (error) {
         console.log(error);
       }
