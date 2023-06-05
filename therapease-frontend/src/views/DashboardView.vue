@@ -132,26 +132,48 @@
 
 <div v-if="user.ruolo == 4">
   
+  <div class="col">
+  <div class="card mb-4">
   <div class="job-list">
     <h4>Terapeuti:</h4>
     <router-link to="/catalogo">
       <button class="rimozione_forzata"> Visualizza</button>
     </router-link>
-
+  </div>
+  </div>
   </div>
 
+  <div class="col">
+  <div class="card mb-4">
   <div class="job-list">
     <h4>Clilenti: </h4>   
     <router-link to="/clienti">
       <button class="rimozione_forzata"> Visualizza</button>
     </router-link>
   </div>
+  </div>
+  </div>
 
+  <div class="col">
+  <div class="card mb-4">
   <div class="job-list">
     <h4>Segnalazioni: </h4>   
     <router-link to="/segnalazioni">
       <button class="rimozione_forzata"> Visualizza</button>
     </router-link>
+  </div>
+  </div>
+  </div>
+
+  <div class="col">
+  <div class="card mb-4">
+  <div class="job-list">
+    <h4>Prodotti: </h4>   
+    <router-link to="/offerta">
+      <button class="rimozione_forzata"> Visualizza</button>
+    </router-link>
+  </div>
+  </div>
   </div>
 
   <div class="job-list">

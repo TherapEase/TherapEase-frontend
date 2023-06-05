@@ -39,7 +39,9 @@
                 </button>
                 </router-link>
 
-                <router-link to="/recensisci">
+
+              <router-link to="/recensisci">
+
                   <button class="btn btn-outline-dark btn-sm">
                   Scrivi una recensione
                 </button>
