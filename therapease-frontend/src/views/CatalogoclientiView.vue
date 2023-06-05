@@ -1,24 +1,4 @@
-<template>
-    <NavBarVue></NavBarVue>
-    <h1>Catalogo dei nostri clienti</h1>
-  
-    <div>
-      <form>
-        <div class="job-list">
-            <h4>Clilenti: </h4>   
-            <li v-for="cliente in clienti" :key="cliente._id">
-                    
-            <div class="riga"><img src="../assets/profilePic.webp" alt="foto profilo" width="100">
-                <div class="colonna"><h2>{{ cliente.nome }} {{ cliente.cognome }}</h2>
-                <button class="rimozione_forzata">Rimuovi profilo</button></div>
-                
-                </div></li>
-        </div>
-      </form>
-    </div>
-  </template>
-  
-  <script>
+    <script>
   import { defineComponent } from "vue";
   import NavBarVue from "@/components/NavBar.vue";
   
@@ -27,11 +7,31 @@
     components: { NavBarVue },
     data() {
       return {
-        clienti: []
+        clienti: [],
+        user: {}
       };
     },
     async mounted() {
-        try {
+      // get profilo
+      const token = sessionStorage.getItem("token");
+      const options = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": token
+        },
+      };
+      const response = await fetch(
+        `${process.env.VUE_APP_ROOT_API}/il_mio_profilo`,
+        options
+      );
+      const dati = await response.json();
+      console.log(JSON.stringify(dati));
+      this.user = dati["profile"];
+      this.userRuolo = this.user.ruolo;
+
+      //get catalogo_clienti
+      try {
       const response = await fetch(
         `${process.env.VUE_APP_ROOT_API}/catalogo_clienti`,
         {
@@ -41,10 +41,6 @@
       );
 
       console.log(response["successful"]);
-
-      // if (!response.successful) {
-      //   throw new Error("Unable to get user");
-      // }
       const data = await response.json();
       console.log(data);
       console.log("catalogo: " + JSON.stringify(data["catalogo"]));
@@ -57,6 +53,30 @@
     },
   });
   </script>
+
+<template>
+  <NavBarVue></NavBarVue>
+  <h1>Catalogo dei nostri clienti</h1>
+
+  <div>
+    <form>
+      <div v-if="user.ruolo != 4">
+        <h3>Accesso negato!</h3>
+    </div>
+    <div  v-if="user.ruolo == 4">
+        <div class="job-list">
+          <h4>Clilenti: </h4>   
+          <li v-for="cliente in clienti" :key="cliente._id">  
+          <div class="riga"><img src="../assets/profilePic.webp" alt="foto profilo" width="100">
+              <div class="colonna"><h2>{{ cliente.nome }} {{ cliente.cognome }}</h2>
+              <button class="rimozione_forzata">Rimuovi profilo</button></div>
+              </div>
+            </li>
+      </div>
+    </div>
+    </form>
+  </div>
+</template>
   
   
   <style scoped>

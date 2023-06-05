@@ -21,7 +21,6 @@ import CatalogosegnalazioniView from "../views/CatalogosegnalazioniView.vue"
 import SegnalazioneView from "../views/SegnalazioneView.vue"
 import RecensioneView from "../views/RecensioneView.vue"
 
-
 import PasswordRecoveryView from "../views/PasswordRecoveryView.vue"
 import DiarioViewVue from '@/views/DiarioView.vue';
 
