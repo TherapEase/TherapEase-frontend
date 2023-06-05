@@ -100,6 +100,11 @@
               );
               info = await res.json();
               console.log(info);
+
+              if(info.successful) {
+                this.$router.push(`profilo/${teraAssociato}`);
+              }
+
           } catch (error) {
             console.log(error);
           }
@@ -186,9 +191,9 @@
     height: 2em;
     font-size: 1.1rem;
     background-color: #5b6c53;
-    border-color: white;
+    border-color: 2b3a24;
     min-width: 300px;
-    color: #dce1da;
+    color: #2b3a24;
   }
   
   input[type="file"] {

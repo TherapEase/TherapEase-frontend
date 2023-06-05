@@ -70,6 +70,7 @@
                   <button class="btn btn-outline-dark btn-sm">
                   Scrivi una recensione
                 </button>
+              </router-link>
               <div class="card-body">
                 <card-recensioni></card-recensioni>
               </div>
@@ -306,7 +307,7 @@ export default defineComponent({
   margin-left: 1em;
   margin-right: 1em;
 
-
+}
 .recensione{
   background-color:rgb(37, 66, 37);
   color:white;
