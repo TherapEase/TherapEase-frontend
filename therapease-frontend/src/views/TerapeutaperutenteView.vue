@@ -61,10 +61,15 @@
             </div>
 
 
+
             <div v-if="user.ruolo == 2" class="stacca card mb-4">
               <h3 class="recensioni card-header">
                 <strong>Recensioni</strong>
               </h3>
+              <router-link to="/recensisci">
+                  <button class="btn btn-outline-dark btn-sm">
+                  Scrivi una recensione
+                </button>
               <div class="card-body">
                 <card-recensioni></card-recensioni>
               </div>
@@ -77,6 +82,7 @@
               <div class="card-header">
                 <h4 class="grassetto">Il diario del cliente</h4>
               </div>
+
               <div class="card-body">
                 <diario-terapeutico></diario-terapeutico>
               </div>
@@ -307,6 +313,8 @@ export default defineComponent({
   border-radius: 0.5em;
   border-color: black;
   max-height: 35px;
+
+  max-width: 70px;
 
 }
 .recensioni {
