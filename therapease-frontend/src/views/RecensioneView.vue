@@ -32,7 +32,7 @@
             required
         /></label-->
       </fieldset>
-      <input value="Invia segnalazione" type="submit" @click.stop="recensisci()" />
+      <input value="Invia recensione" type="submit" @click.stop="recensisci()" />
     </form>
   </template>
   
@@ -95,7 +95,7 @@
           try {
             console.log("stai inviando la recensione")
               const res = await fetch(
-                `${process.env.VUE_APP_ROOT_API}/recensione/${teraAssociato}`,
+                `${process.env.VUE_APP_ROOT_API}/recensioni/${teraAssociato}`,
                 options
               );
               info = await res.json();
