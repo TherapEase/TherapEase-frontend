@@ -4,7 +4,7 @@
     <form @submit.prevent>
       <fieldset>
         <label for="voto"
-          >Esprimi un vot da 1 a 5
+          >Esprimi un voto da 1 a 5
           <input
             v-model="recensione.voto"
             id="voto"
@@ -52,13 +52,11 @@
         recensione: {
           testo: "",
           voto: "",
-          data: ""
         },
       };
     },
     methods: {
       async recensisci() {
-      this.data = new Date()
       const token = sessionStorage.getItem('token')
       const opzioniRichiesta = {
       method: "GET",
