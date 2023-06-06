@@ -1,17 +1,49 @@
 <template>
-    <div class="container">
+  <div v-if="mode == 'invia' || mode == 'modifica'" class="container">
+    <div class="center"></div>
 
-        <div class="center"></div>
-  <label  for="data"
-    ><strong>Data:</strong> <br />
-    <input v-model="pagina.data" type="date"
-  /></label>
-  <label  for="diario"
-    ><strong>Scrivi il tuo diario:</strong><br />
-    <input class="testo" v-model="pagina.testo" type="text"
-  /></label>
-  <button class="btn btn-outline-dark size " @click="AlertScriviPagina" >Invia</button>
-</div>
+    <label for="data"
+      ><strong>Data:</strong> <br />
+      <input v-model="pagina.data" type="date"
+    /></label>
+
+    <label v-if="mode == 'invia'" for="diario"
+      ><strong>Scrivi il tuo diario:</strong><br />
+      <input class="testo" v-model="pagina.testo" type="text"
+    /></label>
+
+    <label v-if="mode == 'modifica'" for="diario"
+      ><strong>Modifica il tuo diario:</strong><br />
+      <input class="testo" v-model="pagina.testo" type="text"
+    /></label>
+
+    <button
+      v-if="mode == 'invia'"
+      class="btn btn-outline-dark size"
+      @click.prevent="scriviPagina"
+    >
+      Invia
+    </button>
+    <button
+      v-if="mode == 'modifica'"
+      class="btn btn-outline-dark size"
+      @click.prevent="modificaPagina"
+    >
+      Modifica
+    </button>
+  </div>
+
+  <div class="centre" v-if="mode == 'elimina'">
+    <div style="width: 80%">
+      <label for="data"
+        ><strong>Data:</strong> <br />
+        <input v-model="pagina.data" type="date"
+      /></label>
+      <button class="btn btn-outline-dark size" @click.prevent="eliminaPagina">
+        Elimina
+      </button>
+    </div>
+  </div>
 </template>
 
 
@@ -21,7 +53,7 @@ import Swal from "sweetalert2";
 
 export default defineComponent({
   name: "CardDiario",
-  props: { ruolo: Number },
+  props: { ruolo: Number, mode: String },
   data() {
     return {
       pagina: {
@@ -31,11 +63,6 @@ export default defineComponent({
     };
   },
   methods: {
-    AlertScriviPagina(){
-      Swal.fire('Success')
-      this.scriviPagina()
-      
-    },
     async scriviPagina() {
       console.log(JSON.stringify(this.pagina));
       const token = sessionStorage.getItem("token");
@@ -54,8 +81,84 @@ export default defineComponent({
         options
       );
       const dati = await res.json();
-      console.log(JSON.stringify(dati));
-      this.$router.push('/diario')
+      console.log(dati.successful);
+      if (dati.successful) {
+        await Swal.fire({ title: "success", icon: "success" });
+        this.$router.go(0);
+      } else {
+        await Swal.fire({
+          title: "OPS...",
+          icon: "error",
+          text: "Forse la pagina che stai cercando di creare esiste già",
+        });
+      }
+    },
+
+    async modificaPagina() {
+      console.log("sei dentro modifica")
+
+      const token = sessionStorage.getItem("token");
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+
+          "x-access-token": token,
+        },
+        body: JSON.stringify(this.pagina),
+      };
+
+
+      const res = await fetch(
+        `${process.env.VUE_APP_ROOT_API}/modifica_pagina`,
+        options
+      );
+      const dati = await res.json();
+      console.log(dati.successful);
+      if (dati.successful) {
+        await Swal.fire({ title: "success", icon: "success" });
+        this.$router.go(0);
+      } else {
+        await Swal.fire({
+          title: "OPS...",
+          icon: "error",
+          text: "Forse la pagina che stai cercando di modificare non esiste",
+        });
+      }
+    },
+
+    async eliminaPagina() {
+      console.log("sei dentro elimina")
+      console.log("bodiadi", JSON.stringify(this.pagina.data))
+
+      const token = sessionStorage.getItem("token");
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+
+          "x-access-token": token,
+        },
+        body: JSON.stringify(this.pagina),
+      };
+
+
+      const res = await fetch(
+        `${process.env.VUE_APP_ROOT_API}/elimina_pagina`,
+        options
+      );
+      const dati = await res.json();
+      console.log(dati.successful);
+      if (dati.successful) {
+        await Swal.fire({ title: "success", icon: "success" });
+        this.$router.go(0);
+      } else {
+        await Swal.fire({
+          title: "OPS...",
+          icon: "error",
+          text: "Forse la pagina che stai cercando di eliminare non esiste",
+        });
+      }
     },
   },
 });
@@ -88,17 +191,25 @@ textarea {
   border: 1px solid #5b6c53;
   color: #2b3a24;
 }
-.size{
-    margin: auto auto;
-    width: 100px;
+.size {
+  margin: auto auto;
+  width: 100px;
 }
 
-.container{
-    margin: auto auto;
-    background-color: white;
-    width: 500px;
-    height: 550px;
-
+.container {
+  margin: auto auto;
+  background-color: white;
+  width: 500px;
+  height: 500px;
 }
 
+.centre {
+  margin: auto auto;
+  background-color: white;
+  width: 500px;
+  height: 150px;
+  border-radius: 0.5em;
+  padding-left: 10px;
+  padding-top: 10px;
+}
 </style>

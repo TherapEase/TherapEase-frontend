@@ -8,7 +8,6 @@ import CatalogoView from "../views/CatalogoView.vue"
 import ChiSiamoView from "../views/ChisiamoView.vue"
 import SupportoTecnicoView from "../views/SupportoView.vue"
 import OffertaView from "../views/OffertaView.vue"
-import TerapeutaprofiloView from "../views/TerapeutaprofiloView.vue"
 import TerapeutaperutenteView from "../views/TerapeutaperutenteView.vue"
 import ModificaView from "../views/ModificaView.vue"
 import DashboardView from "../views/DashboardView.vue"
@@ -21,7 +20,6 @@ import CatalogosegnalazioniView from "../views/CatalogosegnalazioniView.vue"
 import SegnalazioneView from "../views/SegnalazioneView.vue"
 import RecensioneView from "../views/RecensioneView.vue"
 import InserisciprodottoView from "../views/InserisciprodottoView.vue"
-
 
 import PasswordRecoveryView from "../views/PasswordRecoveryView.vue"
 import DiarioViewVue from '@/views/DiarioView.vue';
@@ -71,11 +69,6 @@ const routes = [
     path: '/offerta',
     name: 'offerta',
     component: OffertaView
-  },
-  {
-    path: '/profiloterapeuta',
-    name: 'profiloterapeuta',
-    component: TerapeutaprofiloView
   },
   {
     path: '/profilo/:id',

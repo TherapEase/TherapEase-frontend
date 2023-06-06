@@ -87,6 +87,7 @@
                 const i = await res.json()
                 console.log(i.successful)
                 console.log("gestita: "+JSON.stringify(i))
+                this.$router.go(0)
             } catch(error) {
                 console.log(error);
             }

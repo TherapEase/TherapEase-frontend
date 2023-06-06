@@ -76,6 +76,8 @@ export default defineComponent({
       const dati=await response.json()
       console.log(JSON.stringify(dati))
 
+      this.$router.go(0)
+
     } catch(error) {
       console.log(error)
     }

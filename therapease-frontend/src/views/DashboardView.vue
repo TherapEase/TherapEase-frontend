@@ -176,8 +176,12 @@
   </div>
   </div>
 
-
-
+  <div class="job-list">
+    <h4>Eventi e informazioni: </h4>   
+    <router-link to="/info">
+      <button class="rimozione_forzata"> Visualizza</button>
+    </router-link>
+  </div>
 
 </div>
 
