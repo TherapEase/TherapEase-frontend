@@ -23,7 +23,7 @@
             v-model="evento.data"
             id="data"
             name="data"
-            type="date"
+            type="datetime-local"
             pattern="[a-z0-5]{8,}"
             required
         /></label>
