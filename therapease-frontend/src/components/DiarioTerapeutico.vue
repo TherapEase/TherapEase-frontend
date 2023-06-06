@@ -83,7 +83,7 @@ export default {
 };
 </script>
 <template>
-  <div class="calendario">
+  <div  class="calendario">
     <vue-cal
       hide-view-selector
       :time="false"
