@@ -10,8 +10,7 @@
                     
             <div class="riga"><img src="../assets/profilePic.webp" alt="foto profilo" width="100">
                 <div class="colonna"><h2>{{ cliente.nome }} {{ cliente.cognome }}</h2>
-                <button class="rimozione_forzata">Rimuovi profilo</button></div>
-                
+                <button @click.prevent="elimina(cliente._id)" class="rimozione_forzata">Rimuovi profilo</button></div>
                 </div></li>
         </div>
       </form>
@@ -27,6 +26,7 @@
     components: { NavBarVue },
     data() {
       return {
+        user:{},
         clienti: []
       };
     },
@@ -55,6 +55,38 @@
       console.log(error);
     }
     },
+
+    methods: {
+      async elimina(id){
+        const token=sessionStorage.getItem("token");
+            console.log("stai eliminando il profilo di un cliente")
+            console.log("token in elimina: "+token)
+
+            const options={
+                method: "DELETE",
+                headers: { 
+                    "Content-Type": "application/json",
+                    "x-access-token": token
+                },
+            };
+
+            try{
+                const res = await fetch(
+                    `${process.env.VUE_APP_ROOT_API}/profilo/${id}/elimina`, 
+                    options
+                )
+                const i = await res.json()
+                console.log(i.successful)
+                console.log("eliminato: "+JSON.stringify(i))
+                this.$router.go(0)
+            } catch(error) {
+                console.log(error);
+            }
+  
+        
+      }
+    }
+
   });
   </script>
   

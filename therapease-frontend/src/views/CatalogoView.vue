@@ -10,8 +10,8 @@
                     
           <div class="riga"><img src="../assets/profilePic.webp" alt="foto profilo" width="100">
             <div class="colonna"><h2>{{ terapeuta.nome }} {{ terapeuta.cognome }}</h2>
-           <router-link :to="{name: 'profiloId', params:{id: `${terapeuta._id}`}}"><button>Visita profilo</button></router-link></div>
-             
+           <router-link :to="{name: 'profiloId', params:{id: `${terapeuta._id}`}}"><button  v-if="user.ruolo != 4">Visita profilo</button></router-link>
+           <button v-if="user.ruolo == 4" @click.prevent="elimina(terapeuta._id)">Elimina profilo</button></div>
             </div></li>
       </div>
     </form>
@@ -27,10 +27,36 @@ export default defineComponent({
   components: { NavBarVue },
   data() {
     return {
-      terapeuti: []
+      terapeuti: [],
+      user: {},
+      userRuolo: 1
     };
   },
   async mounted() {
+    const token = sessionStorage.getItem("token");
+    const opzioniRichiesta = {
+      method: "GET",
+      headers: {
+        "x-access-token": token,
+      },
+    };
+
+    try {
+      const res = await fetch(
+        `${process.env.VUE_APP_ROOT_API}/il_mio_profilo`,
+        opzioniRichiesta
+      );
+      const info = await res.json();
+      console.log(info.successful);
+      console.log("info profilo loggato: " + JSON.stringify(info));
+      this.user = info["profile"];
+      console.log("il ruolo è "+this.user.ruolo)
+      
+    }catch(error){
+      console.log(error)
+    }
+
+
     try {
       const response = await fetch(
         `${process.env.VUE_APP_ROOT_API}/catalogo_terapeuti`,
@@ -55,6 +81,39 @@ export default defineComponent({
       console.log(error);
     }
   },
+
+
+  methods: {
+    async elimina(id){
+        const token=sessionStorage.getItem("token");
+            console.log("stai eliminando il profilo di un terapeuta")
+            console.log("token in elimina: "+token)
+
+            const options={
+                method: "DELETE",
+                headers: { 
+                    "Content-Type": "application/json",
+                    "x-access-token": token
+                },
+            };
+
+            try{
+                const res = await fetch(
+                    `${process.env.VUE_APP_ROOT_API}/profilo/${id}/elimina`, 
+                    options
+                )
+                const i = await res.json()
+                console.log(i.successful)
+                console.log("eliminato: "+JSON.stringify(i))
+                this.$router.go(0)
+            } catch(error) {
+                console.log(error);
+            }
+  
+        
+      }
+  }
+
 });
 </script>
 
