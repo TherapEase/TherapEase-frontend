@@ -34,14 +34,10 @@
 import { defineComponent } from "vue";
 import NavBarVue from "@/components/NavBar.vue";
 import {io} from 'socket.io-client'
-var socket= io("http://172.20.10.3:3000",{
+var socket= io("http://localhost:3000",{
         cors:{
-            origin:"http://172.20.10.3:3000"
+            origin:"http://localhost:3000"
     }})
-socket.on('message',()=>console.log("heeehee"))
-socket.on('connection',()=>alert("HEHEHE"))
-
-//<label for="age">Input your age (years): <input id="age" type="number" name="age" min="13" max="120" /></label>
 
 export default defineComponent({
   name: "SupportoView",
@@ -168,6 +164,7 @@ export default defineComponent({
     }
   },
   async mounted() {
+    socket.on('message',this.get_all)
     const token = sessionStorage.getItem("token");
     console.log(token)
     const opzioniRichiesta={
