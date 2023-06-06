@@ -5,7 +5,13 @@
 
       </div>
       <h1>Supporto tecnico</h1>
-      <button @click="open_chat" v-if="!isOpen">Apri una nuova chat</button>
+      <div v-if="!isOpen">
+        <button @click="open_chat" >Apri una nuova chat</button>
+        <p v-for="id in this.open_chats" :key="id">
+           {{ id }}
+        </p>
+      </div>
+      
       <div v-else>
 
       <h1 class="headline">Vue.js Chat Box</h1>
@@ -50,7 +56,8 @@ export default defineComponent({
       isOpen:false,
       msg_txt:'',
       chat:{},
-      utente:{}
+      utente:{},
+      open_chats:[]
       } 
   },
   methods: {
@@ -180,6 +187,11 @@ export default defineComponent({
       const data = await res.json()
       if(data.successful) this.utente = data["profile"]
       console.log(this.utente)
+
+      const res2= await fetch(`${process.env.VUE_APP_ROOT_API}/chat/get_open`,opzioniRichiesta)
+      const data2 = await res2.json()
+      if(data2.successful) this.open_chats=data2["chat_ids"]
+      console.log(data2)
     } catch (error) {
       alert("error dd")
     }
