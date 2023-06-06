@@ -6,7 +6,7 @@
       </div>
       <h1>Supporto tecnico</h1>
       <div v-if="!isOpen">
-        <button @click="open_chat" >Apri una nuova chat</button>
+        <button @click="open_new_chat" >Apri una nuova chat</button>
         <p v-for="id in this.open_chats" :key="id">
            {{ id }}
         </p>
@@ -40,9 +40,9 @@
 import { defineComponent } from "vue";
 import NavBarVue from "@/components/NavBar.vue";
 import {io} from 'socket.io-client'
-var socket= io("http://localhost:3000",{
+var socket= io(process.env.BACK_URL,{
         cors:{
-            origin:"http://localhost:3000"
+            origin:process.env.BACK_URL
     }})
 
 export default defineComponent({
@@ -61,24 +61,6 @@ export default defineComponent({
       } 
   },
   methods: {
-    sendMessage(direction) {
-      if (!this.youMessage && !this.bobMessage) {
-        return
-      }
-      if (direction === 'out') {
-        this.messages.push({body: this.youMessage, author: 'you'})
-        this.youMessage = ''
-      } else if (direction === 'in') {
-        this.messages.push({body: this.bobMessage, author: 'bob'})
-        this.bobMessage = ''
-      } else {
-        alert('something went wrong')
-      }
-      // app.nextTick(() => {
-      //   let messageDisplay = this.$refs.chatArea
-      //   messageDisplay.scrollTop = messageDisplay.scrollHeight
-      // })
-    },
     async send_message(){
       if(!this.msg_txt) return
       const token = sessionStorage.getItem("token")
@@ -95,15 +77,14 @@ export default defineComponent({
         const res = await fetch(`${process.env.VUE_APP_ROOT_API}/chat/${this.chat._id}/send_message`,opzioniRichiesta)
         if(!res.ok) throw new Error("error")
         const data = await res.json()
-        if(!data.successful) alert ("errore sending")
+        if(!data.successful) throw new Error("error")
       } catch (error) {
-        alert("catch")
+        alert("Impossibile inviare il messaggio")
+      }finally{
+        this.msg_txt=''
       }
     },
-    async open_chat(){
-      this.isOpen=true
-      
-      console.log("okok")
+    async open_new_chat(){
       const token = sessionStorage.getItem("token")
       const opzioniRichiesta= {
         method: "GET",
@@ -119,11 +100,12 @@ export default defineComponent({
         }
         const data = await res.json()
         if(data.successful){
+          this.isOpen=true
           this.chat=data.chat
           console.log(data.chat)
         }
       } catch (error) {
-        alert(error)
+        alert("Impossibile aprire la chat")
       }
     },
     async get_unread(){
@@ -146,7 +128,7 @@ export default defineComponent({
           this.chat=data.chat?data.chat:{}
         }
       } catch (error) {
-        alert(error)
+        alert("Errore nel recupero messaggi")
       }
     },
     async get_all(){
@@ -160,13 +142,13 @@ export default defineComponent({
       }
       try {
         const res = await fetch(`${process.env.VUE_APP_ROOT_API}/chat/${this.chat._id}/all`,opzioniRichiesta)
-        if(!res.ok) throw new Error("errorrrorr")
+        if(!res.ok) throw new Error("error")
         const data = await res.json()
         if(data.successful){
           this.chat=data.chat
         }
       } catch (error) {
-        alert(error)
+        alert("Impossibile recuperare i messaggi")
       }
     }
   },
@@ -183,17 +165,31 @@ export default defineComponent({
     }
     try {
       const res = await fetch(`${process.env.VUE_APP_ROOT_API}/il_mio_profilo`,opzioniRichiesta)
-      if(!res.ok) throw new Error("errorrre")
+      if(!res.ok) throw new Error("error")
       const data = await res.json()
       if(data.successful) this.utente = data["profile"]
       console.log(this.utente)
-
-      const res2= await fetch(`${process.env.VUE_APP_ROOT_API}/chat/get_open`,opzioniRichiesta)
-      const data2 = await res2.json()
-      if(data2.successful) this.open_chats=data2["chat_ids"]
-      console.log(data2)
+      await get_open_chats()
     } catch (error) {
-      alert("error dd")
+      alert("Errore nel caricamento della pagina")
+    }
+  },
+  async get_open_chats(){
+    const token = sessionStorage.getItem("token")
+    const opzioniRichiesta={
+      method:"GET",
+      headers:{
+        "Content-Type":"application/json",
+        "x-access-token":token
+      }
+    }
+    try {
+      const res= await fetch(`${process.env.VUE_APP_ROOT_API}/chat/get_open`,opzioniRichiesta)
+      const data = await res2.json()
+      if(data.successful) this.open_chats=data["chat_ids"]
+      console.log(data)
+    } catch (error) {
+      alert("Impossibile recuperare le chat aperte")
     }
   }
 });
