@@ -5,34 +5,41 @@
 
       </div>
       <h1>Supporto tecnico</h1>
+      <button @click="open_chat" v-if="!isOpen">Apri una nuova chat</button>
+      <div v-else>
+
       <h1 class="headline">Vue.js Chat Box</h1>
       <!--Inizio area chat-->
       <main id="app">
         <section ref="chatArea" class="chat-area">
-          <p v-for="message in this.chat.messaggi" :key="message.id" class="message" :class="{ 'message-out': message.author === 'you', 'message-in': message.author !== 'you' }">
-            {{ message.body }}
+          <p v-for="message in this.chat.messaggi" :key="message.data" class="message" :class="{ 'message-out': message.mittente === this.utente._id, 'message-in': message.mittente !== this.utente._id }">
+            {{ message.testo }}
           </p>
         </section>
 
         <section class="chat-inputs"> <!--non so come far apparire o uno o l'altro-->
-          <button @click="open_chat">Apri una nuova chat</button>
-          <button @click="get_unread">Refresh</button>
-          <form @submit.prevent="sendMessage('out')" id="person2-form">
+          <button @click="get_all">Refresh</button>
+          <form @submit.prevent="send_message" id="person2-form">
             <label for="person2-input">You</label>
-            <input v-model="youMessage" id="person2-input" type="text" placeholder="Type your message">
+            <input v-model="msg_txt" id="person2-input" type="text" placeholder="Type your message">
             <button type="submit">Send</button>
           </form>
         </section>
       </main>
       <!--Fine area chat-->
-
+    </div>
 </template>
-
 
 <script>
 import { defineComponent } from "vue";
 import NavBarVue from "@/components/NavBar.vue";
-
+import {io} from 'socket.io-client'
+var socket= io("http://172.20.10.3:3000",{
+        cors:{
+            origin:"http://172.20.10.3:3000"
+    }})
+socket.on('message',()=>console.log("heeehee"))
+socket.on('connection',()=>alert("HEHEHE"))
 
 //<label for="age">Input your age (years): <input id="age" type="number" name="age" min="13" max="120" /></label>
 
@@ -44,27 +51,11 @@ export default defineComponent({
   },
   data() {
     return {
-      bobMessage: '',
-      youMessage: '',
-      aperta:false,
+      isOpen:false,
+      msg_txt:'',
       chat:{},
-      messages: [
-        // {
-        //   id:1,
-        //   body: 'Welcome to the chat, I\'m Bob!',
-        //   author: 'bob'
-        // },
-        // {
-        //   id:2,
-        //  body: 'Thank you Bob',
-        //  author: 'you'
-        // },
-        // {
-        //   id:3,
-        // body: 'You\'re most welcome',
-        // author: 'bob'
-        // }
-      ]}   
+      utente:{}
+      } 
   },
   methods: {
     sendMessage(direction) {
@@ -85,8 +76,30 @@ export default defineComponent({
       //   messageDisplay.scrollTop = messageDisplay.scrollHeight
       // })
     },
+    async send_message(){
+      if(!this.msg_txt) return
+      const token = sessionStorage.getItem("token")
+      const opzioniRichiesta={
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json",
+          "x-access-token":token
+        },
+        body:JSON.stringify({testo:this.msg_txt})
+      }
 
+      try {
+        const res = await fetch(`${process.env.VUE_APP_ROOT_API}/chat/${this.chat._id}/send_message`,opzioniRichiesta)
+        if(!res.ok) throw new Error("error")
+        const data = await res.json()
+        if(!data.successful) alert ("errore sending")
+      } catch (error) {
+        alert("catch")
+      }
+    },
     async open_chat(){
+      this.isOpen=true
+      
       console.log("okok")
       const token = sessionStorage.getItem("token")
       const opzioniRichiesta= {
@@ -126,12 +139,52 @@ export default defineComponent({
         }
         const data = await res.json()
         console.log(data)
+        if(data.successful){ //mettere apposto
+          this.chat=data.chat?data.chat:{}
+        }
+      } catch (error) {
+        alert(error)
+      }
+    },
+    async get_all(){
+      const token = sessionStorage.getItem("token")
+      const opzioniRichiesta={
+        method:"GET",
+        headers:{
+          "Content-Type":"application/json",
+          "x-access-token":token
+        }
+      }
+      try {
+        const res = await fetch(`${process.env.VUE_APP_ROOT_API}/chat/${this.chat._id}/all`,opzioniRichiesta)
+        if(!res.ok) throw new Error("errorrrorr")
+        const data = await res.json()
         if(data.successful){
           this.chat=data.chat
         }
       } catch (error) {
         alert(error)
       }
+    }
+  },
+  async mounted() {
+    const token = sessionStorage.getItem("token");
+    console.log(token)
+    const opzioniRichiesta={
+      method: "GET",
+      headers:{
+        "Content-Type":"application/json",
+        "x-access-token":token
+      }
+    }
+    try {
+      const res = await fetch(`${process.env.VUE_APP_ROOT_API}/il_mio_profilo`,opzioniRichiesta)
+      if(!res.ok) throw new Error("errorrre")
+      const data = await res.json()
+      if(data.successful) this.utente = data["profile"]
+      console.log(this.utente)
+    } catch (error) {
+      alert("error dd")
     }
   }
 });

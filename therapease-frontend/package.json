@@ -18,6 +18,8 @@
     "bootstrap": "^5.2.3",
     "bootstrap-vue": "^2.23.1",
     "core-js": "^3.8.3",
+    "socket.io": "^4.6.2",
+    "socket.io-client": "^4.6.2",
     "sweetalert2": "^11.4.8",
     "vue": "^3.2.13",
     "vue-cal": "^4.8.1",
