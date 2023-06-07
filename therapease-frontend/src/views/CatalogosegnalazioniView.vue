@@ -35,7 +35,7 @@
     async mounted() {
 
     const token = sessionStorage.getItem("token");
-    console.log("il token è: "+token)
+
     try {
       const response = await fetch(
         `${process.env.VUE_APP_ROOT_API}/catalogo_segnalazioni`,
@@ -43,10 +43,10 @@
           method: "GET",
           headers: { 
             "Content-Type": "application/json",
+            "x-access-token": token
           },
         }
       );
-
 
       console.log(response["successful"]);
 
