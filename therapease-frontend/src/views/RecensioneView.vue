@@ -95,7 +95,7 @@
           try {
             console.log("stai inviando la recensione")
               const res = await fetch(
-                `${process.env.VUE_APP_ROOT_API}/recensioni/${teraAssociato}`,
+                `${process.env.VUE_APP_ROOT_API}/leggi_recensioni/${teraAssociato}`,
                 options
               );
               info = await res.json();

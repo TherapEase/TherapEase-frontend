@@ -186,7 +186,7 @@ export default defineComponent({
         `${process.env.VUE_APP_ROOT_API}/recensioni_associato/${teraAssociato}`,
         {
           method: "GET",
-          headers: { 
+          headers: {
             "Content-Type": "application/json",
             "x-access-token": token 
           },

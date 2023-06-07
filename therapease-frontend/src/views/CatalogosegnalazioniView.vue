@@ -43,6 +43,7 @@
           method: "GET",
           headers: { 
             "Content-Type": "application/json",
+            "x-access-token": token
           },
         }
       );
@@ -72,7 +73,7 @@
             console.log("token in gestione: "+token)
 
             const options={
-                method: "POST",
+                method: "GET",
                 headers: { 
                     "Content-Type": "application/json",
                     "x-access-token": token
