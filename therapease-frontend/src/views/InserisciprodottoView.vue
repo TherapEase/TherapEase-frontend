@@ -86,7 +86,7 @@
 
 
               if(info.successful) {
-                this.$router.push(`/dashboard`);
+                this.$router.push(`/offerta`);
               }
 
 

@@ -6,13 +6,18 @@
   <div class="container">
     <DiarioTerapeutico class="diario"></DiarioTerapeutico>
     <div class="centro">
-      <button class="auto btn btn-outline-dark size" src="/" @click="showAdd=!showAdd">Aggiungi</button>
-      <button class="btn btn-outline-dark size">Modifica</button>
-      <button class="btn btn-outline-dark size">Elimina</button>
+      <button class="auto btn btn-outline-dark size"  @click="showModify=false; showAdd=true; showDelete=false ">Aggiungi</button>
+      <button class="btn btn-outline-dark size" @click="showModify=true ; showAdd=false ; showDelete=false ">Modifica</button>
+      <button class="btn btn-outline-dark size" @click="showModify=false ; showAdd=false ; showDelete=true ">Elimina</button>
     </div>
   </div>
-    <CardDiario v-if="showAdd" class="card"></CardDiario>
+    <CardDiario v-if="showAdd" mode="invia" class="card"></CardDiario>
+    <CardDiario v-if="showModify" mode="modifica" class="card"></CardDiario>
+    <CardDiario v-if="showDelete" mode="elimina" class="card"></CardDiario>
+
   </div>
+  
+  
 </template>
 
 <script>
@@ -23,7 +28,12 @@ export default {
   name: "DiarioView",
   components: { NavBar, DiarioTerapeutico, CardDiario },
   data() {return{
-    showAdd:false}
+    showAdd:false,
+    showModify:false,
+    showDelete:false
+  
+  
+  }
   },
 };
 </script>

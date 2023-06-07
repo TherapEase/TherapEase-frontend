@@ -275,6 +275,7 @@ select {
   border-radius: 0.5em;
 }
 
+
 input,
 textarea {
   background-color: #dce1da;

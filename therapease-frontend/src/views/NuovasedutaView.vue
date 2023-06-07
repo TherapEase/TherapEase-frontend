@@ -103,6 +103,16 @@ export default {
 
       const dati = await response.json();
       console.log(JSON.stringify(dati));
+      if (dati.successful) {
+        await Swal.fire({ title: "success", icon: "success" });
+        this.$router.go(0);
+      } else {
+        await Swal.fire({
+          title: "OPS...",
+          icon: "error",
+          text: "Qualcosa è andato storto"
+        });
+      }
     },
   },
 };
