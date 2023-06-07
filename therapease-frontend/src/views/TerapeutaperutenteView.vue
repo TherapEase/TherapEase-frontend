@@ -225,7 +225,7 @@ export default defineComponent({
 
       const token = sessionStorage.getItem("token");
       const opzioniRichiesta = {
-        method: "GET",
+        method: "POST",
         headers: {
           "x-access-token": token,
         },
@@ -277,7 +277,7 @@ export default defineComponent({
       console.log("ti stai disassociando");
       const token = sessionStorage.getItem("token");
       const opzioniRichiesta = {
-        method: "GET",
+        method: "POST",
         headers: {
           "x-access-token": token,
         },
@@ -299,10 +299,6 @@ export default defineComponent({
         console.log(error);
       }
     },
-
-    
-
-
   },
 });
 </script>

@@ -66,7 +66,7 @@ export default defineComponent({
       const response = await fetch(
         `${process.env.VUE_APP_ROOT_API}/prodotto/rimuovi/${id}`,
         {
-          method: "GET",
+          method: "POST",
           headers: { 
             "x-access-token": token,
             "Content-Type": "application/json"
@@ -101,7 +101,7 @@ export default defineComponent({
       const response = await fetch(
         `${process.env.VUE_APP_ROOT_API}/prodotto/checkout/${id}`,
         {
-          method: "GET",
+          method: "POST",
           headers: { 
             "x-access-token": token,
             "Content-Type": "application/json",
