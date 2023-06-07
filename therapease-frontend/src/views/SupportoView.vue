@@ -40,7 +40,8 @@
 import { defineComponent } from "vue";
 import NavBarVue from "@/components/NavBar.vue";
 import {io} from 'socket.io-client'
-var socket= io(process.env.BACK_URL,{
+// var socket = io("http://localhost:8080")
+var socket= io("http://localhost:3000",{
         cors:{
             origin:process.env.BACK_URL
     }})
@@ -74,7 +75,7 @@ export default defineComponent({
       }
 
       try {
-        const res = await fetch(`${process.env.VUE_APP_ROOT_API}/chat/${this.chat._id}/send_message`,opzioniRichiesta)
+        const res = await fetch(`${process.env.VUE_APP_ROOT_API}/chat/${this.chat._id}/invia_messaggio`,opzioniRichiesta)
         if(!res.ok) throw new Error("error")
         const data = await res.json()
         if(!data.successful) throw new Error("error")
@@ -101,7 +102,7 @@ export default defineComponent({
         const data = await res.json()
         if(data.successful){
           this.isOpen=true
-          this.chat=data.chat
+          this.chat._id=data.chat_id
           console.log(data.chat)
         }
       } catch (error) {
@@ -118,7 +119,7 @@ export default defineComponent({
         }
       }
       try {
-        const res = await fetch(`${process.env.VUE_APP_ROOT_API}/chat/${this.chat._id}/unread`,opzioniRichiesta)
+        const res = await fetch(`${process.env.VUE_APP_ROOT_API}/chat/${this.chat._id}/non_letti`,opzioniRichiesta)
         if(!res.ok){
           throw new Error("Errore")
         }
@@ -141,7 +142,7 @@ export default defineComponent({
         }
       }
       try {
-        const res = await fetch(`${process.env.VUE_APP_ROOT_API}/chat/${this.chat._id}/all`,opzioniRichiesta)
+        const res = await fetch(`${process.env.VUE_APP_ROOT_API}/chat/${this.chat._id}/messaggi`,opzioniRichiesta)
         if(!res.ok) throw new Error("error")
         const data = await res.json()
         if(data.successful){
@@ -169,7 +170,7 @@ export default defineComponent({
       const data = await res.json()
       if(data.successful) this.utente = data["profile"]
       console.log(this.utente)
-      await get_open_chats()
+      await this.get_open_chats()
     } catch (error) {
       alert("Errore nel caricamento della pagina")
     }
@@ -184,8 +185,8 @@ export default defineComponent({
       }
     }
     try {
-      const res= await fetch(`${process.env.VUE_APP_ROOT_API}/chat/get_open`,opzioniRichiesta)
-      const data = await res2.json()
+      const res= await fetch(`${process.env.VUE_APP_ROOT_API}/chat/aperte`,opzioniRichiesta)
+      const data = await res.json()
       if(data.successful) this.open_chats=data["chat_ids"]
       console.log(data)
     } catch (error) {
