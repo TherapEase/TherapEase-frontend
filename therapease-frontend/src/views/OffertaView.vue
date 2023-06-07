@@ -66,7 +66,7 @@ export default defineComponent({
       const response = await fetch(
         `${process.env.VUE_APP_ROOT_API}/prodotto/rimuovi/${id}`,
         {
-          method: "POST",
+          method: "DELETE",
           headers: { 
             "x-access-token": token,
             "Content-Type": "application/json"

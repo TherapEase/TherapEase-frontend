@@ -171,7 +171,7 @@ export default defineComponent({
       const token = sessionStorage.getItem("token");
       console.log("token al momento del logout: " + token);
       const opzioniRichiesta = {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           "x-access-token": token,
