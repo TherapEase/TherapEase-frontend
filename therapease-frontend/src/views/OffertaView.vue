@@ -56,7 +56,6 @@ export default defineComponent({
 
   methods: {
     async rimuovi(id){
-    console.log("rimozione")
     const token = sessionStorage.getItem('token')
 
     try {
@@ -70,8 +69,8 @@ export default defineComponent({
           },
         }
       )
-      const dati=await response.json()
-      console.log(JSON.stringify(dati))
+      await response.json()
+      
 
       this.$router.go(0)
 
@@ -89,7 +88,7 @@ export default defineComponent({
 
       try {
 
-      const response = await fetch(
+      const response= await fetch(
         `${process.env.VUE_APP_ROOT_API}/prodotto/checkout/${id}`,
         {
           method: "POST",
@@ -99,7 +98,9 @@ export default defineComponent({
             "mode": "cors"
           },
 
-        }
+        })
+        const dati=await response.json()
+
         window.location = dati.url;
       } catch (error) {
         console.log(error);

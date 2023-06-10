@@ -94,7 +94,7 @@ export default defineComponent({
                     `${process.env.VUE_APP_ROOT_API}/profilo/${id}/elimina`, 
                     options
                 )
-                const i = await res.json()
+                await res.json()
                
                 this.$router.go(0)
             } catch(error) {
