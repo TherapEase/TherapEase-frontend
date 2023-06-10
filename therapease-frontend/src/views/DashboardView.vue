@@ -73,7 +73,8 @@
               <div v-if="user.ruolo == 2" class="card-header">
                 <h1><strong>I tuoi clienti</strong></h1>
               </div>
-              <CardAssociati
+              <CardAssociati 
+              v-if="user.ruolo == 1"
                 class="associati"
                 profile="dashboard"
                 :ruolo="user.ruolo"

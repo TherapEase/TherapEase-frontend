@@ -10,7 +10,7 @@
                     
           <div class="riga"><img src="../assets/profilePic.webp" alt="foto profilo" width="100">
             <div class="colonna"><h2>{{ terapeuta.nome }} {{ terapeuta.cognome }}</h2>
-           <router-link :to="{name: 'profiloId', params:{id: `${terapeuta._id}`}}"><button  v-if="user.ruolo != 4">Visita profilo</button></router-link>
+           <router-link :to="{name: 'profiloId', params:{id: `${terapeuta._id}`}}"><button  v-if="user.ruolo ==1">Visita profilo</button></router-link>
            <button v-if="user.ruolo == 4" @click.prevent="elimina(terapeuta._id)">Elimina profilo</button></div>
             </div></li>
 
@@ -94,7 +94,7 @@ export default defineComponent({
                     `${process.env.VUE_APP_ROOT_API}/profilo/${id}/elimina`, 
                     options
                 )
-                await res.json()
+                 await res.json()
                
                 this.$router.go(0)
             } catch(error) {

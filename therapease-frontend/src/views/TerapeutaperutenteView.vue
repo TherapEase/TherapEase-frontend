@@ -18,6 +18,9 @@
                 <h3 class="mb-3">
                   <strong>{{ user.nome }} {{ user.cognome }}</strong>
                 </h3>
+
+
+                <div v-if="user.ruolo==1">
                 <button
                   @click="associa"
                   v-if="isAssociato == false"
@@ -46,6 +49,10 @@
                   Scrivi una recensione
                 </button>
               </router-link>
+
+            </div>
+
+
 
               </div>
             </div>
@@ -147,7 +154,7 @@ export default defineComponent({
       console.log(informazioni.successful);
       console.log("utente: " + JSON.stringify(informazioni));
       this.user = informazioni["profile"];
-      console.log(this.user);
+      console.log(JSON.stringifythis.user);
       console.log("userruolodamandare:" + this.user.ruolo);
 
       this.user.data_nascita = this.user.data_nascita.slice(0, 10);
@@ -165,6 +172,8 @@ export default defineComponent({
       console.log(informazioni.successful);
       console.log("info profilo loggato: " + JSON.stringify(informazioni));
       const teraAssociato = informazioni["profile"]["associato"];
+      this.myRuolo=informazioni["profile"]["ruolo"]
+      
       if (teraAssociato == this.user._id) {
         this.isAssociatoConUtente = true;
       } else {
@@ -176,7 +185,7 @@ export default defineComponent({
         this.isAssociato = true;
       }
       this.user.data_nascita = this.user.data_nascita.slice(0, 10);
-
+   
 
     //catalogo recensioni 
     try {
