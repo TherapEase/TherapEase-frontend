@@ -5,14 +5,22 @@
   <div>
     <form>
       <div class="job-list">
-
         <li v-for="terapeuta in terapeuti" :key="terapeuta._id">
-                    
-          <div class="riga"><img src="../assets/profilePic.webp" alt="foto profilo" width="100">
-            <div class="colonna"><h2>{{ terapeuta.nome }} {{ terapeuta.cognome }}</h2>
-           <router-link :to="{name: 'profiloId', params:{id: `${terapeuta._id}`}}"><button>Visita profilo</button></router-link></div>
-             
-            </div></li>
+          <div class="riga">
+            <img
+              src="../assets/profilePic.webp"
+              alt="foto profilo"
+              width="100"
+            />
+            <div class="colonna">
+              <h2>{{ terapeuta.nome }} {{ terapeuta.cognome }}</h2>
+              <router-link
+                :to="{ name: 'profiloId', params: { id: `${terapeuta._id}` } }"
+                ><button>Visita profilo</button></router-link
+              >
+            </div>
+          </div>
+        </li>
       </div>
     </form>
   </div>
@@ -27,7 +35,7 @@ export default defineComponent({
   components: { NavBarVue },
   data() {
     return {
-      terapeuti: []
+      terapeuti: [],
     };
   },
   async mounted() {
@@ -40,15 +48,7 @@ export default defineComponent({
         }
       );
 
-      console.log(response["successful"]);
-
-      // if (!response.successful) {
-      //   throw new Error("Unable to get user");
-      // }
       const informazioni = await response.json();
-      console.log(informazioni);
-      console.log("catalogo: " + JSON.stringify(informazioni["catalogo"]));
-
       this.terapeuti = informazioni["catalogo"];
       return this.terapeuti;
     } catch (error) {
@@ -109,16 +109,14 @@ h1 {
   font-weight: bold;
 }
 
-
 .list-move {
   transition: all 1s;
 }
 
-button{
-  background-color:#2b3a24;
-  color:white;
+button {
+  background-color: #2b3a24;
+  color: white;
   border-radius: 0.5em;
   border-color: black;
 }
-
 </style>

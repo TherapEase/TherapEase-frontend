@@ -54,12 +54,7 @@ export default {
   },
 
   methods: {
-    // async presenza(){
-    //   this.seduta.presenza="true",
-    //   console.log(this.seduta.presenza)
-
-    // },
-
+    //allerta per creare seduta
     async allertaSeduta() {
       Swal.fire({
         title: "Avviso",
@@ -86,8 +81,6 @@ export default {
       } else {
         this.seduta.presenza == "true";
       }
-      console.log(this.seduta.presenza);
-      console.log(JSON.stringify(this.seduta));
       const options = {
         method: "POST",
         headers: {
@@ -96,22 +89,26 @@ export default {
         },
         body: JSON.stringify(this.seduta),
       };
-      const response = await fetch(
-        `${process.env.VUE_APP_ROOT_API}/definisci_slot`,
-        options
-      );
 
-      const dati = await response.json();
-      console.log(JSON.stringify(dati));
-      if (dati.successful) {
-        await Swal.fire({ title: "success", icon: "success" });
-        this.$router.go(0);
-      } else {
-        await Swal.fire({
-          title: "OPS...",
-          icon: "error",
-          text: "Qualcosa è andato storto"
-        });
+      try {
+        const response = await fetch(
+          `${process.env.VUE_APP_ROOT_API}/definisci_slot`,
+          options
+        );
+
+        const dati = await response.json();
+        if (dati.successful) {
+          await Swal.fire({ title: "success", icon: "success" });
+          this.$router.go(0);
+        } else {
+          await Swal.fire({
+            title: "OPS...",
+            icon: "error",
+            text: "Qualcosa è andato storto",
+          });
+        }
+      } catch (error) {
+        console.log(error);
       }
     },
   },

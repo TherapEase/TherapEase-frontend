@@ -1,18 +1,13 @@
 
 <script>
-
 export default {
-  components: {
-    
-  },
+  components: {},
   data() {
     return {
-      user:{}
-
+      user: {},
     };
   },
   async mounted() {
-
     const token = sessionStorage.getItem("token");
 
     const options = {
@@ -23,34 +18,30 @@ export default {
       },
     };
 
-    const res = await fetch(
-      `${process.env.VUE_APP_ROOT_API}/il_mio_profilo`,
-      options
-    );
+    try {
+      const res = await fetch(
+        `${process.env.VUE_APP_ROOT_API}/il_mio_profilo`,
+        options
+      );
 
-    const info=await res.json()
-this.user=info.profile
+      const info = await res.json();
+      this.user = info.profile;
 
-
-    const response = await fetch(
-      `${process.env.VUE_APP_ROOT_API}/calendario/prenotate`,
-      options
-    );
-
-    const dati = await response.json();
-    console.log(dati)
-
-    
-    
-
+      const response = await fetch(
+        `${process.env.VUE_APP_ROOT_API}/calendario/prenotate`,
+        options
+      );
+      await response.json();
+    } catch (error) {
+      console.log(error);
+    }
   },
 };
 </script>
 
 
 <template>
-
-<div v-if="user.ruolo == 1" class="card mb-4">
+  <div v-if="user.ruolo == 1" class="card mb-4">
     <div class="card-body">
       <div class="d-flex align-items-center">
         <div class="flex-shrink-0">
@@ -65,7 +56,6 @@ this.user=info.profile
             <strong> I tuoi gettoni: </strong>
           </h4>
           <h5>{{ user.n_gettoni }}</h5>
-
         </div>
       </div>
     </div>

@@ -36,35 +36,29 @@
                 @click.stop="alertElimina"
               />
             </div>
-            
-            
-
-
-
-            
           </div>
 
-            <div v-if="user.ruolo == 1" class="stacca card mb-4">
-              <CardAssociati
-                class="associati"
-                :ruolo="user.ruolo"
-              ></CardAssociati>
-            </div>
+          <div v-if="user.ruolo == 1" class="stacca card mb-4">
+            <CardAssociati
+              class="associati"
+              :ruolo="user.ruolo"
+            ></CardAssociati>
+          </div>
           <!-- <div class="col-sm-6"> -->
-            <div v-if="user.ruolo == 2" class="stacca card mb-4">
-              <h3 class="clienti-associati">
-                <strong> Clienti Associati</strong>
-              </h3>
-              <div class="card-body">
-                <div class="d-flex align-items-center">
-                  <ClientiAssociati style="width: 90%"></ClientiAssociati>
-                </div>
+          <div v-if="user.ruolo == 2" class="stacca card mb-4">
+            <h3 class="clienti-associati">
+              <strong> Clienti Associati</strong>
+            </h3>
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <ClientiAssociati style="width: 90%"></ClientiAssociati>
               </div>
             </div>
+          </div>
           <!-- </div> -->
 
-              <GettoniView class="stacca"></GettoniView>
-            </div>
+          <GettoniView class="stacca"></GettoniView>
+        </div>
         <!-- inizio card terapeuta associato -->
 
         <!-- <CardAssociati v-if="user.ruolo==1" class=" stacca associati" :ruolo="user.ruolo"></CardAssociati> -->
@@ -151,7 +145,7 @@ export default defineComponent({
     ClientiAssociati,
     CardRecensioni,
   },
-  
+
   name: "ProfileView",
   props: {
     msg: String,
@@ -167,9 +161,7 @@ export default defineComponent({
   },
   methods: {
     async logout() {
-      console.log("sei dentro il logout");
       const token = sessionStorage.getItem("token");
-      console.log("token al momento del logout: " + token);
       const opzioniRichiesta = {
         method: "GET",
         headers: {
@@ -183,14 +175,10 @@ export default defineComponent({
           `${process.env.VUE_APP_ROOT_API}/logout`,
           opzioniRichiesta
         );
-        if (!res.ok) {
-          throw new Error("User not found");
-        }
+        
         const data = await res.json();
-        console.log(data);
         if (data.successful) {
           await this.$store.commit("removeState");
-          console.log("get item" + sessionStorage.getItem("user"));
           this.$router.push("/");
         }
       } catch (error) {
@@ -258,12 +246,7 @@ export default defineComponent({
       );
 
       const informazioni = await response.json();
-      console.log(informazioni);
-      console.log(
-        "utente: " + JSON.stringify(informazioni["profile"]["ruolo"])
-      );
       this.user = informazioni["profile"];
-      console.log(this.user._id);
       this.user.data_nascita = this.user.data_nascita.slice(0, 10);
       if (this.user.associato != "") {
         this.isAssociato = true;
@@ -279,17 +262,8 @@ export default defineComponent({
           `${process.env.VUE_APP_ROOT_API}/profilo/${this.user.associato}`,
           opzioniRichiesta
         );
-
-        console.log("terapeuta associato: " + this.user.associato);
-
         const dati = await response.json();
-        console.log(JSON.stringify(dati));
-
-        console.log("stampa del profilooooo");
-        console.log(dati["successful"]);
-
-        this.ass = dati["profilo"];
-        console.log(this.ass);
+        this.ass = dati["profile"];
       } catch (error) {
         console.log(error);
       }
@@ -300,7 +274,7 @@ export default defineComponent({
     try {
       //probabilmente la fetch cambierà
       const response = await fetch(
-        `http://localhost:3001/api/v1/catalogo_associati`,
+        `${process.env.VUE_APP_ROOT_API}/catalogo_associati`,
         {
           method: "GET",
           headers: {
@@ -310,36 +284,10 @@ export default defineComponent({
         }
       );
       const dati = await response.json();
-      console.log(JSON.stringify(dati));
-      console.log("catalogo: " + JSON.stringify(dati["catalogo"]));
       this.clienti_associati = dati["catalogo"];
-      console.log(dati["successful"]);
-
-      console.log(this.clienti_associati);
     } catch (error) {
       console.log(error);
     }
-
-    //   const res = await fetch(
-    //     `http://localhost:3001/api/v1/il_mio_profilo`,
-    //     opzioniRichiesta
-    //   );
-    //   const data = await res.json();
-    //   console.log(data.successful);
-
-    //   console;
-    //   //const utente = JSON.parse(atob(data.token.split(".")[1]));
-    //   // console.log("utente: " + utente.username);
-    //   console.log("utente: " + store.getters.returnUser);
-    // },
-    // data() {
-    //   return {
-    //     user: store.getters.returnUser,
-    //     error: {
-    //       status: false,
-    //       messaggio: "Messaggio di default.",
-    //     },
-    //   };
   },
 });
 </script>

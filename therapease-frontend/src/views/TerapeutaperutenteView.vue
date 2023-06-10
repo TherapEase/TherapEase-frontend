@@ -60,8 +60,8 @@
                 <h5>
                   <strong>Data Di Nascita:</strong> {{ user.data_nascita }}
                 </h5>
+
                 <div v-if="user.ruolo == 2">
-                  <h4>Informazioni Professionali</h4>
                   <h5><strong>Email:</strong> {{ user.email }}</h5>
                   <h5><strong>Sede:</strong> {{ user.indirizzo }}</h5>
                 </div>
@@ -132,7 +132,6 @@ export default defineComponent({
       },
     };
 
-    console.log("params: " + this.$route.params.id);
     const param = this.$route.params.id;
 
     try {
@@ -147,7 +146,7 @@ export default defineComponent({
       const informazioni = await response.json();
       console.log(informazioni.successful);
       console.log("utente: " + JSON.stringify(informazioni));
-      this.user = informazioni["profilo"];
+      this.user = informazioni["profile"];
       console.log(this.user);
       console.log("userruolodamandare:" + this.user.ruolo);
 
@@ -181,7 +180,6 @@ export default defineComponent({
 
     //catalogo recensioni 
     try {
-      console.log("il terapeuta associato è "+teraAssociato)
       const response = await fetch(
         `${process.env.VUE_APP_ROOT_API}/recensioni_associato/${teraAssociato}`,
         {
@@ -199,9 +197,6 @@ export default defineComponent({
       //   throw new Error("Unable to get user");
       // }
       const informazioni = await response.json();
-      console.log(informazioni);
-      console.log("catalogo: " + JSON.stringify(informazioni["catalogo"]));
-
       this.recensioni = informazioni["catalogo"];
       return this.recensioni;
       } catch (error) {
@@ -221,8 +216,6 @@ export default defineComponent({
 
   methods: {
     async associa() {
-      console.log("associato: " + this.associato);
-
       const token = sessionStorage.getItem("token");
       const opzioniRichiesta = {
         method: "GET",
@@ -237,11 +230,8 @@ export default defineComponent({
           `${process.env.VUE_APP_ROOT_API}/associazione/${param}`,
           opzioniRichiesta
         );
-        const informazioni = await response.json();
-        console.log(JSON.stringify(informazioni));
+        await response.json();
         this.isAssociato = true;
-
-        console.log(informazioni.successful);
         await Swal.fire({
           icon: "success",
           title: "Complimenti!",
@@ -273,8 +263,6 @@ export default defineComponent({
     },
 
     async disassocia() {
-      console.log("associato: " + this.associato);
-      console.log("ti stai disassociando");
       const token = sessionStorage.getItem("token");
       const opzioniRichiesta = {
         method: "GET",
@@ -289,10 +277,8 @@ export default defineComponent({
           `${process.env.VUE_APP_ROOT_API}/associazione/rimuovi/${param}`,
           opzioniRichiesta
         );
-        const informazioni = await response.json();
-        console.log(informazioni.successful);
+        await response.json();
         this.isAssociato = false;
-        console.log("associazione dopo: " + this.associato);
         this.$router.go(0)
 
       } catch (error) {

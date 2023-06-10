@@ -1,121 +1,122 @@
 <template>
   <NavBarVue />
 
-<div v-if="user.ruolo == 2 || user.ruolo == 1">
-  <div class="contenitore">
-    <div class="row">
-      <div class="col-sm-6">
-        <div class="col">
-          <div class="stacca card mb-4">
-            <div class="card-header">
-              <h1>
-                <strong>Ciao, {{ user.nome }}</strong>
-              </h1>
-            </div>
-            <div class="card-body">
-              Bentornato su TherapEase!
-              <br />
-
-              <router-link to="/prenotaseduta"
-                ><button
-                  v-if="user.ruolo == 1"
-                  class="two btn btn-outline-dark size btn-sm"
-                >
-                  Prenota seduta
-                </button></router-link
-              >
-
-              <br />
-
-              <router-link to="/diario">
-                <button
-                  v-if="user.ruolo == 1"
-                  class="btn btn-outline-dark size btn-sm"
-                >
-                  Diario
-                </button></router-link
-              >
-
-              <br />
-
-              <router-link to="/prenotaseduta"
-                ><button
-                  v-if="user.ruolo == 2"
-                  class="btn tera btn-outline-dark size btn-sm"
-                >
-                  Visualizza slot
-                </button></router-link
-              >
-
-              <br />
-
-              <router-link to="/calendario"
-                ><button class="btn tera btn-outline-dark size btn-sm">
-                  Calendario
-                </button></router-link
-              >
-              <br />
-
-              <router-link to="/nuovaseduta"
-                ><button
-                  class="btn tera size btn-outline-dark btn-sm"
-                  v-if="user.ruolo == 2"
-                >
-                  Inserisci seduta
-                </button></router-link
-              >
-              <br />
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card mb-4">
-            <div v-if="user.ruolo == 2" class="card-header">
-              <h1><strong>I tuoi clienti</strong></h1>
-            </div>
-            <CardAssociati
-              class="associati"
-              profile="dashboard"
-              :ruolo="user.ruolo"
-            ></CardAssociati>
-            <ClientiAssociati
-              style="width: 90%; margin: auto auto"
-              v-if="user.ruolo == 2"
-            ></ClientiAssociati>
-          </div>
-        </div>
-
-        <gettoni-view></gettoni-view>
-      </div>
-
-      <div class="col-sm-6">
-        <div class="col">
-          <div class="stacca card mb-4">
-            <div class="card-header">
-              <h1>
-                <strong>Le tue prossime sedute</strong>
-              </h1>
-            </div>
-            <div class="card-body">
-              <div class="sedute">
-                <SedutePrenotate
-                  :ruolo="user.ruolo"
-                  class="prenotate"
-                ></SedutePrenotate>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div v-if="user.ruolo == 1">
-            <div class="card mb-4">
+  <div v-if="user.ruolo == 2 || user.ruolo == 1">
+    <div class="contenitore">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="col">
+            <div class="stacca card mb-4">
               <div class="card-header">
                 <h1>
-                  <strong> Il tuo diario terapeutico</strong>
+                  <strong>Ciao, {{ user.nome }}</strong>
                 </h1>
               </div>
               <div class="card-body">
-                <diario-terapeutico style="width: 90%"></diario-terapeutico>
+                Bentornato su TherapEase!
+                <br />
+
+                <router-link to="/prenotaseduta"
+                  ><button
+                    v-if="user.ruolo == 1"
+                    class="two btn btn-outline-dark size btn-sm"
+                  >
+                    Prenota seduta
+                  </button></router-link
+                >
+
+                <br />
+
+                <router-link to="/diario">
+                  <button
+                    v-if="user.ruolo == 1"
+                    class="btn btn-outline-dark size btn-sm"
+                  >
+                    Diario
+                  </button></router-link
+                >
+
+                <br />
+
+                <router-link to="/prenotaseduta"
+                  ><button
+                    v-if="user.ruolo == 2"
+                    class="btn tera btn-outline-dark size btn-sm"
+                  >
+                    Visualizza slot
+                  </button></router-link
+                >
+
+                <br />
+
+                <router-link to="/calendario"
+                  ><button class="btn tera btn-outline-dark size btn-sm">
+                    Calendario
+                  </button></router-link
+                >
+                <br />
+
+                <router-link to="/nuovaseduta"
+                  ><button
+                    class="btn tera size btn-outline-dark btn-sm"
+                    v-if="user.ruolo == 2"
+                  >
+                    Inserisci seduta
+                  </button></router-link
+                >
+                <br />
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card mb-4">
+              <div v-if="user.ruolo == 2" class="card-header">
+                <h1><strong>I tuoi clienti</strong></h1>
+              </div>
+              <CardAssociati
+                class="associati"
+                profile="dashboard"
+                :ruolo="user.ruolo"
+              ></CardAssociati>
+              <ClientiAssociati
+                style="width: 90%; margin: auto auto"
+                v-if="user.ruolo == 2"
+              ></ClientiAssociati>
+            </div>
+          </div>
+
+          <gettoni-view></gettoni-view>
+        </div>
+
+        <div class="col-sm-6">
+          <div class="col">
+            <div class="stacca card mb-4">
+              <div class="card-header">
+                <h1>
+                  <strong>Le tue prossime sedute</strong>
+                </h1>
+              </div>
+              <div class="card-body">
+                <div class="sedute">
+                  <SedutePrenotate
+                    :ruolo="user.ruolo"
+                    class="prenotate"
+                  ></SedutePrenotate>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div v-if="user.ruolo == 1">
+              <div class="card mb-4">
+                <div class="card-header">
+                  <h1>
+                    <strong> Il tuo diario terapeutico</strong>
+                  </h1>
+                </div>
+                <div class="card-body">
+                  <diario-terapeutico style="width: 90%"></diario-terapeutico>
+                </div>
               </div>
             </div>
           </div>
@@ -124,70 +125,58 @@
     </div>
   </div>
 
+  <div v-if="user.ruolo == 4">
+    <div class="col">
+      <div class="card mb-4">
+        <div class="job-list">
+          <h4>Terapeuti:</h4>
+          <router-link to="/catalogo">
+            <button class="rimozione_forzata">Visualizza</button>
+          </router-link>
+        </div>
+      </div>
+    </div>
 
- 
-</div>
+    <div class="col">
+      <div class="card mb-4">
+        <div class="job-list">
+          <h4>Clilenti:</h4>
+          <router-link to="/clienti">
+            <button class="rimozione_forzata">Visualizza</button>
+          </router-link>
+        </div>
+      </div>
+    </div>
 
+    <div class="col">
+      <div class="card mb-4">
+        <div class="job-list">
+          <h4>Segnalazioni:</h4>
+          <router-link to="/segnalazioni">
+            <button class="rimozione_forzata">Visualizza</button>
+          </router-link>
+        </div>
+      </div>
+    </div>
 
+    <div class="col">
+      <div class="card mb-4">
+        <div class="job-list">
+          <h4>Prodotti:</h4>
+          <router-link to="/offerta">
+            <button class="rimozione_forzata">Visualizza</button>
+          </router-link>
+        </div>
+      </div>
+    </div>
 
-<div v-if="user.ruolo == 4">
-  
-  <div class="col">
-  <div class="card mb-4">
-  <div class="job-list">
-    <h4>Terapeuti:</h4>
-    <router-link to="/catalogo">
-      <button class="rimozione_forzata"> Visualizza</button>
-    </router-link>
+    <div class="job-list">
+      <h4>Eventi e informazioni:</h4>
+      <router-link to="/info">
+        <button class="rimozione_forzata">Visualizza</button>
+      </router-link>
+    </div>
   </div>
-  </div>
-  </div>
-
-  <div class="col">
-  <div class="card mb-4">
-  <div class="job-list">
-    <h4>Clilenti: </h4>   
-    <router-link to="/clienti">
-      <button class="rimozione_forzata"> Visualizza</button>
-    </router-link>
-  </div>
-  </div>
-  </div>
-
-  <div class="col">
-  <div class="card mb-4">
-  <div class="job-list">
-    <h4>Segnalazioni: </h4>   
-    <router-link to="/segnalazioni">
-      <button class="rimozione_forzata"> Visualizza</button>
-    </router-link>
-  </div>
-  </div>
-  </div>
-
-  <div class="col">
-  <div class="card mb-4">
-  <div class="job-list">
-    <h4>Prodotti: </h4>   
-    <router-link to="/offerta">
-      <button class="rimozione_forzata"> Visualizza</button>
-    </router-link>
-  </div>
-  </div>
-  </div>
-
-  <div class="job-list">
-    <h4>Eventi e informazioni: </h4>   
-    <router-link to="/info">
-      <button class="rimozione_forzata"> Visualizza</button>
-    </router-link>
-  </div>
-
-</div>
-
-
-
-
 </template>
 
 <script>
@@ -225,7 +214,7 @@ export default defineComponent({
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "x-access-token": token
+        "x-access-token": token,
       },
     };
     const response = await fetch(
@@ -233,7 +222,6 @@ export default defineComponent({
       options
     );
     const dati = await response.json();
-    console.log(JSON.stringify(dati));
     this.user = dati["profile"];
     this.userRuolo = this.user.ruolo;
 
@@ -244,19 +232,10 @@ export default defineComponent({
         `${process.env.VUE_APP_ROOT_API}/catalogo_terapeuti`,
         {
           method: "GET",
-          headers: { "Content-Type": "application/json" }
+          headers: { "Content-Type": "application/json" },
         }
       );
-
-      console.log(response["successful"])
-
-      // if (!response.successful) {
-      //   throw new Error("Unable to get user");
-      // }
-      const informazioni = await response.json()
-      console.log(informazioni)
-      console.log("catalogo: " + JSON.stringify(informazioni["catalogo"]));
-
+      const informazioni = await response.json();
       this.terapeuti = informazioni["catalogo"];
       return this.terapeuti;
     } catch (error) {
@@ -270,19 +249,11 @@ export default defineComponent({
         `${process.env.VUE_APP_ROOT_API}/catalogo_clienti`,
         {
           method: "GET",
-          headers: { "Content-Type": "application/json" }
+          headers: { "Content-Type": "application/json" },
         }
       );
 
-      console.log(response["successful"]);
-
-      // if (!response.successful) {
-      //   throw new Error("Unable to get user");
-      // }
       const data = await response.json();
-      console.log(data);
-      console.log("catalogo: " + JSON.stringify(data["catalogo"]));
-
       this.clienti = data["catalogo"];
       return this.clienti;
     } catch (error) {
@@ -303,14 +274,7 @@ export default defineComponent({
         }
       );
 
-      console.log(response["successful"]);
-
-      // if (!response.successful) {
-      //   throw new Error("Unable to get user");
-      // }
       const info = await response.json();
-      console.log(info);
-      console.log("catalogo: " + JSON.stringify(info["catalogo"]));
       this.segnalazioni = info["catalogo"];
       return this.segnalazioni;
     } catch (error) {
@@ -325,7 +289,7 @@ export default defineComponent({
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "x-access-token": token
+        "x-access-token": token,
       },
     };
     const param = this.$route.params.id;
@@ -333,9 +297,7 @@ export default defineComponent({
       `${process.env.VUE_APP_ROOT_API}/segnalazione/gestisci/${param}`,
       options
     );
-    const i = await res.json();
-    console.log(i.successful);
-    console.log("gestita: " + JSON.stringify(i));
+    await res.json();
   },
 });
 </script>
@@ -397,14 +359,13 @@ h1 {
   font-weight: bold;
 }
 
-
 .list-move {
   transition: all 1s;
 }
 
-.rimozione_forzata{
-  background-color:#2b3a24;
-  color:white;
+.rimozione_forzata {
+  background-color: #2b3a24;
+  color: white;
   border-radius: 0.5em;
   border-color: black;
 }

@@ -3,121 +3,111 @@
   <main>
     <div>
       <NavBarVue />
-      
     </div>
     <h1 class="titolo">Modifica Profilo</h1>
     <p>Compila solo i campi che intendi modificare.</p>
     <form @submit.prevent>
-    <fieldset>
-      <label for="username"
-        >Username:
-        <input
-          v-model="utente.username"
-          id="username"
-          name="username"
-          type="text"
-      /></label>
-      <label for="nome"
-        >Nome:
-        <input v-model="utente.nome" id="nome" name="nome" type="text" required
-      /></label>
-      <label for="cognome"
-        >Cognome:
-        <input
-          v-model="utente.cognome"
-          id="cognome"
-          name="cognome"
-          type="text"
-
-      /></label>
-      <label for="email"
-        >Email:
-        <input
-          v-model="utente.email"
-          id="email"
-          name="email"
-          type="text"
-
-      /></label>
-      <label for="cf"
-        >Codice Fiscale
-        <input
-          v-model="utente.cf"
-          id="cf"
-          name="cf"
-          type="text"
-
-      /></label>
-      <label for="datanascita"
-        >Data di nascita:
-        <input
-          v-model="utente.data_nascita"
-          id="datanascita"
-          name="datanascita"
-          type="date"
-          pattern="[a-z0-5]{8,}"
-
-      /></label>
-      <label for="password"
-        >Password:
-        <input
-          v-model="utente.password"
-          id="password"
-          name="password"
-          type="password"
-
-      /></label>
-      <label for="conferma-password"
-        >Conferma Password:
-        <input
-          v-model="confermaPassword"
-          id="conferma-password"
-          name="conferma-password"
-          type="password"
-
-      /></label>
-
-
-      <div v-if="user.ruolo==2">
-        <label for="indirizzo"
-          >Indirizzo sede:
+      <fieldset>
+        <label for="username"
+          >Username:
           <input
-            v-model="utente.indirizzo"
-            id="indirizzo"
-            name="indirizzo"
+            v-model="utente.username"
+            id="username"
+            name="username"
             type="text"
         /></label>
-        <label for="documento"
-          >Allega il tuo certificato abilitazione:
+        <label for="nome"
+          >Nome:
           <input
-            v-model="utente.documenti"
-            id="documenti"
+            v-model="utente.nome"
+            id="nome"
+            name="nome"
             type="text"
-            name="file"
+            required
         /></label>
-        <label for="limite"
-          >Limite clienti:
+        <label for="cognome"
+          >Cognome:
           <input
-            v-model="utente.limite_clienti"
-            id="limite"
-            type="number"
-            min="1"
-            max="30"
-            name="limite"
+            v-model="utente.cognome"
+            id="cognome"
+            name="cognome"
+            type="text"
         /></label>
-      </div>
+        <label for="email"
+          >Email:
+          <input v-model="utente.email" id="email" name="email" type="text"
+        /></label>
+        <label for="cf"
+          >Codice Fiscale
+          <input v-model="utente.cf" id="cf" name="cf" type="text"
+        /></label>
+        <label for="datanascita"
+          >Data di nascita:
+          <input
+            v-model="utente.data_nascita"
+            id="datanascita"
+            name="datanascita"
+            type="date"
+            pattern="[a-z0-5]{8,}"
+        /></label>
+        <label for="password"
+          >Password:
+          <input
+            v-model="utente.password"
+            id="password"
+            name="password"
+            type="password"
+        /></label>
+        <label for="conferma-password"
+          >Conferma Password:
+          <input
+            v-model="confermaPassword"
+            id="conferma-password"
+            name="conferma-password"
+            type="password"
+        /></label>
 
+        <div v-if="user.ruolo == 2">
+          <label for="indirizzo"
+            >Indirizzo sede:
+            <input
+              v-model="utente.indirizzo"
+              id="indirizzo"
+              name="indirizzo"
+              type="text"
+          /></label>
+          <label for="documento"
+            >Allega il tuo certificato abilitazione:
+            <input
+              v-model="utente.documenti"
+              id="documenti"
+              type="text"
+              name="file"
+          /></label>
+          <label for="limite"
+            >Limite clienti:
+            <input
+              v-model="utente.limite_clienti"
+              id="limite"
+              type="number"
+              min="1"
+              max="30"
+              name="limite"
+          /></label>
+        </div>
 
-      <label for="profile-picture"
-        >Inserisci una foto profilo:
-        <input id="profile-picture" type="file" name="file"
-      /></label>
-    </fieldset>
-    <input value="Conferma Modifiche" type="submit" @click.stop="modifyProfilo" />
-  </form>
-
-  
-  </main> 
+        <label for="profile-picture"
+          >Inserisci una foto profilo:
+          <input id="profile-picture" type="file" name="file"
+        /></label>
+      </fieldset>
+      <input
+        value="Conferma Modifiche"
+        type="submit"
+        @click.stop="modifyProfilo"
+      />
+    </form>
+  </main>
 </template>
 
 
@@ -144,98 +134,69 @@ export default defineComponent({
         email: "",
         cf: "",
         data_nascita: "",
-        foto_profilo:"",
+        foto_profilo: "",
         indirizzo: "",
         limite_clienti: "",
-        documenti: ""
-      }, user:{},
+        documenti: "",
+      },
+      user: {},
+    };
+  },
+  async mounted() {
+    const token = sessionStorage.getItem("token");
 
+    const opzioniRichiesta = {
+      method: "GET",
+      headers: {
+        "x-access-token": token,
+      },
     };
 
+    try {
+      const response = await fetch(
+        `${process.env.VUE_APP_ROOT_API}/il_mio_profilo`,
+        opzioniRichiesta
+      );
 
+      if (!response.ok) {
+        throw new Error("Unable to get user");
+      }
+      const informazioni = await response.json();
+      return (this.user = informazioni["profile"]);
+    } catch (error) {
+      console.log(error);
+    }
   },
-  async mounted(){
-
-    const token=sessionStorage.getItem('token')
-
-      const opzioniRichiesta = {
-        method: 'GET',
-        headers: {
-          "x-access-token": token,
-        }
-      }
-
-      try {
-        const response = await fetch(`${process.env.VUE_APP_ROOT_API}/il_mio_profilo`, opzioniRichiesta)
-
-        if(!response.ok) {
-          throw new Error("Unable to get user")
-        }
-        const informazioni = await response.json()
-        console.log('profilo:'+ JSON.stringify(informazioni['profile']))
-        return this.user=informazioni['profile'];
-        
-      } catch (error) {
-        console.log(error)
-      }
-    
-
-  } ,
 
   methods: {
-
-    
-
-      
-
-    async modifyProfilo(){
-
+    async modifyProfilo() {
       await this.getRuolo();
-      console.log('profilo in modiy:'+ JSON.stringify(this.user))
-      console.log('ruolo in modiy:'+ this.user.ruolo)
-
-
-      
-
-      const token=sessionStorage.getItem('token')
-     
-      console.log(token)
-
+      const token = sessionStorage.getItem("token");
       var data;
       const options = {
         method: "POST",
-        headers: { "Content-Type": "application/json","x-access-token": token },
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": token,
+        },
         body: JSON.stringify(this.utente),
       };
 
-      const res = await fetch(`${process.env.VUE_APP_ROOT_API}/il_mio_profilo/modifica`, options)
-      data = await res.json();
-      console.log(data);
-
-      if (data.successful) {
-            console.log(JSON.stringify(this.utente))
-            this.$router.push("/profilo");
-      } else {
-        console.log(data.error || data.message);
+      try {
+        const res = await fetch(
+          `${process.env.VUE_APP_ROOT_API}/il_mio_profilo/modifica`,
+          options
+        );
+        data = await res.json();
+        if (data.successful) {
+          this.$router.push("/profilo");
+        }
+      } catch (error) {
+        console.log(error);
       }
-
-      
-
-    }
-  }
-
-
-
-
+    },
+  },
 });
-
-
-
-
-
-
-
-
 </script> 
 
 <style scoped>

@@ -1,91 +1,95 @@
 <template>
-    <div class="white-header inline">
-      <img class="logo" src="@/assets/logo.jpeg" />
-    </div>
-    <h1 class="titolo">Recupero Password</h1>
-    <p>Compila i campi sottostanti per ricevere una nuova password via mail</p>
-    <form @submit.prevent>
-      <fieldset>
-        <label for="username"
-          >Username:
-          <input
-            v-model="utente.username"
-            id="username"
-            name="username"
-            type="text"
-            required
-        /></label>
-        <label for="mail"
-          >E-mail:
-          <input
-            v-model="utente.mail"
-            id="mail"
-            name="mail"
-            type="mail"
-            required
-        /></label>
-        <label for = "cf">
-            Codice Fiscale:
-            <input
-                v-model="utente.cf"
-                id="cf"
-                name="cf"
-                type="cf"
-                required/>
-        </label>
-      </fieldset>
-  
-      <input type="submit" @click.stop="recupero_password" value="Recupera Password" />
-    </form>
-  </template>
-<script>
+  <div class="white-header inline">
+    <img class="logo" src="@/assets/logo.jpeg" />
+  </div>
+  <h1 class="titolo">Recupero Password</h1>
+  <p>Compila i campi sottostanti per ricevere una nuova password via mail</p>
+  <form @submit.prevent>
+    <fieldset>
+      <label for="username"
+        >Username:
+        <input
+          v-model="utente.username"
+          id="username"
+          name="username"
+          type="text"
+          required
+      /></label>
+      <label for="mail"
+        >E-mail:
+        <input
+          v-model="utente.email_address"
+          id="mail"
+          name="mail"
+          type="mail"
+          required
+      /></label>
+      <label for="cf">
+        Codice Fiscale:
+        <input
+          v-model="utente.codice_fiscale"
+          id="cf"
+          name="cf"
+          type="cf"
+          required
+        />
+      </label>
+    </fieldset>
 
-import { defineComponent } from 'vue';
+    <input
+      type="submit"
+      @click.stop="recupero_password"
+      value="Recupera Password"
+    />
+  </form>
+</template>
+<script>
+import { defineComponent } from "vue";
 
 export default defineComponent({
-    name: "PasswordRecoveryPage",
+  name: "PasswordRecoveryPage",
 
-    data() {
-        return{
-            utente:{
-                username: "",
-                email_address: "",
-                codice_fiscale: ""
-            },
-            error:{
-                status:false,
-                messaggio: "Messaggio di default",
-            }
+  data() {
+    return {
+      utente: {
+        username: "",
+        email_address: "",
+        codice_fiscale: "",
+      },
+      error: {
+        status: false,
+        messaggio: "Messaggio di default",
+      },
+    };
+  },
+
+  methods: {
+    async recupero_password() {
+      const opzioniRichiesta = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(this.utente),
+      };
+
+      const res = await fetch(
+        `${process.env.VUE_APP_ROOT_API}/recuperopassword`,
+        opzioniRichiesta
+      );
+      const data = await res.json();
+
+      try {
+        if (data.successful) {
+          console.log("SUCCESSO");
+          this.$router.push("/login");
+        } else {
+          alert(data.message);
         }
+      } catch (error) {
+        console.log("Errore: " + error);
+      }
     },
-
-    methods:{
-        async recupero_password(){
-
-            const opzioniRichiesta = {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(this.utente)
-            }
-
-            const res = await fetch(
-                `${process.env.VUE_APP_ROOT_API}/recuperopassword`, opzioniRichiesta
-            )
-            const data = await res.json()
-
-            try {
-                if(data.successful){
-                    console.log("SUCCESSO")
-                    this.$router.push("/login")
-                }else{
-                    alert(data.message)
-                }
-            } catch (error) {
-                console.log("Errore: "+error)
-            }
-        }
-    }
-})
+  },
+});
 </script>
 <style scoped>
 .white-header {

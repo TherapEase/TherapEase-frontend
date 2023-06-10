@@ -33,7 +33,7 @@
     <router-link to="/registrazione">Registrati!</router-link>
   </h3>
   <h3>
-    Hai scordato la password? 
+    Hai scordato la password?
     <router-link to="/recupero_password">Recuperala!</router-link>
   </h3>
 </template>
@@ -57,8 +57,6 @@ export default defineComponent({
     };
   },
 
-  
-
   methods: {
     async getUserInfo(token) {
       const opzioniRichiesta = {
@@ -68,22 +66,16 @@ export default defineComponent({
           "x-access-token": token,
         },
       };
-      console.log("siamo in get infooooooooo");
 
       const res = await fetch(
         `${process.env.VUE_APP_ROOT_API}/il_mio_profilo`,
         opzioniRichiesta
       );
       const data = await res.json();
-      console.log(data.successful);
-      console.log("DATA: " + JSON.stringify(data));
 
       try {
         if (data.successful) {
           const user = data["profile"];
-          console.log(
-            "RETURN DELLA FUNZIONE GET MY PROFILO" + JSON.stringify(user)
-          );
           return user;
         } else {
           this.error.status = true;
@@ -97,23 +89,17 @@ export default defineComponent({
     },
 
     async login() {
-
-
-      console.log("siamo dentro")
-        const opzioniRichiesta = {
-
+      const opzioniRichiesta = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(this.utente),
       };
 
-
-        const res = await fetch(
-          `${process.env.VUE_APP_ROOT_API}/login`,
-          opzioniRichiesta
-        );
-        const data = await res.json();
-
+      const res = await fetch(
+        `${process.env.VUE_APP_ROOT_API}/login`,
+        opzioniRichiesta
+      );
+      const data = await res.json();
 
       try {
         if (data.successful) {

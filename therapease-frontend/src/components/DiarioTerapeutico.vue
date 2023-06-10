@@ -4,10 +4,10 @@ import "vue-cal/dist/vuecal.css";
 
 export default {
   components: { VueCal },
-  props: { ruolos:Number },
+  props: { ruolos: Number },
   data() {
     return {
-      user:{},
+      user: {},
       events: [
         // {
         //   start: "2023-05-30 14:00",
@@ -18,7 +18,6 @@ export default {
     };
   },
   async mounted() {
-    console.log("sei dentro")
     const token = sessionStorage.getItem("token");
 
     const options = {
@@ -35,19 +34,12 @@ export default {
         options
       );
       const informazioni = await response.json();
-      console.log(informazioni.successful);
       this.user = informazioni["profile"];
-      
     } catch (error) {
       console.log(error);
     }
 
-
-
-
-
-    console.log("ruolo"+this.user.ruolo)
-    if (this.user.ruolo== 1) {
+    if (this.user.ruolo == 1) {
       const response = await fetch(
         `${process.env.VUE_APP_ROOT_API}/leggi_pagine`,
         options
@@ -62,9 +54,7 @@ export default {
           title: dati["pagine"][i]["testo"],
         });
       }
-    }else if(this.user.ruolo == 2){
-
-      console.log(`ruote: ${process.env.VUE_APP_ROOT_API}/leggi_pagine/${this.$route.params.id}`)
+    } else if (this.user.ruolo == 2) {
       const response = await fetch(
         `${process.env.VUE_APP_ROOT_API}/leggi_pagine/${this.$route.params.id}`,
         options
@@ -83,7 +73,7 @@ export default {
 };
 </script>
 <template>
-  <div  class="calendario">
+  <div class="calendario">
     <vue-cal
       hide-view-selector
       :time="false"

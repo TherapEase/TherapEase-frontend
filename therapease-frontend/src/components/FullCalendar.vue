@@ -48,12 +48,12 @@ export default {
         title:
           new Date(dati["sedute"][i]["data"]).getHours() +
           ":" +
-          dati["sedute"][i]["data"].slice(14,16) +
+          dati["sedute"][i]["data"].slice(14, 16) +
           "-" +
           `${new Date(dati["sedute"][i]["data"]).getHours() + 1}` +
           ":" +
-          dati["sedute"][i]["data"].slice(14,16),
-          
+          dati["sedute"][i]["data"].slice(14, 16),
+
         date: dati["sedute"][i]["data"].slice(0, 10),
       });
     }

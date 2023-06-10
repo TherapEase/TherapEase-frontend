@@ -11,7 +11,6 @@ import OffertaView from "../views/OffertaView.vue"
 import TerapeutaperutenteView from "../views/TerapeutaperutenteView.vue"
 import ModificaView from "../views/ModificaView.vue"
 import DashboardView from "../views/DashboardView.vue"
-import ChangepasswordView from "../views/ChangepasswordView.vue"
 import NuovasedutaView from  "../views/NuovasedutaView.vue"
 import PrenotasedutaView from "../views/PrenotasedutaView.vue"
 import CalendarioView from "../views/CalendarioView.vue"
@@ -86,11 +85,6 @@ const routes = [
     component: DashboardView
   },
   {
-    path: '/changepassword',
-    name: 'changepassword',
-    component: ChangepasswordView
-  },
-  {
     path: '/nuovaseduta',
     name: 'nuovaseduta',
     component: NuovasedutaView
@@ -153,7 +147,6 @@ router.beforeEach((to, from, next) => {
   const publicPages = ['/', '/login', '/registrazione', '/chisiamo', '/catalogo', '/offerta', '/recupero_password', '/info'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = sessionStorage.getItem('user');
-  console.log(loggedIn)
 
 
   if (authRequired && !loggedIn) {
