@@ -116,10 +116,6 @@ export default defineComponent({
                 options
               );
               info = await res.json();
-              console.log("info:",JSON.stringify(info));
-
-
-              // console.log(info.successful)
               if(info.successful) {
                 this.$router.go(0)
               }
@@ -145,7 +141,6 @@ export default defineComponent({
       )
       const dati=await response.json()
       if(!dati["successful"]){
-        console.log("Not Ok");
         return;
       }
       }catch(error){
@@ -172,11 +167,9 @@ export default defineComponent({
         options
       );
       const dati = await response.json();
-      console.log(JSON.stringify(dati));
       this.user = dati["profile"];
       this.userRuolo = this.user.ruolo;
       }
-    console.log("user:", this.user.ruolo)
 
     try {
       const response = await fetch(
@@ -187,10 +180,7 @@ export default defineComponent({
         }
       );
 
-      console.log(response["successful"]);
       const informazioni = await response.json();
-      console.log(informazioni);
-      console.log("eventi: " + JSON.stringify(informazioni["eventi"]));
 
       this.eventi = informazioni["eventi"];
       return this.eventi;

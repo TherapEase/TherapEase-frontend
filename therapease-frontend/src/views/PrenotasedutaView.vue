@@ -1,7 +1,7 @@
 <template>
   <NavBarVue></NavBarVue>
-  <h1 v-if="user.ruolo==1">Prenota una seduta</h1>
-  <h1 v-if="user.ruolo==2">Gestisci sedute</h1>
+  <h1 v-if="user.ruolo == 1">Prenota una seduta</h1>
+  <h1 v-if="user.ruolo == 2">Gestisci sedute</h1>
 
   <div class="nessuno" v-if="nessuno">
     <h3 class="top"><strong>Importante!</strong></h3>
@@ -10,7 +10,9 @@
     </h4>
     <h4>Visita il nostro catalogo e trova il terapueta che fa per te.</h4>
     <router-link to="/catalogo"
-      ><button class="custom">Vai al catalogo dei terapeuti</button></router-link
+      ><button class="custom">
+        Vai al catalogo dei terapeuti
+      </button></router-link
     >
   </div>
   <div>
@@ -65,6 +67,7 @@ export default {
         }
       });
     },
+
     async rimuovi(seduta) {
       const token = sessionStorage.getItem("token");
 
@@ -81,8 +84,7 @@ export default {
         options
       );
 
-      const dati = await response.json();
-      console.log(JSON.stringify(dati));
+      await response.json();
       this.$router.push("/dashboard");
     },
 
@@ -98,12 +100,11 @@ export default {
         body: JSON.stringify(seduta),
       };
       const response = await fetch(
-        "http://localhost:3001/api/v1/prenotazione",
+        `${process.env.VUE_APP_ROOT_API}/prenotazione`,
         options
       );
 
-      const dati = await response.json();
-      console.log(JSON.stringify(dati));
+      await response.json();
       this.$router.push("/dashboard");
     },
   },
@@ -119,7 +120,7 @@ export default {
       },
     };
     const response = await fetch(
-      "http://localhost:3001/api/v1/calendario/disponibili",
+      `${process.env.VUE_APP_ROOT_API}/calendario/disponibili`,
       options
     );
 
@@ -128,18 +129,9 @@ export default {
     if (this.sedute.indirizzo != "") {
       this.presenza = true;
     }
-    // console.log("ID:" +JSON.stringify(dati["sedute"]))
-
-    // console.log("ID:" +dati["sedute"]["_id"])
-    // this.sedute._id = dati["sedute"]["_id"];
-    // console.log("id: "+ this.sedute._id)
-
     this.sedute = dati["sedute"];
-
-    console.log(this.sedute.data);
-
     const res = await fetch(
-      "http://localhost:3001/api/v1/il_mio_profilo",
+      `${process.env.VUE_APP_ROOT_API}/il_mio_profilo`,
       options
     );
     const utente = await res.json();
@@ -218,14 +210,13 @@ button {
   font-size: 22px;
 }
 
-.top{
+.top {
   padding-top: 150px;
 }
 
-.custom{
-  margin-top:50px ;
+.custom {
+  margin-top: 50px;
   width: 250px;
   border-radius: 0.5em;
 }
-
 </style>

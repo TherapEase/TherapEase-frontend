@@ -1,10 +1,14 @@
 <template>
   <div>
-    <h1 class="tit" v-if="profilo=='dashboard'"><strong>I tuoi clienti</strong></h1>
+    <h1 class="tit" v-if="profilo == 'dashboard'">
+      <strong>I tuoi clienti</strong>
+    </h1>
     <form>
       <div class="job-list">
-        <li v-for="cliente_associato in clienti_associati" :key="cliente_associato._id">
-
+        <li
+          v-for="cliente_associato in clienti_associati"
+          :key="cliente_associato._id"
+        >
           <div class="riga">
             <img
               src="../assets/profilePic.webp"
@@ -12,9 +16,14 @@
               width="100"
             />
             <div class="colonna">
-              <h2>{{ cliente_associato.nome }} {{ cliente_associato.cognome }}</h2>
+              <h2>
+                {{ cliente_associato.nome }} {{ cliente_associato.cognome }}
+              </h2>
               <router-link
-                :to="{ name: 'profiloId', params: { id: `${cliente_associato._id}` } }"
+                :to="{
+                  name: 'profiloId',
+                  params: { id: `${cliente_associato._id}` },
+                }"
                 ><button>Visita profilo</button></router-link
               >
             </div>
@@ -31,16 +40,15 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "CardAssociati",
-  props: { ruolo: Number, profilo:String },
+  props: { ruolo: Number, profilo: String },
   data() {
     return {
       ass: {},
-      isAssociato:false,
-      clienti_associati:[],
-
+      isAssociato: false,
+      clienti_associati: [],
     };
   },
-  methods:{},
+  methods: {},
 
   async mounted() {
     const token = sessionStorage.getItem("token");
@@ -61,12 +69,7 @@ export default defineComponent({
       );
 
       const informazioni = await response.json();
-      console.log(informazioni);
-      console.log(
-        "utente: " + JSON.stringify(informazioni["profile"]["ruolo"])
-      );
       this.user = informazioni["profile"];
-      console.log(this.user._id);
       this.user.data_nascita = this.user.data_nascita.slice(0, 10);
       if (this.user.associato != "") {
         this.isAssociato = true;
@@ -75,7 +78,7 @@ export default defineComponent({
       console.log(err);
     }
 
-//associato
+    //associato
 
     try {
       const response = await fetch(
@@ -83,249 +86,156 @@ export default defineComponent({
         opzioniRichiesta
       );
 
-      console.log("terapeuta associato: "+this.user.associato)
-
       const dati = await response.json();
-      console.log(JSON.stringify(dati));
-
-      console.log("stampa del profilooooo");
-      console.log(dati["successful"]);
-      
-      this.ass=dati["profilo"];
-      console.log(this.ass)
+      this.ass = dati["profile"];
     } catch (err) {
       console.log(err);
     }
 
-
-
     try {
       //probabilmente la fetch cambierà
       const response = await fetch(
-        `http://localhost:3001/api/v1/catalogo_associati`,
+        `${process.env.VUE_APP_ROOT_API}/catalogo_associati`,
         {
           method: "GET",
-          headers: { 
+          headers: {
             "Content-Type": "application/json",
-            "x-access-token": token
+            "x-access-token": token,
           },
         }
       );
       const dati = await response.json();
-      console.log(JSON.stringify(dati));
-      console.log("catalogo: " + JSON.stringify(dati["catalogo"]));
-      this.clienti_associati = dati["catalogo"]
-      console.log(dati["successful"]);
-      
-      console.log(this.clienti_associati)
+      this.clienti_associati = dati["catalogo"];
     } catch (error) {
       console.log(error);
     }
   },
-
 });
 </script>
 
 
-<!-- <script>
-import { defineComponent } from "vue"
-import "bootstrap/dist/css/bootstrap.min.css";
 
-
-export default defineComponent({
-  name: "CardAssociati",
-  props:{ruolo:Number},
-  data() {
-    return {
-      user: {},
-      ass: {},
-      isAssociato: false,
-    };
-  },
-  methods() {},
-//   async mounted() {
-//     const token = sessionStorage.getItem("token");
-
-//     const opzioniRichiesta = {
-//       method: "GET",
-//       headers: {
-//         "x-access-token": token,
-//       },
-//     };
-
-//     //loggeduser
-
-//     try {
-//       const response = await fetch(
-//         `${process.env.VUE_APP_ROOT_API}/il_mio_profilo`,
-//         opzioniRichiesta
-//       );
-
-//       const informazioni = await response.json();
-//       console.log(informazioni);
-//       console.log(
-//         "utente: " + JSON.stringify(informazioni["profile"]["ruolo"])
-//       );
-//       this.user = informazioni["profile"];
-//       console.log(this.user._id);
-//       this.user.data_nascita = this.user.data_nascita.slice(0, 10);
-//       if (this.user.associato != "") {
-//         this.isAssociato = true;
-//       }
-//     } catch (err) {
-//       console.log(err);
-//     }
-
-// //associato
-
-//     try {
-//       const response = await fetch(
-//         `${process.env.VUE_APP_ROOT_API}/profilo/${this.user.associato}`,
-//         opzioniRichiesta
-//       );
-
-//       console.log("terapeuta associato: "+this.user.associato)
-
-//       const dati = await response.json();
-//       console.log(JSON.stringify(dati));
-
-//       console.log("stampa del profilooooo");
-//       console.log(dati["successful"]);
-      
-//       this.ass=dati["profilo"];
-//       console.log(this.ass)
-//     } catch (err) {
-//       console.log(err);
-//     }
-//   },
-//
- });
-</script> -->
 
 
 <style scoped>
-
-
 .riga {
-    display: flex;
-    flex-direction: row;
-  }
-  
-  img {
-    margin-right: 30px;
-    margin-left: 30px;
-  }
-  
-  .colonna {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  button {
-    width: 130px;
-  }
-  
-  h1 {
-    font-weight: bold;
-    text-align: center;
-    padding-top: 30px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-  }
-  
-  .job-list {
-    max-width: 960px;
-    margin: 40px auto;
-  }
-  
-  .job-list ul {
-    padding: 0;
-  }
-  
-  .job-list li {
-    list-style-type: none;
-    background: #a4af9e;
-    padding: 16px;
-    margin: 16px 0;
-    border-radius: 1em;
-  }
-  
-  .job-list h2 {
-    margin: 0 0 10px;
-    text-transform: capitalize;
-    font-weight: bold;
-  }
-  
-  
-  .list-move {
-    transition: all 1s;
-  }
-  
-  button{
-    background-color:#2b3a24;
-    color:white;
-    border-radius: 0.5em;
-    border-color: black;
-  }
+  display: flex;
+  flex-direction: row;
+}
+
+img {
+  margin-right: 30px;
+  margin-left: 30px;
+}
+
+.colonna {
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  width: 130px;
+}
+
+h1 {
+  font-weight: bold;
+  text-align: center;
+  padding-top: 30px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.job-list {
+  max-width: 960px;
+  margin: 40px auto;
+}
+
+.job-list ul {
+  padding: 0;
+}
+
+.job-list li {
+  list-style-type: none;
+  background: #a4af9e;
+  padding: 16px;
+  margin: 16px 0;
+  border-radius: 1em;
+}
+
+.job-list h2 {
+  margin: 0 0 10px;
+  text-transform: capitalize;
+  font-weight: bold;
+}
+
+.list-move {
+  transition: all 1s;
+}
+
+button {
+  background-color: #2b3a24;
+  color: white;
+  border-radius: 0.5em;
+  border-color: black;
+}
 .riga {
-    display: flex;
-    flex-direction: row;
-  }
-  
-  img {
-    margin-right: 30px;
-    margin-left: 30px;
-  }
-  
-  .colonna {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  button {
-    width: 130px;
-  }
-  
-  h1 {
-    font-weight: bold;
-    text-align: center;
-    padding-top: 30px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-  }
-  
-  .job-list {
-    max-width: 960px;
-    margin: 40px auto;
-  }
-  
-  .job-list ul {
-    padding: 0;
-  }
-  
-  .job-list li {
-    list-style-type: none;
-    background: #a4af9e;
-    padding: 16px;
-    margin: 16px 0;
-    border-radius: 1em;
-  }
-  
-  .job-list h2 {
-    margin: 0 0 10px;
-    text-transform: capitalize;
-    font-weight: bold;
-  }
-  
-  
-  .list-move {
-    transition: all 1s;
-  }
-  
-  button{
-    background-color:#2b3a24;
-    color:white;
-    border-radius: 0.5em;
-    border-color: black;
-  }
+  display: flex;
+  flex-direction: row;
+}
+
+img {
+  margin-right: 30px;
+  margin-left: 30px;
+}
+
+.colonna {
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  width: 130px;
+}
+
+h1 {
+  font-weight: bold;
+  text-align: center;
+  padding-top: 30px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.job-list {
+  max-width: 960px;
+  margin: 40px auto;
+}
+
+.job-list ul {
+  padding: 0;
+}
+
+.job-list li {
+  list-style-type: none;
+  background: #a4af9e;
+  padding: 16px;
+  margin: 16px 0;
+  border-radius: 1em;
+}
+
+.job-list h2 {
+  margin: 0 0 10px;
+  text-transform: capitalize;
+  font-weight: bold;
+}
+
+.list-move {
+  transition: all 1s;
+}
+
+button {
+  background-color: #2b3a24;
+  color: white;
+  border-radius: 0.5em;
+  border-color: black;
+}
 
 .grassetto {
   font-size: 40px;

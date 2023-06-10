@@ -1,12 +1,12 @@
 
 
 <template>
-<!-- <h1>Prossime sedute:</h1> -->
-  <div v-if="hasSedute==false">
-  <h5>Nessuna seduta prenotata</h5>
-</div>
+  <!-- <h1>Prossime sedute:</h1> -->
+  <div v-if="hasSedute == false" >
+    <h5 style="text-align:center">Nessuna seduta prenotata</h5>
+  </div>
 
-  <div v-else  class="job-list">
+  <div v-else class="job-list">
     <li v-for="seduta in sedute" :key="seduta._id">
       <div class="colonna">
         <h2 class="font">
@@ -15,10 +15,9 @@
         </h2>
         <h3 class="font">{{ seduta.indirizzo }}</h3>
 
-        <button  v-if="ruolo==1" @click="allertaRimuovi(seduta)" class="size">
+        <button v-if="ruolo == 1" @click="allertaRimuovi(seduta)" class="size">
           rimuovi prenotazione
         </button>
-        
       </div>
     </li>
   </div>
@@ -32,10 +31,11 @@ import Swal from "sweetalert2";
 
 export default defineComponent({
   name: "SedutePrenotate",
-  props:{ruolo: Number},
+  props: { ruolo: Number },
   data() {
     return {
       sedute: [],
+      hasSedute:false
     };
   },
 
@@ -58,7 +58,6 @@ export default defineComponent({
     async rimuovi(seduta) {
       const token = sessionStorage.getItem("token");
 
-
       const options = {
         method: "POST",
         headers: {
@@ -67,26 +66,25 @@ export default defineComponent({
         },
         body: JSON.stringify(seduta),
       };
-      const response = await fetch(
-        `${process.env.VUE_APP_ROOT_API}/annullaprenotazione`,
-        options
-      );
 
-      const dati = await response.json();
-      console.log(JSON.stringify(dati));
-      this.$router.push("/dashboard");
+      try {
+        const response = await fetch(
+          `${process.env.VUE_APP_ROOT_API}/annullaprenotazione`,
+          options
+        );
+
+        await response.json();
+        this.$router.push("/dashboard");
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 
   async mounted() {
-
-    console.log("user: "+this.ruolo)
-    
     const token = sessionStorage.getItem("token");
-    const user= this.$store.getters.returnUser
+    this.$store.getters.returnUser;
 
-
-    console.log("user: "+user)
     const options = {
       method: "GET",
       headers: {
@@ -94,26 +92,25 @@ export default defineComponent({
         "x-access-token": token,
       },
     };
-    const response = await fetch(
-      `${process.env.VUE_APP_ROOT_API}/calendario/prenotate`,
-      options
-    );
 
-    const dati = await response.json();
+    try {
+      const response = await fetch(
+        `${process.env.VUE_APP_ROOT_API}/calendario/prenotate`,
+        options
+      );
 
-    if (this.sedute.indirizzo != "") {
-      this.presenza = true;
+      const dati = await response.json();
+
+      if (this.sedute.indirizzo != "") {
+        this.presenza = true;
+      }
+      this.sedute = dati["sedute"];
+      if(this.sedute!=[]){
+        this.hasSedute==true
+      }
+    } catch (error) {
+      console.log(error)
     }
-    console.log("presenza=" + this.presenza);
-    // console.log("ID:" +JSON.stringify(dati["sedute"]))
-
-    // console.log("ID:" +dati["sedute"]["_id"])
-    // this.sedute._id = dati["sedute"]["_id"];
-    // console.log("id: "+ this.sedute._id)
-
-    this.sedute = dati["sedute"];
-
-    console.log(this.sedute.data);
   },
 });
 </script>

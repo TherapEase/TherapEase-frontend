@@ -64,7 +64,6 @@ export default defineComponent({
   },
   methods: {
     async scriviPagina() {
-      console.log(JSON.stringify(this.pagina));
       const token = sessionStorage.getItem("token");
       const options = {
         method: "POST",
@@ -81,7 +80,6 @@ export default defineComponent({
         options
       );
       const dati = await res.json();
-      console.log(dati.successful);
       if (dati.successful) {
         await Swal.fire({ title: "success", icon: "success" });
         this.$router.go(0);
@@ -95,8 +93,6 @@ export default defineComponent({
     },
 
     async modificaPagina() {
-      console.log("sei dentro modifica")
-
       const token = sessionStorage.getItem("token");
       const options = {
         method: "POST",
@@ -108,13 +104,11 @@ export default defineComponent({
         body: JSON.stringify(this.pagina),
       };
 
-
       const res = await fetch(
         `${process.env.VUE_APP_ROOT_API}/modifica_pagina`,
         options
       );
       const dati = await res.json();
-      console.log(dati.successful);
       if (dati.successful) {
         await Swal.fire({ title: "success", icon: "success" });
         this.$router.go(0);
@@ -128,9 +122,6 @@ export default defineComponent({
     },
 
     async eliminaPagina() {
-      console.log("sei dentro elimina")
-      console.log("bodiadi", JSON.stringify(this.pagina.data))
-
       const token = sessionStorage.getItem("token");
       const options = {
         method: "POST",
@@ -142,13 +133,11 @@ export default defineComponent({
         body: JSON.stringify(this.pagina),
       };
 
-
       const res = await fetch(
         `${process.env.VUE_APP_ROOT_API}/elimina_pagina`,
         options
       );
       const dati = await res.json();
-      console.log(dati.successful);
       if (dati.successful) {
         await Swal.fire({ title: "success", icon: "success" });
         this.$router.go(0);

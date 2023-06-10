@@ -19,7 +19,6 @@
       <img src="../assets/profilePic.webp" width="45" />
       <a href="/profilo">Il Mio Profilo</a>
     </div>
-
   </div>
 </template>
 
@@ -31,15 +30,14 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "NavBar",
   data() {
-    return { profilo:false};
+    return { profilo: false };
   },
-  async mounted(){
-    const token=sessionStorage.getItem('token')
-    if( token != null){
-      this.profilo=true
+  async mounted() {
+    const token = sessionStorage.getItem("token");
+    if (token != null) {
+      this.profilo = true;
     }
-
-  }
+  },
 });
 </script>
 

@@ -1,6 +1,6 @@
 
 <template>
- <main>
+  <main>
     <!--  <div class="white-header">
       <img class="logo" src="@/assets/Copertina.png" />
     </div>
@@ -27,8 +27,9 @@
       <div class="bottoni">
         <router-link to="/login"> <button>Accedi</button></router-link>
 
-        <router-link to="/registrazione"><button>Registrati</button></router-link>
-
+        <router-link to="/registrazione"
+          ><button>Registrati</button></router-link
+        >
       </div>
     </div>
     <div class="chisiamo">
@@ -151,7 +152,7 @@ h1 {
   /* if you want it vertically middle of the navbar. */
 }
 
-.navigation-bar>a {
+.navigation-bar > a {
   display: inline-block;
   vertical-align: top;
   margin-right: 20px;
@@ -159,4 +160,5 @@ h1 {
   /* if you want it to take the full height of the bar */
   line-height: 80px;
   /* if you want it vertically middle of the navbar */
-}</style>
+}
+</style>

@@ -31,8 +31,6 @@ export default {
     showAdd:false,
     showModify:false,
     showDelete:false
-  
-  
   }
   },
 };

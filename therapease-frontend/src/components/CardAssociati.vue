@@ -1,5 +1,19 @@
 <template>
-  <div v-if="ruolo == 1 && isAssociato" class="mb-4">
+  <div v-if="!isAssociato" class="mb-4">
+    <div class="card-body">
+      <div class="d-flex align-items-center">
+        <div class="flex-grow-1 ps-3">
+          <h2><strong>Terapeuta Associato</strong></h2>
+          Associati a un terapeuta tramite il nostro catalogo <br />
+          <router-link to="/catalogo"
+            ><button>Vai al catalogo</button></router-link
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div v-else class="mb-4">
     <div class="card-body">
       <div class="d-flex align-items-center">
         <div class="flex-shrink-0">
@@ -24,25 +38,11 @@
           >
           <button
             v-if="isAssociato"
-            @click="allertaDissocia"
+            @click.prevent="allertaDissocia"
             class="btn btn-outline-dark btn-sm"
           >
             Dissocia
           </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div v-if="isAssociato == false" class="mb-4">
-    <div class="card-body">
-      <div class="d-flex align-items-center">
-        <div class="flex-grow-1 ps-3">
-          <h2><strong>Terapeuta Associato</strong></h2>
-          Associati a un terapeuta tramite il nostro catalogo <br />
-          <router-link to="/catalogo"
-            ><button>Vai al catalogo</button></router-link
-          >
         </div>
       </div>
     </div>
@@ -63,8 +63,8 @@ export default defineComponent({
     };
   },
   methods: {
-    allertaDissocia() {
-      Swal.fire({
+    async allertaDissocia() {
+      await Swal.fire({
         title: "Sei sicuro di voler procere?",
         text: `Se clicchi su "continua" non potrai più prenotare sedute con ${this.ass.nome.toUpperCase()} ${this.ass.cognome.toUpperCase()} `,
         showCancelButton: true,
@@ -82,32 +82,24 @@ export default defineComponent({
     },
 
     async disassocia() {
-      
-        console.log("associato: " + this.ass._id);
+      const token = sessionStorage.getItem("token");
+      const opzioniRichiesta = {
+        method: "POST",
+        headers: {
+          "x-access-token": token,
+        },
+      };
 
-        console.log("ti stai disassociando");
-        const token = sessionStorage.getItem("token");
-        const opzioniRichiesta = {
-          method: "GET",
-          headers: {
-            "x-access-token": token,
-          },
-        };
-        const param = this.$route.params.id;
-        console.log("cosa sto dissociando :" + param);
-
-        try {
-          const response = await fetch(
-            `${process.env.VUE_APP_ROOT_API}/associazione/rimuovi/${this.ass._id}`,
-            opzioniRichiesta
-          );
-          const informazioni = await response.json();
-          console.log(informazioni.successful);
-          this.isAssociato = false;
-          console.log("associazione dopo: " + this.ass);
-        } catch (error) {
-          console.log(error);
-        }
+      try {
+        const response = await fetch(
+          `${process.env.VUE_APP_ROOT_API}/associazione/rimuovi/${this.ass._id}`,
+          opzioniRichiesta
+        );
+        await response.json();
+        this.isAssociato = false;
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
   setup() {},
@@ -130,13 +122,9 @@ export default defineComponent({
       );
 
       const informazioni = await response.json();
-      console.log(informazioni);
-      console.log(
-        "utente: " + JSON.stringify(informazioni["profile"]["ruolo"])
-      );
       this.user = informazioni["profile"];
-      console.log(this.user._id);
       this.user.data_nascita = this.user.data_nascita.slice(0, 10);
+      console.log(informazioni.successful);
       if (this.user.associato != "") {
         this.isAssociato = true;
       }
@@ -145,105 +133,32 @@ export default defineComponent({
     }
 
     //associato
-
-    try {
-      const response = await fetch(
-        `${process.env.VUE_APP_ROOT_API}/profilo/${this.user.associato}`,
-        opzioniRichiesta
+    if (this.isAssociato) {
+      console.log(
+        `FETCH DEL PROFILOOOOO: ${process.env.VUE_APP_ROOT_API}/profilo/${this.user.associato}`
       );
+      try {
+        const response = await fetch(
+          `${process.env.VUE_APP_ROOT_API}/profilo/${this.user.associato}`,
+          opzioniRichiesta
+        );
+        const dati = await response.json();
+        console.log(dati.successful);
+        console.log(JSON.stringify(dati));
 
-      console.log("terapeuta associato: " + this.user.associato);
-
-      const dati = await response.json();
-      console.log(JSON.stringify(dati));
-
-      console.log("stampa del profilooooo");
-      console.log(dati["successful"]);
-
-      this.ass = dati["profilo"];
-      console.log(this.ass);
-    } catch (err) {
-      console.log(err);
+        this.ass = dati["profile"];
+        console.log("THIS.ASS", this.ass);
+      } catch (err) {
+        console.log(err);
+      }
     }
   },
 });
 </script>
 
 
-<!-- <script>
-import { defineComponent } from "vue"
-import "bootstrap/dist/css/bootstrap.min.css";
 
 
-export default defineComponent({
-  name: "CardAssociati",
-  props:{ruolo:Number},
-  data() {
-    return {
-      user: {},
-      ass: {},
-      isAssociato: false,
-    };
-  },
-  methods() {},
-//   async mounted() {
-//     const token = sessionStorage.getItem("token");
-
-//     const opzioniRichiesta = {
-//       method: "GET",
-//       headers: {
-//         "x-access-token": token,
-//       },
-//     };
-
-//     //loggeduser
-
-//     try {
-//       const response = await fetch(
-//         `${process.env.VUE_APP_ROOT_API}/il_mio_profilo`,
-//         opzioniRichiesta
-//       );
-
-//       const informazioni = await response.json();
-//       console.log(informazioni);
-//       console.log(
-//         "utente: " + JSON.stringify(informazioni["profile"]["ruolo"])
-//       );
-//       this.user = informazioni["profile"];
-//       console.log(this.user._id);
-//       this.user.data_nascita = this.user.data_nascita.slice(0, 10);
-//       if (this.user.associato != "") {
-//         this.isAssociato = true;
-//       }
-//     } catch (err) {
-//       console.log(err);
-//     }
-
-// //associato
-
-//     try {
-//       const response = await fetch(
-//         `${process.env.VUE_APP_ROOT_API}/profilo/${this.user.associato}`,
-//         opzioniRichiesta
-//       );
-
-//       console.log("terapeuta associato: "+this.user.associato)
-
-//       const dati = await response.json();
-//       console.log(JSON.stringify(dati));
-
-//       console.log("stampa del profilooooo");
-//       console.log(dati["successful"]);
-      
-//       this.ass=dati["profilo"];
-//       console.log(this.ass)
-//     } catch (err) {
-//       console.log(err);
-//     }
-//   },
-//
- });
-</script> -->
 
 
 <style scoped>

@@ -187,37 +187,28 @@ export default defineComponent({
       } else {
         this.utente.ruolo = 2;
       }
-      console.log(`il mio utente: ${JSON.stringify(this.utente)}`);
-      console.log("sei dentro la funzione :))))");
       var data;
       const options = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(this.utente),
       };
+
       try {
         if (this.confermaPassword === this.utente.password) {
-          console.log("ok password uguali");
-
           const res = await fetch(
             `${process.env.VUE_APP_ROOT_API}/registrazione`,
             options
           );
           data = await res.json();
-          console.log(data);
 
           if (data.successful) {
             this.$router.push("/dashboard");
           } else {
-            console.log(data.error || data.message);
             this.error.status = true;
             this.error.messaggio =
               data.error || data.message || "Errore inaspettato, riprovare";
           }
-        } else {
-          console.log(
-            `Pssw no uguali: ${this.confermaPassword} vs ${this.utente.password}`
-          );
         }
       } catch (error) {
         console.log(error);
@@ -274,7 +265,6 @@ select {
   min-height: 2em;
   border-radius: 0.5em;
 }
-
 
 input,
 textarea {
