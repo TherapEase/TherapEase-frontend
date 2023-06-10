@@ -218,7 +218,7 @@ export default defineComponent({
     async associa() {
       const token = sessionStorage.getItem("token");
       const opzioniRichiesta = {
-        method: "GET",
+        method: "POST",
         headers: {
           "x-access-token": token,
         },
@@ -265,7 +265,7 @@ export default defineComponent({
     async disassocia() {
       const token = sessionStorage.getItem("token");
       const opzioniRichiesta = {
-        method: "GET",
+        method: "POST",
         headers: {
           "x-access-token": token,
         },
@@ -285,10 +285,6 @@ export default defineComponent({
         console.log(error);
       }
     },
-
-    
-
-
   },
 });
 </script>

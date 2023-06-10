@@ -23,7 +23,7 @@
             v-model="evento.data"
             id="data"
             name="data"
-            type="date"
+            type="datetime-local"
             pattern="[a-z0-5]{8,}"
             required
         /></label>
@@ -131,7 +131,7 @@ export default defineComponent({
         const response = await fetch(
         `${process.env.VUE_APP_ROOT_API}/rimuovi_evento/${id}`,
         {
-          method: "GET",
+          method: "DELETE",
           headers: { 
             "x-access-token": token,
             "Content-Type": "application/json",

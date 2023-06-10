@@ -163,7 +163,7 @@ export default defineComponent({
     async logout() {
       const token = sessionStorage.getItem("token");
       const opzioniRichiesta = {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           "x-access-token": token,

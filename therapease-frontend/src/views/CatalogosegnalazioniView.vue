@@ -33,6 +33,7 @@
 import { defineComponent } from "vue";
 import NavBarVue from "@/components/NavBar.vue";
 
+
 export default defineComponent({
   name: "App",
   components: { NavBarVue },
@@ -42,7 +43,8 @@ export default defineComponent({
     };
   },
   async mounted() {
-    //const token = sessionStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
+
     try {
       const response = await fetch(
         `${process.env.VUE_APP_ROOT_API}/catalogo_segnalazioni`,
@@ -50,14 +52,11 @@ export default defineComponent({
           method: "GET",
           headers: {
             "Content-Type": "application/json",
+            "x-access-token": token
           },
         }
       );
 
-
-      // if (!response.successful) {
-      //   throw new Error("Unable to get user");
-      // }
       const info = await response.json();
       this.segnalazioni = info["catalogo"];
       return this.segnalazioni;

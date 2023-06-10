@@ -55,45 +55,50 @@ export default defineComponent({
   },
 
   methods: {
-    async rimuovi(id) {
-      const token = sessionStorage.getItem("token");
-      try {
-        const response = await fetch(
-          `${process.env.VUE_APP_ROOT_API}/prodotto/rimuovi/${id}`,
-          {
-            method: "GET",
-            headers: {
-              "x-access-token": token,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        await response.json();
-        this.$router.go(0);
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    async rimuovi(id){
+    console.log("rimozione")
+    const token = sessionStorage.getItem('token')
 
-    async acquista(id, event) {
+    try {
+      const response = await fetch(
+        `${process.env.VUE_APP_ROOT_API}/prodotto/rimuovi/${id}`,
+        {
+          method: "DELETE",
+          headers: { 
+            "x-access-token": token,
+            "Content-Type": "application/json"
+          },
+        }
+      )
+      const dati=await response.json()
+      console.log(JSON.stringify(dati))
+
+      this.$router.go(0)
+
+    } catch(error) {
+      console.log(error)
+    }
+
+  },
+  
+
+    async acquista(id, event){
+
       console.log("siamo dentro", event);
       const token = sessionStorage.getItem("token");
 
       try {
-        const response = await fetch(
-          `${process.env.VUE_APP_ROOT_API}/prodotto/checkout/${id}`,
-          {
-            method: "GET",
-            headers: {
-              "x-access-token": token,
-              "Content-Type": "application/json",
-              mode: "cors",
-            },
-          }
-        );
-        const dati = await response.json();
-        if (!dati["successful"]) {
-          return;
+
+      const response = await fetch(
+        `${process.env.VUE_APP_ROOT_API}/prodotto/checkout/${id}`,
+        {
+          method: "POST",
+          headers: { 
+            "x-access-token": token,
+            "Content-Type": "application/json",
+            "mode": "cors"
+          },
+
         }
         window.location = dati.url;
       } catch (error) {

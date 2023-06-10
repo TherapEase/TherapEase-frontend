@@ -71,14 +71,32 @@ export default defineComponent({
         }
 
         var info;
-        const options = {
-          method: "POST",
-          headers: {
-            "x-access-token": token,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(this.recensione),
-        };
+
+          const options = {
+            method: "POST",
+            headers: { 
+              "x-access-token": token,
+              "Content-Type": "application/json" 
+              },
+            body: JSON.stringify(this.recensione),
+          };
+          
+          try {
+            
+              const res = await fetch(
+                `${process.env.VUE_APP_ROOT_API}/recensioni`,
+                options
+              );
+              info = await res.json();
+      
+              if(info.successful) {
+                this.$router.push(`profilo/${teraAssociato}`);
+              }
+
+          } catch (error) {
+            console.log(error);
+          }
+
 
         try {
           const res = await fetch(
