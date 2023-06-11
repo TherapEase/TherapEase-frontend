@@ -11,7 +11,7 @@
 
     <a href="/chisiamo">Chi siamo</a>
     <a href="/catalogo">I nostri Terapeuti</a>
-    <a href="info">Info e Eventi</a>
+    <a href="/info">Info e Eventi</a>
     <a href="/offerta">La nostra Offerta</a>
     <a href="/supportotecnico">Supporto Tecnico</a>
 

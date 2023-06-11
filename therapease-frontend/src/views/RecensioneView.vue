@@ -97,19 +97,6 @@ export default defineComponent({
             console.log(error);
           }
 
-
-        try {
-          const res = await fetch(
-            `${process.env.VUE_APP_ROOT_API}/recensioni/${teraAssociato}`,
-            options
-          );
-          info = await res.json();
-          if (info.successful) {
-            this.$router.push(`profilo/${teraAssociato}`);
-          }
-        } catch (error) {
-          console.log(error);
-        }
       } catch (error) {
         console.log(error);
       }

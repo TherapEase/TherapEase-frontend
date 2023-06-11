@@ -202,7 +202,7 @@ export default defineComponent({
         //catalogo recensioni
         try {
           const response = await fetch(
-            `${process.env.VUE_APP_ROOT_API}/recensioni_associato/${teraAssociato}`,
+            `${process.env.VUE_APP_ROOT_API}/recensioni_associato/${param}`,
             {
               method: "GET",
               headers: {

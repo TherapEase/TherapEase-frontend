@@ -89,13 +89,14 @@ export default defineComponent({
             headers: {
               "x-access-token": token,
               "Content-Type": "application/json",
-              mode: "cors",
             },
           }
         );
         const dati = await response.json();
+        console.log(JSON.stringify(dati))
 
         window.location = dati.url;
+        console.log(dati.url)
       } catch (error) {
         console.log(error);
       }
