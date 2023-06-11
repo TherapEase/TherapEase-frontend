@@ -279,7 +279,7 @@ export default defineComponent({
     async disassocia() {
       const token = sessionStorage.getItem("token");
       const opzioniRichiesta = {
-        method: "POST",
+        method: "DELETE",
         headers: {
           "x-access-token": token,
         },
