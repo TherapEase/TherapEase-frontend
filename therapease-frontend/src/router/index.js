@@ -19,6 +19,8 @@ import CatalogosegnalazioniView from "../views/CatalogosegnalazioniView.vue"
 import SegnalazioneView from "../views/SegnalazioneView.vue"
 import RecensioneView from "../views/RecensioneView.vue"
 import InserisciprodottoView from "../views/InserisciprodottoView.vue"
+import CheckoutsuccView from "../views/CheckoutsuccView.vue"
+import CheckoutfailView from "../views/CheckoutfailView.vue"
 
 import PasswordRecoveryView from "../views/PasswordRecoveryView.vue"
 import DiarioViewVue from '@/views/DiarioView.vue';
@@ -134,6 +136,16 @@ const routes = [
     path: '/inserisci_prodotto',
     name: '/inserisci_prodotto',
     component: InserisciprodottoView
+  },
+  {
+    path: '/checkout_succ/',
+    name: '/checkout_succ',
+    component: CheckoutsuccView
+  },
+  {
+    path: '/checkout_fail/',
+    name: '/checkout_fail',
+    component: CheckoutfailView
   }
 ]
 
