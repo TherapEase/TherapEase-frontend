@@ -43,6 +43,7 @@
 <script>
 import { defineComponent } from "vue";
 import NavBarVue from "@/components/NavBar.vue";
+import Swal from "sweetalert2";
 
 export default defineComponent({
   components: { NavBarVue },
