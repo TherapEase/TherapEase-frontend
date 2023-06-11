@@ -189,7 +189,7 @@ export default defineComponent({
       }
 
       this.user.data_nascita = this.user.data_nascita.slice(0, 10);
-      if (this.user.ruolo == 2) {
+      if (this.myRuolo == 1) {
         //catalogo recensioni
         try {
           const response = await fetch(
