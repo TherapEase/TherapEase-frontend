@@ -56,16 +56,9 @@
 
                 <div v-if="user.ruolo == 1">
                   <router-link to="/compila_segnalazione">
-                    <button
-                      class="btn btn-outline-dark btn-sm"
-                    >
-                      Segnala
-                    </button>
+                    <button class="btn btn-outline-dark btn-sm">Segnala</button>
                   </router-link>
                 </div>
-
-
-
               </div>
             </div>
           </div>
@@ -179,10 +172,9 @@ export default defineComponent({
       );
       const informazioni = await response.json();
       this.myRuolo = informazioni["profile"]["ruolo"];
-      let teraAssociato
+      let teraAssociato;
       if (this.myRuolo == 1) {
-        teraAssociato= informazioni["profile"]["associato"];
-
+        teraAssociato = informazioni["profile"]["associato"];
 
         if (teraAssociato == this.user._id) {
           this.isAssociatoConUtente = true;
@@ -196,32 +188,32 @@ export default defineComponent({
         }
       }
 
-      
       this.user.data_nascita = this.user.data_nascita.slice(0, 10);
+      if (this.user.ruolo == 2) {
+        //catalogo recensioni
+        try {
+          const response = await fetch(
+            `${process.env.VUE_APP_ROOT_API}/recensioni_associato/${teraAssociato}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                "x-access-token": token,
+              },
+            }
+          );
 
-      //catalogo recensioni
-      try {
-        const response = await fetch(
-          `${process.env.VUE_APP_ROOT_API}/recensioni_associato/${teraAssociato}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              "x-access-token": token,
-            },
-          }
-        );
+          console.log(response["successful"]);
 
-        console.log(response["successful"]);
-
-        // if (!response.successful) {
-        //   throw new Error("Unable to get user");
-        // }
-        const informazioni = await response.json();
-        this.recensioni = informazioni["catalogo"];
-        return this.recensioni;
-      } catch (error) {
-        console.log(error);
+          // if (!response.successful) {
+          //   throw new Error("Unable to get user");
+          // }
+          const informazioni = await response.json();
+          this.recensioni = informazioni["catalogo"];
+          return this.recensioni;
+        } catch (error) {
+          console.log(error);
+        }
       }
     } catch (error) {
       console.log(error);
