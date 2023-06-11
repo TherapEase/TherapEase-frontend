@@ -6,14 +6,29 @@
     <form>
       <div class="job-list">
         <li v-for="terapeuta in terapeuti" :key="terapeuta._id">
-
-                    
-          <div class="riga"><img src="../assets/profilePic.webp" alt="foto profilo" width="100">
-            <div class="colonna"><h2>{{ terapeuta.nome }} {{ terapeuta.cognome }}</h2>
-           <router-link :to="{name: 'profiloId', params:{id: `${terapeuta._id}`}}"><button  v-if="user.ruolo != 4">Visita profilo</button></router-link>
-           <button v-if="user.ruolo == 4" @click.prevent="elimina(terapeuta._id)">Elimina profilo</button></div>
-            </div></li>
-
+          <div class="riga">
+            <img
+              src="../assets/profilePic.webp"
+              alt="foto profilo"
+              width="100"
+            />
+            <div class="colonna">
+              <h2>{{ terapeuta.nome }} {{ terapeuta.cognome }}</h2>
+              <router-link
+                :to="{ name: 'profiloId', params: { id: `${terapeuta._id}` } }"
+                ><button v-if="user.ruolo == 1">
+                  Visita profilo
+                </button></router-link
+              >
+              <button
+                v-if="user.ruolo == 4"
+                @click.prevent="elimina(terapeuta._id)"
+              >
+                Elimina profilo
+              </button>
+            </div>
+          </div>
+        </li>
       </div>
     </form>
   </div>
@@ -30,33 +45,31 @@ export default defineComponent({
     return {
       terapeuti: [],
       user: {},
-      userRuolo: 1
-
+      userRuolo: 1,
     };
   },
   async mounted() {
     const token = sessionStorage.getItem("token");
-    const opzioniRichiesta = {
-      method: "GET",
-      headers: {
-        "x-access-token": token,
-      },
-    };
+    if (token != null) {
+      const opzioniRichiesta = {
+        method: "GET",
+        headers: {
+          "x-access-token": token,
+        },
+      };
 
-    try {
-      const res = await fetch(
-        `${process.env.VUE_APP_ROOT_API}/il_mio_profilo`,
-        opzioniRichiesta
-      );
-      const info = await res.json();
-     
-      this.user = info["profile"];
-     
-      
-    }catch(error){
-      console.log(error)
+      try {
+        const res = await fetch(
+          `${process.env.VUE_APP_ROOT_API}/il_mio_profilo`,
+          opzioniRichiesta
+        );
+        const info = await res.json();
+
+        this.user = info["profile"];
+      } catch (error) {
+        console.log(error);
+      }
     }
-
 
     try {
       const response = await fetch(
@@ -75,36 +88,31 @@ export default defineComponent({
     }
   },
 
-
   methods: {
-    async elimina(id){
-        const token=sessionStorage.getItem("token");
-            
+    async elimina(id) {
+      const token = sessionStorage.getItem("token");
 
-            const options={
-                method: "DELETE",
-                headers: { 
-                    "Content-Type": "application/json",
-                    "x-access-token": token
-                },
-            };
+      const options = {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": token,
+        },
+      };
 
-            try{
-                const res = await fetch(
-                    `${process.env.VUE_APP_ROOT_API}/profilo/${id}/elimina`, 
-                    options
-                )
-                await res.json()
-               
-                this.$router.go(0)
-            } catch(error) {
-                console.log(error);
-            }
-  
-        
+      try {
+        const res = await fetch(
+          `${process.env.VUE_APP_ROOT_API}/profilo/${id}/elimina`,
+          options
+        );
+        await res.json();
+
+        this.$router.go(0);
+      } catch (error) {
+        console.log(error);
       }
-  }
-
+    },
+  },
 });
 </script>
 

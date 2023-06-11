@@ -18,41 +18,55 @@
                 <h3 class="mb-3">
                   <strong>{{ user.nome }} {{ user.cognome }}</strong>
                 </h3>
-                <button
-                  @click="associa"
-                  v-if="isAssociato == false"
-                  class="btn btn-outline-dark btn-sm"
-                >
-                  Associa
-                </button>
-                <button
-                  @click="allertaDisassocia"
-                  v-if="isAssociato == true && isAssociatoConUtente == true"
-                  class="btn btn-outline-dark btn-sm"
-                >
-                  Disassocia
-                </button>
 
-                <router-link to="/compila_segnalazione">
-                  <button v-if="isAssociatoConUtente" class="btn btn-outline-dark btn-sm">
-                  Segnala
-                </button>
-                </router-link>
+                <div v-if="user.ruolo == 2">
+                  <button
+                    @click="associa"
+                    v-if="isAssociato == false"
+                    class="btn btn-outline-dark btn-sm"
+                  >
+                    Associa
+                  </button>
+                  <button
+                    @click="allertaDisassocia"
+                    v-if="isAssociato == true && isAssociatoConUtente == true"
+                    class="btn btn-outline-dark btn-sm"
+                  >
+                    Disassocia
+                  </button>
 
+                  <router-link to="/compila_segnalazione">
+                    <button
+                      v-if="isAssociatoConUtente"
+                      class="btn btn-outline-dark btn-sm"
+                    >
+                      Segnala
+                    </button>
+                  </router-link>
 
-              <router-link to="/recensisci">
+                  <router-link to="/recensisci">
+                    <button
+                      v-if="isAssociatoConUtente"
+                      class="btn btn-outline-dark btn-sm"
+                    >
+                      Scrivi una recensione
+                    </button>
+                  </router-link>
+                </div>
 
-                  <button v-if="isAssociatoConUtente" class="btn btn-outline-dark btn-sm">
-                  Scrivi una recensione
-                </button>
-              </router-link>
-
+                <div v-if="user.ruolo == 1">
+                  <router-link to="/compila_segnalazione">
+                    <button class="btn btn-outline-dark btn-sm">Segnala</button>
+                  </router-link>
+                </div>
               </div>
             </div>
           </div>
           <div class="col-lg-8">
             <div class="card stacca mb-4">
-              <div class="card-header"><h4 class="grassetto">Informazioni</h4></div>
+              <div class="card-header">
+                <h4 class="grassetto">Informazioni</h4>
+              </div>
               <div class="card-body informazioni">
                 <h5><strong>Username:</strong> {{ user.username }}</h5>
                 <h5><strong>Nome:</strong> {{ user.nome }}</h5>
@@ -68,13 +82,11 @@
               </div>
             </div>
 
-
-
             <div v-if="user.ruolo == 2" class="stacca card mb-4">
               <h3 class="recensioni card-header">
                 <strong>Recensioni</strong>
               </h3>
-              
+
               <div class="card-body">
                 <card-recensioni></card-recensioni>
               </div>
@@ -89,9 +101,8 @@
               </div>
 
               <div class="card-body">
-                <diario-terapeutico></diario-terapeutico>
+                <diario-terapeutico style="height: 350px"></diario-terapeutico>
               </div>
-
             </div>
           </div>
         </div>
@@ -120,7 +131,8 @@ export default defineComponent({
       user: {},
       isAssociato: false,
       isAssociatoConUtente: false,
-      recensioni: []
+      recensioni: [],
+      myRuolo: 1,
     };
   },
   async mounted() {
@@ -144,11 +156,8 @@ export default defineComponent({
         throw new Error("Unable to get user");
       }
       const informazioni = await response.json();
-      console.log(informazioni.successful);
-      console.log("utente: " + JSON.stringify(informazioni));
       this.user = informazioni["profile"];
-      console.log(this.user);
-      console.log("userruolodamandare:" + this.user.ruolo);
+      console.log("il mio profilo: ", JSON.stringify(this.user));
 
       this.user.data_nascita = this.user.data_nascita.slice(0, 10);
     } catch (error) {
@@ -162,56 +171,53 @@ export default defineComponent({
         opzioniRichiesta
       );
       const informazioni = await response.json();
-      console.log(informazioni.successful);
-      console.log("info profilo loggato: " + JSON.stringify(informazioni));
-      const teraAssociato = informazioni["profile"]["associato"];
-      if (teraAssociato == this.user._id) {
-        this.isAssociatoConUtente = true;
-      } else {
-        this.isAssociatoConUtente = false;
-      }
+      this.myRuolo = informazioni["profile"]["ruolo"];
+      let teraAssociato;
+      if (this.myRuolo == 1) {
+        teraAssociato = informazioni["profile"]["associato"];
 
-      if (teraAssociato != "") {
-        console.log("sei associato con: " + teraAssociato);
-        this.isAssociato = true;
-      }
-      this.user.data_nascita = this.user.data_nascita.slice(0, 10);
-
-
-    //catalogo recensioni 
-    try {
-      const response = await fetch(
-        `${process.env.VUE_APP_ROOT_API}/recensioni_associato/${teraAssociato}`,
-        {
-          method: "GET",
-          headers: { 
-            "Content-Type": "application/json",
-            "x-access-token": token 
-          },
+        if (teraAssociato == this.user._id) {
+          this.isAssociatoConUtente = true;
+        } else {
+          this.isAssociatoConUtente = false;
         }
-      );
 
-      console.log(response["successful"]);
-
-      // if (!response.successful) {
-      //   throw new Error("Unable to get user");
-      // }
-      const informazioni = await response.json();
-      this.recensioni = informazioni["catalogo"];
-      return this.recensioni;
-      } catch (error) {
-      console.log(error);
+        if (teraAssociato != "") {
+          console.log("sei associato con: " + teraAssociato);
+          this.isAssociato = true;
+        }
       }
 
+      this.user.data_nascita = this.user.data_nascita.slice(0, 10);
+      if (this.myRuolo == 1) {
+        //catalogo recensioni
+        try {
+          const response = await fetch(
+            `${process.env.VUE_APP_ROOT_API}/recensioni_associato/${teraAssociato}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                "x-access-token": token,
+              },
+            }
+          );
 
+          console.log(response["successful"]);
 
+          // if (!response.successful) {
+          //   throw new Error("Unable to get user");
+          // }
+          const informazioni = await response.json();
+          this.recensioni = informazioni["catalogo"];
+          return this.recensioni;
+        } catch (error) {
+          console.log(error);
+        }
+      }
     } catch (error) {
       console.log(error);
     }
-
-
-
-   
   },
 
   methods: {
@@ -238,7 +244,7 @@ export default defineComponent({
           text: `Sei stato associato a ${this.user.nome.toUpperCase()} ${this.user.cognome.toUpperCase()}`,
           buttonColor: "#5b6c53",
         });
-        this.$router.go(0)
+        this.$router.go(0);
       } catch (error) {
         console.log(error);
       }
@@ -265,7 +271,7 @@ export default defineComponent({
     async disassocia() {
       const token = sessionStorage.getItem("token");
       const opzioniRichiesta = {
-        method: "POST",
+        method: "DELETE",
         headers: {
           "x-access-token": token,
         },
@@ -279,8 +285,7 @@ export default defineComponent({
         );
         await response.json();
         this.isAssociato = false;
-        this.$router.go(0)
-
+        this.$router.go(0);
       } catch (error) {
         console.log(error);
       }
@@ -290,22 +295,19 @@ export default defineComponent({
 </script>
   
   <style scoped>
-
 .stacca {
   margin-top: 1em;
   margin-left: 1em;
   margin-right: 1em;
-
 }
-.recensione{
-  background-color:rgb(37, 66, 37);
-  color:white;
+.recensione {
+  background-color: rgb(37, 66, 37);
+  color: white;
   border-radius: 0.5em;
   border-color: black;
   max-height: 35px;
 
   max-width: 70px;
-
 }
 .recensioni {
   font-size: 40px;

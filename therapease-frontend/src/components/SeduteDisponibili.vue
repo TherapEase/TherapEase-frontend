@@ -178,7 +178,7 @@ h1 {
   background: white;
   padding: 16px;
   margin: 16px 0;
-  border-radius: 4px;
+  border-radius: 1em;
 }
 
 .job-list h2 {

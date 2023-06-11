@@ -5,12 +5,12 @@
   
     <div>
       <form>
-        <div v-if="user.ruolo != 4">
+        <div v-if="user.ruolo == 1 || user.ruolo == 2 ">
           <h3>Accesso negato!</h3>
         </div>
         <div v-if="user.ruolo == 4">
         <div class="job-list">
-            <h4>Clilenti: </h4>   
+             
             <li v-for="cliente in clienti" :key="cliente._id">
                     
             <div class="riga">

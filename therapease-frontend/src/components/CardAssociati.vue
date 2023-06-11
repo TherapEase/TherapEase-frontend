@@ -84,7 +84,7 @@ export default defineComponent({
     async disassocia() {
       const token = sessionStorage.getItem("token");
       const opzioniRichiesta = {
-        method: "POST",
+        method: "DELETE",
         headers: {
           "x-access-token": token,
         },
@@ -134,9 +134,7 @@ export default defineComponent({
 
     //associato
     if (this.isAssociato) {
-      console.log(
-        `FETCH DEL PROFILOOOOO: ${process.env.VUE_APP_ROOT_API}/profilo/${this.user.associato}`
-      );
+      
       try {
         const response = await fetch(
           `${process.env.VUE_APP_ROOT_API}/profilo/${this.user.associato}`,

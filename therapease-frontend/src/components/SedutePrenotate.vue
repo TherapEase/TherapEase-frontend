@@ -6,7 +6,7 @@
     <h5 style="text-align:center">Nessuna seduta prenotata</h5>
   </div>
 
-  <div v-else class="job-list">
+  <div v-if="hasSedute == true" class="job-list">
     <li v-for="seduta in sedute" :key="seduta._id">
       <div class="colonna">
         <h2 class="font">
@@ -105,8 +105,8 @@ export default defineComponent({
         this.presenza = true;
       }
       this.sedute = dati["sedute"];
-      if(this.sedute!=[]){
-        this.hasSedute==true
+      if(this.sedute!=""){
+        this.hasSedute=true
       }
     } catch (error) {
       console.log(error)

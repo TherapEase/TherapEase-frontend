@@ -18,7 +18,7 @@
                 <strong>{{ user.nome }} {{ user.cognome }}</strong>
               </h4>
               <router-link to="/modifica">
-                <button class="btn btn-outline-dark btn-sm">
+                <button v-if="user.ruolo==1 || user.ruolo==1" class="btn btn-outline-dark btn-sm">
                   Modifica
                 </button></router-link
               >
@@ -59,14 +59,10 @@
 
           <GettoniView class="stacca"></GettoniView>
         </div>
-        <!-- inizio card terapeuta associato -->
-
-        <!-- <CardAssociati v-if="user.ruolo==1" class=" stacca associati" :ruolo="user.ruolo"></CardAssociati> -->
-
-        <!-- fine card terapeuta associato -->
+     
       </div>
 
-      <div class="col-sm-6">
+      <div class="col-sm-6" v-if="user.ruolo==1 || user.ruolo==2">
         <div class="col">
           <div class="card stacca mb-4">
             <div class="card-header">
@@ -95,33 +91,8 @@
       </div>
     </div>
 
-    <!-- <div class="col">
-      <div class="col-sm-4">
-        <div v-if="user.ruolo == 1" class="stacca card mb-4">
-         
-          <CardAssociati class="associati" :ruolo="user.ruolo"></CardAssociati>
-        </div>
-      </div>
-
-      <div class="col-sm-4">
-        <div v-if="user.ruolo == 2" class="stacca card mb-4">
-          <h3 class="clienti-associati">
-            <strong> Clienti Associati</strong>
-          </h3>
-          <div class="card-body">
-            <div class="d-flex align-items-center">
-              <ClientiAssociati style="width: 90%"></ClientiAssociati>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-sm-4">
-        <GettoniView class="stacca"></GettoniView>
-      </div>
-    </div> -->
+   
+            
   </div>
 </template>
 
@@ -163,7 +134,7 @@ export default defineComponent({
     async logout() {
       const token = sessionStorage.getItem("token");
       const opzioniRichiesta = {
-        method: "POST",
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
           "x-access-token": token,
