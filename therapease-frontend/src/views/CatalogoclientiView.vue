@@ -81,7 +81,6 @@
         options
       );
       const dati = await response.json();
-      console.log(JSON.stringify(dati));
       this.user = dati["profile"];
       this.userRuolo = this.user.ruolo;
 
@@ -97,10 +96,7 @@
         }
       );
 
-      console.log(response["successful"]);
       const data = await response.json();
-      console.log(data);
-      console.log("catalogo: " + JSON.stringify(data["catalogo"]));
 
       this.clienti = data["catalogo"];
       return this.clienti;
@@ -112,8 +108,6 @@
     methods: {
       async elimina(id){
         const token=sessionStorage.getItem("token");
-            console.log("stai eliminando il profilo di un cliente")
-            console.log("token in elimina: "+token)
 
             const options={
                 method: "DELETE",
@@ -128,9 +122,7 @@
                     `${process.env.VUE_APP_ROOT_API}/profilo/${id}/elimina`, 
                     options
                 )
-                const i = await res.json()
-                console.log(i.successful)
-                console.log("eliminato: "+JSON.stringify(i))
+                await res.json()
                 this.$router.go(0)
             } catch(error) {
                 console.log(error);

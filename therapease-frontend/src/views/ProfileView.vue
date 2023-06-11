@@ -226,39 +226,7 @@ export default defineComponent({
       console.log(error);
     }
 
-    //info terapeuti
-    // if (this.user.ruolo) {
-    //   try {
-    //     const response = await fetch(
-    //       `${process.env.VUE_APP_ROOT_API}/profilo/${this.user.associato}`,
-    //       opzioniRichiesta
-    //     );
-    //     const dati = await response.json();
-    //     this.ass = dati["profile"];
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
-
-    //get info clienti
-
-    // try {
-    //   //probabilmente la fetch cambierà
-    //   const response = await fetch(
-    //     `${process.env.VUE_APP_ROOT_API}/catalogo_associati`,
-    //     {
-    //       method: "GET",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         "x-access-token": token,
-    //       },
-    // 
-    //   );
-    //   const dati = await response.json();
-    //   this.clienti_associati = dati["catalogo"];
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    
   },
 });
 </script>

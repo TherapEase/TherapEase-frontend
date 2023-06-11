@@ -180,8 +180,6 @@ export default defineComponent({
         body: JSON.stringify(this.utente),
       };
 
-      console.log("le modifiche che sto mandando", JSON.stringify(this.utente) )
-
       try {
         const res = await fetch(
           `${process.env.VUE_APP_ROOT_API}/il_mio_profilo/modifica`,

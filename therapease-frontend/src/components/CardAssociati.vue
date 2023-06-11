@@ -127,7 +127,6 @@ export default defineComponent({
       const informazioni = await response.json();
       this.user = informazioni["profile"];
       this.user.data_nascita = this.user.data_nascita.slice(0, 10);
-      console.log(informazioni.successful);
       if (this.user.associato != "") {
         this.isAssociato = true;
       }
@@ -144,11 +143,7 @@ export default defineComponent({
           opzioniRichiesta
         );
         const dati = await response.json();
-        console.log(dati.successful);
-        console.log(JSON.stringify(dati));
-
         this.ass = dati["profile"];
-        console.log("THIS.ASS", this.ass);
       } catch (err) {
         console.log(err);
       }

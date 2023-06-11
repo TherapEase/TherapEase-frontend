@@ -44,7 +44,6 @@ export default defineComponent({
         }
       );
       const dati= await response.json()
-      console.log(dati.successful);
       if(dati.successful==true){
         this.is_successful=true
       }

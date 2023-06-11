@@ -22,7 +22,7 @@
               <h3>prezzo: {{ prodotto.prezzo }}€</h3>
               <div v-if="user.ruolo == 1">
                 <button
-                  @click.prevent="(event) => allerta_acquista(prodotto._id, event)"
+                  @click.prevent="(event) => allerta_acquista(prodotto._id)"
                 >
                   Acquista
                 </button>
@@ -78,7 +78,7 @@ export default defineComponent({
       }
     },
 
-    async allerta_acquista(id, event){
+    async allerta_acquista(id){
       Swal.fire({
         title: "Sei sicuro di voler procere?",
         text: `Se clicchi su "continua" verrai reindirizzato sulla pagina di pagamento della piattaforma Stripe `,
@@ -91,15 +91,14 @@ export default defineComponent({
         },
       }).then((result) => {
         if (result.isConfirmed) {
-          this.acquista(id, event);
+          this.acquista(id);
         }
       });
 
 
     }, 
 
-    async acquista(id, event) {
-      console.log("siamo dentro", event);
+    async acquista(id) {
       const token = sessionStorage.getItem("token");
 
       try {
@@ -114,12 +113,10 @@ export default defineComponent({
           }
         );
         const dati = await response.json();
-        console.log(JSON.stringify(dati))
 
         window.location = dati.url;
-        console.log(dati.url)
       } catch (error) {
-        console.log("Errore", error);
+        console.log(error);
       }
     },
   },

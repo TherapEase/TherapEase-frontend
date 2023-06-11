@@ -79,13 +79,12 @@ export default defineComponent({
 
       try {
         if (data.successful) {
-          console.log("SUCCESSO");
           this.$router.push("/login");
         } else {
           alert(data.message);
         }
       } catch (error) {
-        console.log("Errore: " + error);
+        console.log(error);
       }
     },
   },

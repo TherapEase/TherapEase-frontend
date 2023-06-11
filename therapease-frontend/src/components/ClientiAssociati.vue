@@ -75,37 +75,18 @@ export default defineComponent({
 
       const informazioni = await response.json();
       this.user = informazioni["profile"];
-      console.log("utente", JSON.stringify(this.user));
       this.user.data_nascita = this.user.data_nascita.slice(0, 10);
       if (this.user.associato != "") {
         this.isAssociato = true;
       }
       if (this.user.associati != "") {
-          console.log("sono dentro")
           this.hasClients = true;
-          console.log(this.hasClients)
         }
     } catch (err) {
       console.log(err);
     }
 
-    // if (this.user.associati != "") {
-    //   //associato
-    //   console.log("sono dentro");
-    //   try {
-    //     const response = await fetch(
-    //       `${process.env.VUE_APP_ROOT_API}/profilo/${this.user.associato}`,
-    //       opzioniRichiesta
-    //     );
-
-    //     const dati = await response.json();
-    //     this.ass = dati["profile"];
-    //     console.log("this associato", JSON.stringify(this.ass))
-        
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // }
+   
 
     try {
       //probabilmente la fetch cambierà

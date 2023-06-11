@@ -166,8 +166,6 @@ export default defineComponent({
       }
       const informazioni = await response.json();
       this.user = informazioni["profile"];
-      console.log("il mio profilo: ", JSON.stringify(this.user));
-
       this.user.data_nascita = this.user.data_nascita.slice(0, 10);
     } catch (error) {
       console.log(error);
@@ -192,7 +190,6 @@ export default defineComponent({
         }
 
         if (teraAssociato != "") {
-          console.log("sei associato con: " + teraAssociato);
           this.isAssociato = true;
         }
       }
@@ -211,12 +208,6 @@ export default defineComponent({
               },
             }
           );
-
-          console.log(response["successful"]);
-
-          // if (!response.successful) {
-          //   throw new Error("Unable to get user");
-          // }
           const informazioni = await response.json();
           this.recensioni = informazioni["catalogo"];
           return this.recensioni;
