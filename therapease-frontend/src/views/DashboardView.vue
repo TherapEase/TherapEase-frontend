@@ -120,6 +120,27 @@
                 </div>
               </div>
             </div>
+
+
+
+            <div v-if="user.ruolo == 2">
+              <div class="card mb-4">
+                <div class="card-header">
+                  <h1>
+                    <strong> Le tue recensioni</strong>
+                  </h1>
+                </div>
+                <div class="card-body">
+                  <card-recensioni style="width: 90%; margin: auto auto"></card-recensioni>
+                </div>
+              </div>
+            </div>
+
+
+
+
+
+
           </div>
         </div>
       </div>
@@ -192,6 +213,7 @@ import CardAssociati from "@/components/CardAssociati.vue";
 import DiarioTerapeutico from "@/components/DiarioTerapeutico.vue";
 import ClientiAssociati from "@/components/ClientiAssociati.vue";
 import GettoniView from "@/components/GettoniView.vue";
+import CardRecensioni from "@/components/CardRecensioni.vue";
 
 export default defineComponent({
   components: {
@@ -200,7 +222,7 @@ export default defineComponent({
     CardAssociati,
     DiarioTerapeutico,
     ClientiAssociati,
-    GettoniView,
+    GettoniView, CardRecensioni
   },
   //components: { SedutePrenotate, NavBarVue },
   data() {
@@ -229,6 +251,8 @@ export default defineComponent({
     const dati = await response.json();
     this.user = dati["profile"];
     this.userRuolo = this.user.ruolo;
+
+    console.log("account post modifica", JSON.stringify(this.user))
 
     //catalogo terapeuti
 

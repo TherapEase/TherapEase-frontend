@@ -18,7 +18,7 @@
                 <strong>{{ user.nome }} {{ user.cognome }}</strong>
               </h4>
               <router-link to="/modifica">
-                <button v-if="user.ruolo==1 || user.ruolo==1" class="btn btn-outline-dark btn-sm">
+                <button v-if="user.ruolo==1 || user.ruolo==2" class="btn btn-outline-dark btn-sm">
                   Modifica
                 </button></router-link
               >
@@ -227,38 +227,38 @@ export default defineComponent({
     }
 
     //info terapeuti
-    if (this.user.ruolo) {
-      try {
-        const response = await fetch(
-          `${process.env.VUE_APP_ROOT_API}/profilo/${this.user.associato}`,
-          opzioniRichiesta
-        );
-        const dati = await response.json();
-        this.ass = dati["profile"];
-      } catch (error) {
-        console.log(error);
-      }
-    }
+    // if (this.user.ruolo) {
+    //   try {
+    //     const response = await fetch(
+    //       `${process.env.VUE_APP_ROOT_API}/profilo/${this.user.associato}`,
+    //       opzioniRichiesta
+    //     );
+    //     const dati = await response.json();
+    //     this.ass = dati["profile"];
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
 
     //get info clienti
 
-    try {
-      //probabilmente la fetch cambierà
-      const response = await fetch(
-        `${process.env.VUE_APP_ROOT_API}/catalogo_associati`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "x-access-token": token,
-          },
-        }
-      );
-      const dati = await response.json();
-      this.clienti_associati = dati["catalogo"];
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    //   //probabilmente la fetch cambierà
+    //   const response = await fetch(
+    //     `${process.env.VUE_APP_ROOT_API}/catalogo_associati`,
+    //     {
+    //       method: "GET",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //         "x-access-token": token,
+    //       },
+    // 
+    //   );
+    //   const dati = await response.json();
+    //   this.clienti_associati = dati["catalogo"];
+    // } catch (error) {
+    //   console.log(error);
+    // }
   },
 });
 </script>

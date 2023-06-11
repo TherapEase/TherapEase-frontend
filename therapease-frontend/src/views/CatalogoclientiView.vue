@@ -91,7 +91,9 @@
         `${process.env.VUE_APP_ROOT_API}/catalogo_clienti`,
         {
           method: "GET",
-          headers: { "Content-Type": "application/json" }
+          headers: { "Content-Type": "application/json", 
+          "x-access-token": token
+         }
         }
       );
 

@@ -1,4 +1,13 @@
 <template>
+  <div style="text-align:center" v-if="hasSedute == false">
+    <h3 class="top"><strong>Attenzione</strong></h3>
+    <h4>Se non hai ancora creato nessuna slot per erogare le tue sedute.</h4>
+    <h4>Ti invitiamo a creare slot secondo le tue disponibilità.</h4>
+    <router-link to="/nuovaseduta"
+      ><button class="custom">Crea una seduta</button></router-link
+    >
+  </div>
+
   <div class="job-list">
     <li v-for="seduta in sedute" :key="seduta._id">
       <div class="colonna">
@@ -31,6 +40,7 @@ export default {
     return {
       sedute: [],
       presenza: false,
+      hasSedute: false,
     };
   },
   methods: {
@@ -129,6 +139,9 @@ export default {
       }
 
       this.sedute = dati["sedute"];
+      if (this.sedute != "") {
+        this.hasSedute = true;
+      }
     } catch (error) {
       console.log(error);
     }
@@ -199,5 +212,15 @@ button {
 
 .fontsize {
   font-size: 22px;
+}
+
+.top {
+  padding-top: 150px;
+}
+
+.custom {
+  margin-top: 50px;
+  width: 250px;
+  border-radius: 0.5em;
 }
 </style>

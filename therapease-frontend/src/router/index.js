@@ -112,7 +112,7 @@ const routes = [
     component: CatalogosegnalazioniView
   },
   {
-    path: '/compila_segnalazione',
+    path: '/compila_segnalazione/:id',
     name: 'compila_segnalazione',
     component: SegnalazioneView
   },

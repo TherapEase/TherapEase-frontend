@@ -23,7 +23,6 @@
             id="nome"
             name="nome"
             type="text"
-            required
         /></label>
         <label for="cognome"
           >Cognome:
@@ -170,7 +169,6 @@ export default defineComponent({
 
   methods: {
     async modifyProfilo() {
-      await this.getRuolo();
       const token = sessionStorage.getItem("token");
       var data;
       const options = {
@@ -181,6 +179,8 @@ export default defineComponent({
         },
         body: JSON.stringify(this.utente),
       };
+
+      console.log("le modifiche che sto mandando", JSON.stringify(this.utente) )
 
       try {
         const res = await fetch(

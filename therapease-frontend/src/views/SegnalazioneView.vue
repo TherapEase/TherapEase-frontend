@@ -33,6 +33,7 @@
     
   <script>
 import { defineComponent } from "vue";
+import Swal from "sweetalert2";
 
 export default defineComponent({
   name: "SegnalazioneView",
@@ -51,51 +52,38 @@ export default defineComponent({
   methods: {
     async segnala() {
       const token = sessionStorage.getItem("token");
-      const opzioniRichiesta = {
-        method: "GET",
+     
+      const options = {
+        method: "POST",
         headers: {
           "x-access-token": token,
+          "Content-Type": "application/json",
         },
+        body: JSON.stringify(this.segnalazione),
       };
 
-      //my profilo per prendere il terapeuta associato
       try {
-        const response = await fetch(
-          `${process.env.VUE_APP_ROOT_API}/il_mio_profilo`,
-          opzioniRichiesta
+        const res = await fetch(
+          `${process.env.VUE_APP_ROOT_API}/segnalazione/${this.$route.params.id}`,
+          options
         );
-        const informazioni = await response.json();
-        const teraAssociato = informazioni["profile"]["associato"];
+        const dati = await res.json();
 
-        if (teraAssociato != "") {
-          this.isAssociato = true;
+        
+
+        if (dati.successful) {
+          await Swal.fire({ title: "success", icon: "success" });
+          this.$router.push(`/profilo/${this.$route.params.id}`);
+        } else {
+          await Swal.fire({
+            title: "OPS...",
+            icon: "error",
+            text: "C'è stato un errore, ti invitiamo a riprovare",
+          });
         }
 
-        //segnalazione
 
-        var info;
-        const options = {
-          method: "POST",
-          headers: {
-            "x-access-token": token,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(this.segnalazione),
-        };
 
-        try {
-          const res = await fetch(
-            `${process.env.VUE_APP_ROOT_API}/segnalazione/${teraAssociato}`,
-            options
-          );
-          info = await res.json();
-
-          if (info.successful) {
-            this.$router.push(`/profilo/${teraAssociato}`);
-          }
-        } catch (error) {
-          console.log(error);
-        }
       } catch (error) {
         console.log(error);
       }

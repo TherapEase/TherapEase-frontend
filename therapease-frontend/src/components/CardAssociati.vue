@@ -6,7 +6,7 @@
           <h2><strong>Terapeuta Associato</strong></h2>
           Associati a un terapeuta tramite il nostro catalogo <br />
           <router-link to="/catalogo"
-            ><button>Vai al catalogo</button></router-link
+            ><button class="btn btn-outline-dark btn-sm">Vai al catalogo</button></router-link
           >
         </div>
       </div>

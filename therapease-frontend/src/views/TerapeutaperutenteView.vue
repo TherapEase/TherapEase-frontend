@@ -35,7 +35,9 @@
                     Disassocia
                   </button>
 
-                  <router-link to="/compila_segnalazione">
+                  <router-link
+                  :to="{ name: 'compila_segnalazione', params: { id: `${user._id}` } }"
+                  >
                     <button
                       v-if="isAssociatoConUtente"
                       class="btn btn-outline-dark btn-sm"
@@ -55,8 +57,14 @@
                 </div>
 
                 <div v-if="user.ruolo == 1">
-                  <router-link to="/compila_segnalazione">
-                    <button class="btn btn-outline-dark btn-sm">Segnala</button>
+                  <router-link
+                  :to="{ name: 'compila_segnalazione', params: { id: `${user._id}` } }"
+                  >
+                    <button
+                      class="btn btn-outline-dark btn-sm"
+                    >
+                      Segnala
+                    </button>
                   </router-link>
                 </div>
               </div>
@@ -133,6 +141,7 @@ export default defineComponent({
       isAssociatoConUtente: false,
       recensioni: [],
       myRuolo: 1,
+      myProfile:{}
     };
   },
   async mounted() {
