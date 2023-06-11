@@ -73,8 +73,8 @@
               <div v-if="user.ruolo == 2" class="card-header">
                 <h1><strong>I tuoi clienti</strong></h1>
               </div>
-              <CardAssociati 
-              v-if="user.ruolo == 1"
+              <CardAssociati
+                v-if="user.ruolo == 1"
                 class="associati"
                 profile="dashboard"
                 :ruolo="user.ruolo"
@@ -126,57 +126,61 @@
     </div>
   </div>
 
-  <div v-if="user.ruolo == 4">
-    <div class="col">
-      <div class="card mb-4">
-        <div class="job-list">
-          <h4>Terapeuti:</h4>
-          <router-link to="/catalogo">
-            <button class="rimozione_forzata">Visualizza</button>
-          </router-link>
-        </div>
-      </div>
+  <div v-if="user.ruolo == 4" class="centrate">
+    <!-- <div class="col">
+      <div class="card mb-4"> -->
+    <div class="job-list">
+      <h4>Terapeuti:</h4>
+      <router-link to="/catalogo">
+        <button class="rimozione_forzata">Visualizza</button>
+      </router-link>
     </div>
+    <!-- </div>
+    </div> -->
 
-    <div class="col">
-      <div class="card mb-4">
-        <div class="job-list">
-          <h4>Clilenti:</h4>
-          <router-link to="/clienti">
-            <button class="rimozione_forzata">Visualizza</button>
-          </router-link>
-        </div>
-      </div>
+    <!-- <div class="col">
+      <div class="card mb-4"> -->
+    <div class="job-list">
+      <h4>Clienti:</h4>
+      <router-link to="/clienti">
+        <button class="rimozione_forzata">Visualizza</button>
+      </router-link>
     </div>
+    <!-- </div>
+    </div> -->
 
-    <div class="col">
-      <div class="card mb-4">
-        <div class="job-list">
-          <h4>Segnalazioni:</h4>
-          <router-link to="/segnalazioni">
-            <button class="rimozione_forzata">Visualizza</button>
-          </router-link>
-        </div>
-      </div>
+    <!-- <div class="col">
+      <div class="card mb-4"> -->
+    <div class="job-list">
+      <h4>Segnalazioni:</h4>
+      <router-link to="/segnalazioni">
+        <button class="rimozione_forzata">Visualizza</button>
+      </router-link>
     </div>
+    <!-- </div>
+    </div> -->
 
-    <div class="col">
-      <div class="card mb-4">
-        <div class="job-list">
-          <h4>Prodotti:</h4>
-          <router-link to="/offerta">
-            <button class="rimozione_forzata">Visualizza</button>
-          </router-link>
-        </div>
-      </div>
+    <!-- <div class="col">
+      <div class="card mb-4"> -->
+    <div class="job-list">
+      <h4>Prodotti:</h4>
+      <router-link to="/offerta">
+        <button class="rimozione_forzata">Visualizza</button>
+      </router-link>
     </div>
+    <!-- </div>
+    </div> -->
 
+    <!-- <div class="col">
+      <div class="card mb-4"> -->
     <div class="job-list">
       <h4>Eventi e informazioni:</h4>
       <router-link to="/info">
         <button class="rimozione_forzata">Visualizza</button>
       </router-link>
     </div>
+    <!-- </div>
+    </div> -->
   </div>
 </template>
 
@@ -305,6 +309,13 @@ export default defineComponent({
 
 
 <style  scoped>
+.centrate {
+  width: 80%;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .riga {
   display: flex;
   flex-direction: row;
@@ -332,20 +343,21 @@ h1 {
 }
 
 .job-list {
-  max-width: 960px;
+ 
   margin: 40px auto;
 }
 
-.job-list ul {
+.job-list {
   padding: 0;
 }
 
-.job-list li {
+.job-list {
   list-style-type: none;
   background: white;
-  padding: 16px;
+  padding: 30px;
   margin: 16px 0;
   border-radius: 1em;
+  
 }
 
 .job-list h2 {
@@ -369,6 +381,7 @@ h1 {
   color: white;
   border-radius: 0.5em;
   border-color: black;
+  margin: auto auto;
 }
 .sfondo {
   background-color: white;
@@ -648,18 +661,7 @@ svg {
   height: 5rem;
   line-height: 5rem;
 }
-.avatar {
-  display: inline-block;
-  position: relative;
-  width: 3rem;
-  height: 3rem;
-  text-align: center;
-  border: #dee2e6;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
-  line-height: 3rem;
-}
+
 .form-control {
   color: #343a40;
 }

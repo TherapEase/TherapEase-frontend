@@ -55,51 +55,45 @@ export default defineComponent({
   },
 
   methods: {
-    async rimuovi(id){
-    const token = sessionStorage.getItem('token')
+    async rimuovi(id) {
+      const token = sessionStorage.getItem("token");
 
-    try {
-      const response = await fetch(
-        `${process.env.VUE_APP_ROOT_API}/prodotto/rimuovi/${id}`,
-        {
-          method: "DELETE",
-          headers: { 
-            "x-access-token": token,
-            "Content-Type": "application/json"
-          },
-        }
-      )
-      await response.json()
-      
+      try {
+        const response = await fetch(
+          `${process.env.VUE_APP_ROOT_API}/prodotto/rimuovi/${id}`,
+          {
+            method: "DELETE",
+            headers: {
+              "x-access-token": token,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        await response.json();
 
-      this.$router.go(0)
+        this.$router.go(0);
+      } catch (error) {
+        console.log(error);
+      }
+    },
 
-    } catch(error) {
-      console.log(error)
-    }
-
-  },
-  
-
-    async acquista(id, event){
-
+    async acquista(id, event) {
       console.log("siamo dentro", event);
       const token = sessionStorage.getItem("token");
 
       try {
-
-      const response= await fetch(
-        `${process.env.VUE_APP_ROOT_API}/prodotto/checkout/${id}`,
-        {
-          method: "POST",
-          headers: { 
-            "x-access-token": token,
-            "Content-Type": "application/json",
-            "mode": "cors"
-          },
-
-        })
-        const dati=await response.json()
+        const response = await fetch(
+          `${process.env.VUE_APP_ROOT_API}/prodotto/checkout/${id}`,
+          {
+            method: "POST",
+            headers: {
+              "x-access-token": token,
+              "Content-Type": "application/json",
+              mode: "cors",
+            },
+          }
+        );
+        const dati = await response.json();
 
         window.location = dati.url;
       } catch (error) {
@@ -113,21 +107,21 @@ export default defineComponent({
     if (token == null) {
       this.isLogged = false;
     }
-
-    const options = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": token,
-      },
-    };
-    const res = await fetch(
-      `${process.env.VUE_APP_ROOT_API}/il_mio_profilo`,
-      options
-    );
-    const dati = await res.json();
-    this.user = dati["profile"];
-
+    if (token != null) {
+      const options = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": token,
+        },
+      };
+      const res = await fetch(
+        `${process.env.VUE_APP_ROOT_API}/il_mio_profilo`,
+        options
+      );
+      const dati = await res.json();
+      this.user = dati["profile"];
+    }
     try {
       const response = await fetch(
         `${process.env.VUE_APP_ROOT_API}/catalogo_prodotti`,
@@ -136,7 +130,6 @@ export default defineComponent({
           headers: { "Content-Type": "application/json" },
         }
       );
-
 
       // if (!response.successful) {
       //   throw new Error("Unable to get user");
@@ -194,7 +187,7 @@ h1 {
   background: white;
   padding: 16px;
   margin: 16px 0;
-  border-radius: 4px;
+  border-radius: 1em
 }
 
 .job-list h2 {

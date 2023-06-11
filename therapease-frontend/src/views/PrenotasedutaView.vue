@@ -8,7 +8,7 @@
     <h4>
       Se non sei associato a nessun terapeuta, non potrai prenotare sedute.
     </h4>
-    <h4>Visita il nostro catalogo e trova il terapueta che fa per te.</h4>
+    <h4>Visita il nostro catalogo e trova il terapeuta che fa per te.</h4>
     <router-link to="/catalogo"
       ><button class="custom">
         Vai al catalogo dei terapeuti

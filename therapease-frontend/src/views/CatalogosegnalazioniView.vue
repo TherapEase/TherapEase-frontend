@@ -5,23 +5,30 @@
   <div>
     <form>
       <div class="job-list">
-        <h4>Segnalazioni:</h4>
+        <p style="text-align: center">
+          Per motivi di privacy, i nomi dei segnalati rimarranno privati. Se
+          ritieni che il motivo della <br />
+          segnalazione sia valido, puoi procedere alla rimozione dell'account
+          con l'apposito bottone
+        </p>
         <li v-for="segnalazione in segnalazioni" :key="segnalazione._id">
           <div class="riga">
-            <img
-              src="../assets/profilePic.webp"
-              alt="foto profilo"
-              width="100"
-            />
             <div class="colonna">
-              <h2>
-                {{ segnalazione.testo }} {{ segnalazione.segnalato }}
-                {{ segnalazione.data }}
-              </h2>
+              <h2>Segnalato: {{ segnalazione.segnalato }}</h2>
+              <p><strong>Data:</strong> {{ segnalazione.data.slice(0, 10) }}</p>
+              <p><strong>Oggetto:</strong> {{ segnalazione.testo }}</p>
+
+              <div>
+                <button
+                  @click.prevent="gestisci_segnalazione(segnalazione._id)"
+                >
+                  Gestisci
+                </button>
+                <button @click.prevent="allerta_elimina(segnalazione._id)">
+                  Rimuovi profilo
+                </button>
+              </div>
             </div>
-            <button @click.prevent="gestisci_segnalazione(segnalazione._id)">
-              Gestisci
-            </button>
           </div>
         </li>
       </div>
@@ -32,7 +39,7 @@
   <script>
 import { defineComponent } from "vue";
 import NavBarVue from "@/components/NavBar.vue";
-
+import Swal from "sweetalert2";
 
 export default defineComponent({
   name: "App",
@@ -52,7 +59,7 @@ export default defineComponent({
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            "x-access-token": token
+            "x-access-token": token,
           },
         }
       );
@@ -66,6 +73,32 @@ export default defineComponent({
   },
 
   methods: {
+
+
+    async allerta_elimina(id){
+      await Swal.fire({
+        title: "Sei sicuro di voler procere?",
+        text: `Se clicchi su "continua" l'account verrà eliminato `,
+        showCancelButton: true,
+        confirmButtonText: "Continua",
+        cancelButtonText: "Cancella",
+        confirmButtonColor: "#5b6c53",
+        customClass: {
+          confirmButton: "conferma",
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.elimina(id);
+        }
+      });
+
+
+    },
+
+
+
+
+
     //gestione segnalazioni
     async gestisci_segnalazione(id) {
       const token = sessionStorage.getItem("token");
@@ -81,6 +114,29 @@ export default defineComponent({
       try {
         const res = await fetch(
           `${process.env.VUE_APP_ROOT_API}/segnalazione/gestisci/${id}`,
+          options
+        );
+        await res.json();
+        this.$router.go(0);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async elimina(id) {
+      const token = sessionStorage.getItem("token");
+
+      const options = {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": token,
+        },
+      };
+
+      try {
+        const res = await fetch(
+          `${process.env.VUE_APP_ROOT_API}/profilo/${id}/elimina`,
           options
         );
         await res.json();
