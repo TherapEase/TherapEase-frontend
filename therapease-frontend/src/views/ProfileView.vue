@@ -216,7 +216,7 @@ export default defineComponent({
 
       try {
         const res = await fetch(
-          `${process.env.VUE_APP_ROOT_API}/il_mio_profilo/elimina`,
+          `${process.env.VUE_APP_ROOT_API}/profilo/${this.user._id}/elimina`,
           opzioniRichiesta
         );
         const data = await res.json();
