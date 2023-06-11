@@ -252,7 +252,6 @@ export default defineComponent({
     this.user = dati["profile"];
     this.userRuolo = this.user.ruolo;
 
-    console.log("account post modifica", JSON.stringify(this.user))
 
     //catalogo terapeuti
 

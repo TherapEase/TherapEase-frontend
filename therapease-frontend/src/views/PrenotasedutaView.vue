@@ -3,7 +3,7 @@
   <h1 v-if="user.ruolo == 1">Prenota una seduta</h1>
   <h1 v-if="user.ruolo == 2">Gestisci sedute</h1>
 
-  <div class="nessuno" v-if="nessuno">
+  <div class="nessuno" v-if="nessuno && user.ruolo==1">
     <h3 class="top"><strong>Importante!</strong></h3>
     <h4>
       Se non sei associato a nessun terapeuta, non potrai prenotare sedute.

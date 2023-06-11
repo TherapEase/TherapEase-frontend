@@ -22,7 +22,7 @@
               <h3>prezzo: {{ prodotto.prezzo }}€</h3>
               <div v-if="user.ruolo == 1">
                 <button
-                  @click.prevent="(event) => acquista(prodotto._id, event)"
+                  @click.prevent="(event) => allerta_acquista(prodotto._id, event)"
                 >
                   Acquista
                 </button>
@@ -76,6 +76,26 @@ export default defineComponent({
         console.log(error);
       }
     },
+
+    async allerta_acquista(id, event){
+      Swal.fire({
+        title: "Sei sicuro di voler procere?",
+        text: `Se clicchi su "continua" verrai reindirizzato sulla pagina di pagamento della piattaforma Stripe `,
+        showCancelButton: true,
+        confirmButtonText: "Continua",
+        cancelButtonText: "Cancella",
+        confirmButtonColor: "#5b6c53",
+        customClass: {
+          confirmButton: "conferma",
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.acquista(id, event);
+        }
+      });
+
+
+    }, 
 
     async acquista(id, event) {
       console.log("siamo dentro", event);

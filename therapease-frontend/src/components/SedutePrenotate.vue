@@ -73,8 +73,9 @@ export default defineComponent({
           options
         );
 
-        await response.json();
-        this.$router.push("/dashboard");
+        const dati=await response.json();
+        if(dati.successful){
+        this.$router.go(0);}
       } catch (error) {
         console.log(error);
       }

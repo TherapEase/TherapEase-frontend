@@ -32,7 +32,7 @@
                     v-if="isAssociato == true && isAssociatoConUtente == true"
                     class="btn btn-outline-dark btn-sm"
                   >
-                    Disassocia
+                    Dissocia
                   </button>
 
                   <router-link

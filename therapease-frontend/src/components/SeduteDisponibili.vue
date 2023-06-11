@@ -1,5 +1,5 @@
 <template>
-  <div style="text-align:center" v-if="hasSedute == false">
+  <div style="text-align:center" v-if="hasSedute == false && ruolo == 2">
     <h3 class="top"><strong>Attenzione</strong></h3>
     <h4>Se non hai ancora creato nessuna slot per erogare le tue sedute.</h4>
     <h4>Ti invitiamo a creare slot secondo le tue disponibilità.</h4>

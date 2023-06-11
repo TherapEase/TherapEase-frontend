@@ -95,8 +95,11 @@ export default defineComponent({
           `${process.env.VUE_APP_ROOT_API}/associazione/rimuovi/${this.ass._id}`,
           opzioniRichiesta
         );
-        await response.json();
+        const dati=await response.json();
         this.isAssociato = false;
+        if(dati.successful){
+          this.$route.go(0)
+        }
       } catch (error) {
         console.log(error);
       }
