@@ -148,7 +148,7 @@ export default defineComponent({
         this.isAssociato = true;
 
         if (informazioni.successful) {
-          this.$route.go(0);
+          this.$router.go(0);
         }
       } catch (error) {
         console.log(error);
@@ -173,7 +173,7 @@ export default defineComponent({
         const informazioni = await response.json();
         this.isAssociato = false;
         if (informazioni.successful) {
-          this.$route.go(0);
+          this.$router.go(0);
         }
       } catch (error) {
         console.log(error);

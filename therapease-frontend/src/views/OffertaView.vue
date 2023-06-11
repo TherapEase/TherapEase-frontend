@@ -119,7 +119,7 @@ export default defineComponent({
         window.location = dati.url;
         console.log(dati.url)
       } catch (error) {
-        console.log(error);
+        console.log("Errore", error);
       }
     },
   },

@@ -8,6 +8,13 @@
     >
   </div>
 
+
+  <div style="text-align:center" v-if="hasSedute == false && ruolo == 1">
+    <h3 class="top"><strong>Attenzione</strong></h3>
+    <h4>Il tuo terapeuta non ha sedute disponibili.</h4>
+    <h4>Attendi che aggiunga altre disponibilità.</h4>
+  </div>
+
   <div class="job-list">
     <li v-for="seduta in sedute" :key="seduta._id">
       <div class="colonna">

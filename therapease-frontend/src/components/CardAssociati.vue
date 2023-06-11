@@ -98,7 +98,7 @@ export default defineComponent({
         const dati=await response.json();
         this.isAssociato = false;
         if(dati.successful){
-          this.$route.go(0)
+          this.$router.go(0)
         }
       } catch (error) {
         console.log(error);
